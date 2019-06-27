@@ -67,10 +67,10 @@ public class Main {
 //        Utilities.writeProperties();/
         IRepository repo = RepositoryFactory.getRepository();
 
-        LoginScreen.start();
+//        LoginScreen.start();
 //        DoctorUI.start();
         JFrame f = new RegularUI();
-//        ((Gui) f).start();
+        ((Gui) f).start();
 
         ////////////////////////////////
         //TESTING
@@ -89,13 +89,6 @@ public class Main {
         Patient p = new Patient(-1, "Frankica", "Mumu", Sex.MALE, LocalDate.MIN);   
         
 //        mapa.forEach((k,v) -> System.out.println(k + " " + v));
-        
-        Set<String> set = new LinkedHashSet<>();
-        set.add("one");
-        set.add("one");
-        set.add("two");
-        
-        set.forEach(x -> System.out.println(x));
         
     }
 

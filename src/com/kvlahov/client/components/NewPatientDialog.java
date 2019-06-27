@@ -2021,7 +2021,10 @@ public class NewPatientDialog extends javax.swing.JDialog {
         public boolean verify(JComponent input) {
             String text = ((JTextField) input).getText();
             try {
-                Stream.of(text).forEach(ch -> Integer.parseInt(text));
+                 text.chars()
+                         .mapToObj(c -> (char) c)
+                         .map(c -> String.valueOf(c))
+                         .forEach(s -> Integer.parseInt(s));
                 return true;
             } catch (NumberFormatException e) {
                 return false;
