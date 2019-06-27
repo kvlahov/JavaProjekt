@@ -1,0 +1,11 @@
+#comments
+#Wed Jun 26 17:54:41 CEST 2019
+spinnerAlcoholPerDay=averageDrinksPerDay
+spinSoftPerDay=softDrinkPerDay
+consumesAlcohol=consumesAlcohol
+spinnerCigsPerDay=averageCigarettesPerDay
+stimulants=usesStimulants
+isVege=isVegetarian
+spinCaffeinePerDay=coffeineDrinkPerDay
+isSmoker=isSmoker
+eatingHabits=eatingHabits

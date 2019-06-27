@@ -1,0 +1,8 @@
+#comments
+#Wed Jun 26 17:54:41 CEST 2019
+height=height
+noOfDependents=noOFDependents
+maritalStatus=maritalStatus
+weight=weight
+grossIncome=annualIncome
+occupation=occupation

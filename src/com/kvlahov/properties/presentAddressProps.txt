@@ -1,0 +1,7 @@
+#comments
+#Wed Jun 26 17:54:41 CEST 2019
+presentAddCity=city
+presentAddStreet=street
+presentAddZip=zipCode
+presentAddState=state
+presentAddArea=area

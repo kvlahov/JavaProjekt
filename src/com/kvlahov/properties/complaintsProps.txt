@@ -1,0 +1,16 @@
+#comments
+#Wed Jun 26 17:54:41 CEST 2019
+digestiveCondition=digestiveCondition
+statementOfComplaint=statementComplaint
+hospitalTreated=hospitalTreated
+respitoryCondition=respiratoryCondition
+orthopedicCondition=orthopedicCondition
+knownAllergies=knownAllergies
+neurologicalCondition=neurologicalCondition
+cardiacCondition=cardiacCondition
+isHypertensive=isHypertensive
+reactionToDrugs=reactionDrugs
+muscularCondition=muscularCondition
+isDiabetic=isDiabetic
+surgeryHistory=majorSurgeries
+treatmentHistory=previousTreatments

@@ -1,0 +1,4 @@
+#comments
+#Wed Jun 26 16:56:46 CEST 2019
+patientSurname=surname
+patientName=name
