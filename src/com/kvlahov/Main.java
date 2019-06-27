@@ -9,6 +9,7 @@ import com.kvlahov.client.DoctorUI;
 import com.kvlahov.client.Gui;
 import com.kvlahov.client.LoginScreen;
 import com.kvlahov.client.RegularUI;
+import com.kvlahov.controller.PatientController;
 import com.kvlahov.dal.repository.*;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.Person;
@@ -66,10 +67,10 @@ public class Main {
 //        Utilities.writeProperties();/
         IRepository repo = RepositoryFactory.getRepository();
 
-//        LoginScreen.start();
+        LoginScreen.start();
 //        DoctorUI.start();
         JFrame f = new RegularUI();
-        ((Gui) f).start();
+//        ((Gui) f).start();
 
         ////////////////////////////////
         //TESTING
