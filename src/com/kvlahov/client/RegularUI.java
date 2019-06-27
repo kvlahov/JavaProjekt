@@ -6,22 +6,37 @@
 package com.kvlahov.client;
 
 import com.kvlahov.client.components.NewPatientDialog;
+import com.kvlahov.controller.PatientController;
+import com.kvlahov.model.Patient;
 import com.kvlahov.utils.Utilities;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 
 import javax.swing.UIManager;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.decorator.Highlighter;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.decorator.PatternPredicate;
+import org.jdesktop.swingx.decorator.ShadingColorHighlighter;
 
 /**
  *
  * @author lordo
  */
-public class RegularUI extends javax.swing.JFrame implements Gui{
+public class RegularUI extends javax.swing.JFrame implements Gui {
 
     /**
      * Creates new form RegularUI
@@ -29,6 +44,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
     public RegularUI() {
         initComponents();
         initContent();
+        initTable();
     }
 
     /**
@@ -42,10 +58,13 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
 
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        PatientsTable = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jXTable1 = new org.jdesktop.swingx.JXTable();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         miNew = new javax.swing.JMenuItem();
-        miHide = new javax.swing.JMenuItem();
+        miShowPatients = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 650));
@@ -56,6 +75,33 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
 
         getContentPane().add(jPanel4, "card3");
 
+        PatientsTable.setLayout(new java.awt.BorderLayout());
+
+        jXTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"1", "Ivo", "Ivic", "22/02/1995", "Male"},
+                {"2", null, null, null, null},
+                {"3", null, null, null, null},
+                {"4", null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Surname", "Date Of Birth", "Sex"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jXTable1);
+
+        PatientsTable.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(PatientsTable, "patientTable");
+
         jMenuBar.setBackground(new java.awt.Color(51, 204, 255));
         jMenuBar.setForeground(new java.awt.Color(51, 204, 255));
         jMenuBar.setMaximumSize(new java.awt.Dimension(94, 32769));
@@ -63,11 +109,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
 
         jMenu1.setBackground(new java.awt.Color(204, 255, 0));
         jMenu1.setText("Patient");
-        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu1MouseClicked(evt);
-            }
-        });
 
         miNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         miNew.setText("New");
@@ -78,13 +119,14 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
         });
         jMenu1.add(miNew);
 
-        miHide.setText("Hide");
-        miHide.addActionListener(new java.awt.event.ActionListener() {
+        miShowPatients.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        miShowPatients.setText("Show All Patients");
+        miShowPatients.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miHideActionPerformed(evt);
+                miShowPatientsActionPerformed(evt);
             }
         });
-        jMenu1.add(miHide);
+        jMenu1.add(miShowPatients);
 
         jMenuBar.add(jMenu1);
 
@@ -100,19 +142,14 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
         dialog.setVisible(true);
     }//GEN-LAST:event_miNewActionPerformed
 
-    private void miHideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miHideActionPerformed
-        // TODO add your handling code here:
-//        mainCardLayout.first(getContentPane());
-    }//GEN-LAST:event_miHideActionPerformed
-
-    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu1MouseClicked
+    private void miShowPatientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miShowPatientsActionPerformed
+        mainCardLayout.show(getContentPane(), "patientTable");
+    }//GEN-LAST:event_miShowPatientsActionPerformed
 
     /**
      * @param args the command line arguments
      */
-     @Override
+    @Override
     public void start() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -139,7 +176,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
 
         /* Create and display the form */
         Utilities.setDefaultsForJFrame();
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RegularUI().setVisible(true);
@@ -148,15 +185,18 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PatientsTable;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JMenuItem miHide;
+    private javax.swing.JScrollPane jScrollPane2;
+    private org.jdesktop.swingx.JXTable jXTable1;
     private javax.swing.JMenuItem miNew;
+    private javax.swing.JMenuItem miShowPatients;
     // End of variables declaration//GEN-END:variables
     private CardLayout mainCardLayout;
-    
+
     private void initContent() {
         mainCardLayout = (CardLayout) getContentPane().getLayout();
         JMenu menuLogOut = new JMenu("Log Out");
@@ -170,12 +210,11 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
             }
 
         });
-        
-        setExtendedState(JFrame.MAXIMIZED_BOTH); 
+
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         //for CardLayout.show
 //        mainCardLayout.addLayoutComponent(newPatientPanel, "newPatientPanel");
-        
     }
 
     private void menuLogOutMouseClicked(MouseEvent evt) {
@@ -183,5 +222,73 @@ public class RegularUI extends javax.swing.JFrame implements Gui{
         LoginScreen.start();
     }
 
- 
+    private void initTable() {
+        jXTable1.setModel(new PatientTableModel());
+        
+        jXTable1.addHighlighter(new ColorHighlighter(HighlightPredicate.ROLLOVER_ROW,
+                null, Color.RED));
+
+        Highlighter simpleStriping = HighlighterFactory.createSimpleStriping();
+        PatternPredicate patternPredicate = new PatternPredicate("ˆM", 1);
+        ColorHighlighter magenta = new ColorHighlighter(patternPredicate, null,
+                Color.MAGENTA, null, Color.MAGENTA);
+        Highlighter shading = new ShadingColorHighlighter(
+                new HighlightPredicate.ColumnHighlightPredicate(1));
+
+        jXTable1.addHighlighter(simpleStriping);
+                
+    }
+
+    private static class PatientTableModel extends AbstractTableModel {
+
+        //https://tips4java.wordpress.com/2008/11/21/row-table-model/
+        List<Patient> patients = PatientController.getPatients();
+
+        private String[] columnNames = {
+            "First Name",
+            "Last Name",
+            "Sex",
+            "Date of birth"
+        };
+
+        @Override
+        public int getRowCount() {
+            return patients.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return columnNames.length;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            Patient p = patients.get(rowIndex);
+            switch (columnIndex) {
+                case 0:
+                    return p.getName();
+                case 1:
+                    return p.getSurname();
+                case 2:
+                    return p.getSex().toString();
+                case 3:
+                    return p.getDateOfBirth().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public String getColumnName(int column) {
+            return columnNames[column];
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+
+    }
+
+//        PatientsTable.add(table);
 }

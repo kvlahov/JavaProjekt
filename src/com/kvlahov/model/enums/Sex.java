@@ -30,5 +30,14 @@ public enum Sex {
         throw new IllegalArgumentException("No sex with given id");
     }
     
+    @Override
+    public String toString() {
+        if(id == 1) {
+            return "Male";
+        }
+        return "Female";
+    }
+    
+    
     
 }

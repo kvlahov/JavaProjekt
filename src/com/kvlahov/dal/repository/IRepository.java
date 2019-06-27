@@ -21,6 +21,7 @@ public interface IRepository {
     Patient getPatient(int id);
     int insertDoctor(Doctor doctor);
     Doctor getDoctor(int idDoctor);
+    List<Patient> getPatients();
     List<Doctor> getDoctors();    
     List<Patient> getPatientsForDoctor(int idDoctor);
     boolean isValidUser(User user);

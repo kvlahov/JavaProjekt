@@ -30,6 +30,10 @@ public class PatientController {
     public static Map<String, Set<String>> getContactNumbersForPatient(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public static List<Patient> getPatients() {
+        return repo.getPatients();
+    }
     
     public void setAppointment(Patient p) {
 //        int calendar = CalendarController.getCalendarFor(p);

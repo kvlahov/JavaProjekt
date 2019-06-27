@@ -309,4 +309,34 @@ class SqlRepository implements IRepository {
         return null;
     }
 
+    @Override
+    public List<Patient> getPatients() {
+        List<Patient> patients = new ArrayList<>();
+        final String GET_PATIENTS = "{ CALL getPatients ()}";
+
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_PATIENTS)) {
+
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                while(resultSet.next()) {
+                    Patient temp = new Patient(
+                        resultSet.getInt("IDPatient"),
+                            resultSet.getString("Name"),
+                            resultSet.getString("Surname"),
+                            Sex.getValueForId(resultSet.getInt("SexID")),                           
+                            resultSet.getDate("DateOfBirth").toLocalDate()
+                    );
+                    
+                    patients.add(temp);
+                }
+                return patients;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+
 }
