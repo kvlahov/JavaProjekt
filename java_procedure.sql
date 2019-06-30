@@ -255,7 +255,8 @@ create procedure insertLifestyle
 	@UsesStimulants nvarchar(50),
 	@CaffeineDrinkPerDay nvarchar(50),
 	@SoftDrinkPerDay nvarchar(50),
-	@EatingHabits nvarchar(50)
+	@EatingHabits nvarchar(50),
+	@IsVegetarian bit
 as
 begin
 	insert into Lifestyle
@@ -269,7 +270,8 @@ begin
 	@CaffeineDrinkPerDay,
 	@SoftDrinkPerDay,
 	@EatingHabits,
-	@IDPatient
+	@IDPatient,
+	@IsVegetarian
 	)
 end
 go
@@ -448,7 +450,7 @@ begin
 	select * from ContactType
 end
 
-create procedure getComplaintsForPatient
+create procedure getComplaints
 	@IDPatient int
 as
 begin
@@ -458,7 +460,7 @@ begin
 end
 go
 
-create procedure getLifestyleForPatient
+create procedure getLifestyle
 	@IDPatient int
 as
 begin
@@ -468,7 +470,7 @@ begin
 end
 go
 
-create procedure getNextOfKinForPatient
+create procedure getNextOfKin
 	@IDPatient int
 as
 begin
@@ -541,6 +543,16 @@ begin
 	select *
 	from PersonalInfo as pin
 	where pin.PatientID = @IDPatient
+end
+go
+
+create procedure getContactTypeId
+	@Type nvarchar(50)
+as
+begin
+	select ct.IDContactType
+	from ContactType as ct
+	where ct.Type = @Type
 end
 go
 

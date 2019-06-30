@@ -73,6 +73,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        jCalendar1 = new com.toedter.calendar.JCalendar();
         jScrollPane3 = new javax.swing.JScrollPane();
         PatientsTable = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -139,6 +140,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         jLabel9.setText("Home");
         jPanel4.add(jLabel9);
+        jPanel4.add(jCalendar1);
 
         getContentPane().add(jPanel4, "card3");
 
@@ -481,6 +483,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.Box.Filler filler9;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

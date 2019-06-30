@@ -4,6 +4,7 @@ import com.kvlahov.dal.sql.DataSourceSingleton;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.User;
+import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.enums.Sex;
 import com.kvlahov.model.enums.UserRole;
 import com.kvlahov.model.patientInfo.ComplaintsInfo;
@@ -350,7 +351,7 @@ class SqlRepository implements IRepository {
         final String INSERT_COMPLAINT = "{ CALL insertComplaint (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_COMPLAINT)) {
-            stmt.setInt(1, pid);
+            stmt.setInt("IDPatient", pid);
             stmt.setString("TreatmentHistory", complaints.getPreviousTreatments());
             stmt.setString("StatementOfComplaint", complaints.getStatementComplaint());
             stmt.setString("HospitalTreated", complaints.getHospitalTreated());
@@ -376,11 +377,12 @@ class SqlRepository implements IRepository {
 
     @Override
     public void insertLifestyle(int pid, LifestyleInfo lifestyle) {
-        final String INSERT_LIFESTYLE = "{ CALL insertLifestyle (?,?,?,?,?,?,?,?,?)}";
+        final String INSERT_LIFESTYLE = "{ CALL insertLifestyle (?,?,?,?,?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_LIFESTYLE)) {
-            stmt.setInt(1, pid);
+            stmt.setInt("IDPatient", pid);
             stmt.setBoolean("IsSmoker", lifestyle.isIsSmoker());
+            stmt.setBoolean("IsVegetarian", lifestyle.isIsVegetarian());
             stmt.setInt("CigarretesPerDay", lifestyle.getAverageCigarettesPerDay());
             stmt.setBoolean("ConsumesAlcohol", lifestyle.isConsumesAlcohol());
             stmt.setInt("AlcoholPerDay", lifestyle.getAverageDrinksPerDay());
@@ -420,14 +422,14 @@ class SqlRepository implements IRepository {
         final String INSERT_NOKADD = "{ CALL insertNokAddress (?,?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_NOKADD)) {
-            stmt.setInt(1, nokId);
+            stmt.setInt("NextOfKinID", nokId);
             stmt.setString("Street", add.getStreet());
             stmt.setString("Area", add.getArea());
             stmt.setString("City", add.getCity());
             stmt.setString("State", add.getState());
             stmt.setString("ZipCode", add.getZipCode());
             stmt.setInt("AddressTypeID", 1);
-            
+
             stmt.executeUpdate();
 
         } catch (Exception e) {
@@ -456,14 +458,14 @@ class SqlRepository implements IRepository {
         final String INSERT_PADD = "{ CALL insertPatientAddress (?,?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_PADD)) {
-            stmt.setInt(1, pid);
+            stmt.setInt("PatientID", pid);
             stmt.setString("Street", add.getStreet());
             stmt.setString("Area", add.getArea());
             stmt.setString("City", add.getCity());
             stmt.setString("State", add.getState());
             stmt.setString("ZipCode", add.getZipCode());
             stmt.setInt("AddressTypeID", addType);
-            
+
             stmt.executeUpdate();
 
         } catch (Exception e) {
@@ -492,14 +494,14 @@ class SqlRepository implements IRepository {
         final String INSERT_PERSONAL = "{ CALL insertPersonalInfo (?,?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_PERSONAL)) {
-            stmt.setInt(1, pid);
+            stmt.setInt("IDPatient", pid);
             stmt.setInt("NoOfDependents", personal.getNoOFDependents());
             stmt.setFloat("Height", personal.getHeight());
             stmt.setFloat("PWeight", personal.getWeight());
             stmt.setString("BloodType", personal.getBloodType());
             stmt.setString("Occupation", personal.getOccupation());
             stmt.setString("AnnualIncome", personal.getAnnualIncome());
-            
+
             stmt.executeUpdate();
 
         } catch (Exception e) {
@@ -510,42 +512,224 @@ class SqlRepository implements IRepository {
     //getters
     @Override
     public ComplaintsInfo getComplaint(int pid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_COMPLAINTS = "{ CALL getComplaints (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_COMPLAINTS)) {
+            stmt.setInt(1, pid);
+
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    ComplaintsInfo ci = new ComplaintsInfo();
+
+                    ci.setCardiacCondition(resultSet.getString("CardiacCondition"));
+                    ci.setDigestiveCondition(resultSet.getString("DigestiveCondition"));
+                    ci.setHospitalTreated(resultSet.getString("HospitalTreated"));
+                    ci.setIsDiabetic(resultSet.getBoolean("IsDiabetic"));
+                    ci.setIsHypertensive(resultSet.getBoolean("IsHypertensive"));
+                    ci.setKnownAllergies(resultSet.getString("Allergies"));
+                    ci.setMajorSurgeries(resultSet.getString("SurgeryHistory"));
+                    ci.setMuscularCondition(resultSet.getString("MuscularCondition"));
+                    ci.setNeurologicalCondition(resultSet.getString("NeurologicalCondition"));
+                    ci.setOrthopedicCondition(resultSet.getString("OrthopedicCondition"));
+                    ci.setPreviousTreatments(resultSet.getString("TreatmentHistory"));
+                    ci.setReactionDrugs(resultSet.getString("ReactionToDrugs"));
+                    ci.setRespiratoryCondition(resultSet.getString("RespitoryCondition"));
+                    ci.setStatementComplaint(resultSet.getString("StatementOfComplaint"));
+
+                    return ci;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
     public LifestyleInfo getLifestyle(int pid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_LIFESTYLE = "{ CALL getLifestyle (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_LIFESTYLE)) {
+            stmt.setInt(1, pid);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    LifestyleInfo li = new LifestyleInfo();
+
+                    li.setAverageCigarettesPerDay(resultSet.getInt("CigarretesPerDay"));
+                    li.setAverageDrinksPerDay(resultSet.getInt("AlcoholPerDay"));
+                    li.setCoffeineDrinkPerDay(resultSet.getInt("CaffeineDrinkPerDay"));
+                    li.setConsumesAlcohol(resultSet.getBoolean("ConsumesAlcohol"));
+                    li.setEatingHabits(resultSet.getString("EatingHabita"));
+                    li.setIsSmoker(resultSet.getBoolean("IsSmoker"));
+                    li.setIsVegetarian(resultSet.getBoolean("IsVegetarian"));
+                    li.setSoftDrinkPerDay(resultSet.getInt("SoftDrinkPerDay"));
+                    li.setUsesStimulants(resultSet.getString("UsesStimulants"));
+
+                    return li;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
     public NextOfKin getNextOfKin(int pid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_NOK = "{ CALL getNextOfKin (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_NOK)) {
+            stmt.setInt(1, pid);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    NextOfKin nok = new NextOfKin(
+                            resultSet.getString("FirstName"),
+                            resultSet.getString("LastName"),
+                            resultSet.getString("RelationshipToPatient")
+                    );
+
+                    nok.setId(resultSet.getInt("IDNextOfKin"));
+                    return nok;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
     public ContactInfo.Address getNextOfKinAdd(int nok) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_NOK = "{ CALL getAddressesForNok (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_NOK)) {
+            stmt.setInt(1, nok);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                ContactInfo.Address add = new ContactInfo.Address();
+                while (resultSet.next()) {
+
+                    add.setArea(resultSet.getString("Area"));
+                    add.setCity(resultSet.getString("City"));
+                    add.setState(resultSet.getString("State"));
+                    add.setStreet(resultSet.getString("Stret"));
+                    add.setZipCode(resultSet.getString("ZipCode"));
+
+                }
+                return add;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
     public ContactInfo getNextOfKinContact(int nok) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_NOKCONTACT = "{ CALL getContactsForNok (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_NOKCONTACT)) {
+            stmt.setInt(1, nok);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                ContactInfo contact = new ContactInfo();
+                while (resultSet.next()) {
+                    contact.addPhoneNumber(
+                            ContactType.valueOf(resultSet.getString("Type").toUpperCase()),
+                            resultSet.getString("ContactNumber"));
+
+                }
+                return contact;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
-    public ContactInfo.Address getPatientAddress(int pid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<ContactInfo.Address> getPatientAddress(int pid) {
+        final String GET_PADDRESS = "{ CALL getAddressesForPatient (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_PADDRESS)) {
+            stmt.setInt(1, pid);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<ContactInfo.Address> addList = new ArrayList<>();
+                while (resultSet.next()) {
+                    ContactInfo.Address addr = new ContactInfo.Address();
+
+                    addr.setArea(resultSet.getString("Area"));
+                    addr.setCity(resultSet.getString("City"));
+                    addr.setState(resultSet.getString("State"));
+                    addr.setStreet(resultSet.getString("Stret"));
+                    addr.setZipCode(resultSet.getString("ZipCode"));
+
+                }
+                
+                return addList;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
     public ContactInfo getPatientContact(int pid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_PCONTACT = "{ CALL getContactsForPatient (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_PCONTACT)) {
+            stmt.setInt(1, pid);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                ContactInfo contact = new ContactInfo();
+                while (resultSet.next()) {
+                    contact.addPhoneNumber(
+                            ContactType.valueOf(resultSet.getString("Type").toUpperCase()),
+                            resultSet.getString("ContactNumber"));
+
+                }
+                return contact;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
     public PersonalInfo getPersonalInfo(int pid) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getContactTypeId(ContactType type) {
+        final String GET_CTID = "{ CALL getContactTypeId (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_CTID)) {
+            stmt.setString(1, type.toString());
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("IDContactType");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+
     }
 
 }

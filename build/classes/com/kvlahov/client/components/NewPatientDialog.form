@@ -587,7 +587,7 @@
                                         <Property name="text" type="java.lang.String" value="Zip code"/>
                                       </Properties>
                                     </Component>
-                                    <Component class="javax.swing.JTextField" name="jTextField26">
+                                    <Component class="javax.swing.JTextField" name="tfPermaZip">
                                       <Properties>
                                         <Property name="name" type="java.lang.String" value="permanentAddZip" noResource="true"/>
                                       </Properties>
@@ -655,7 +655,7 @@
                                         <Property name="text" type="java.lang.String" value="Zip code"/>
                                       </Properties>
                                     </Component>
-                                    <Component class="javax.swing.JTextField" name="jTextField27">
+                                    <Component class="javax.swing.JTextField" name="tfPresentZip">
                                       <Properties>
                                         <Property name="name" type="java.lang.String" value="presentAddZip" noResource="true"/>
                                       </Properties>
@@ -880,7 +880,7 @@
                                         <Property name="text" type="java.lang.String" value="Zip code"/>
                                       </Properties>
                                     </Component>
-                                    <Component class="javax.swing.JTextField" name="jTextField28">
+                                    <Component class="javax.swing.JTextField" name="tfNokZip">
                                       <Properties>
                                         <Property name="name" type="java.lang.String" value="nokAddZip" noResource="true"/>
                                       </Properties>
@@ -1197,7 +1197,7 @@
                                         <Property name="text" type="java.lang.String" value="Gross Annual Income"/>
                                       </Properties>
                                     </Component>
-                                    <Component class="javax.swing.JTextField" name="jTextField15">
+                                    <Component class="javax.swing.JTextField" name="tfIncome">
                                       <Properties>
                                         <Property name="name" type="java.lang.String" value="grossIncome" noResource="true"/>
                                       </Properties>

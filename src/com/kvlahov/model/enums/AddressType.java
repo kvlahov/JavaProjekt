@@ -9,26 +9,20 @@ package com.kvlahov.model.enums;
  *
  * @author lordo
  */
-public enum PhoneNumberType {
-    WORK("Work"), 
-    HOME("Home"),
-    PAGER("Pager"),
-    MOBILE("Mobile"),
-    FAX("Fax");
-
-    private String contactType;
-    private PhoneNumberType(String type) {
-        this.contactType = type;
+public enum AddressType {
+    PERMANENT("Permanent"), 
+    PRESENT("Present");
+    
+    private final String type;
+    
+    AddressType(String type) {
+        this.type = type;
     }
 
     @Override
     public String toString() {
-        return contactType;
+        return type;
     }
-    
-    
-    
-    
     
     
 }

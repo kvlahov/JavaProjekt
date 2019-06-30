@@ -5,7 +5,8 @@
  */
 package com.kvlahov.model.patientInfo;
 
-import com.kvlahov.model.enums.PhoneNumberType;
+import com.kvlahov.model.enums.AddressType;
+import com.kvlahov.model.enums.ContactType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,18 +22,19 @@ public class ContactInfo {
     private Address presentAddress;
     private Address permanentAddress;
     private String email;
-    private HashMap<PhoneNumberType, Set<String>> phoneNumbers = initPhoneNumbers();
+    private HashMap<ContactType, Set<String>> contacts = initPhoneNumbers();
 
-    private HashMap<PhoneNumberType, Set<String>> initPhoneNumbers() {
-        HashMap<PhoneNumberType, Set<String>> phoneNumbers = new HashMap<>();
+    private HashMap<ContactType, Set<String>> initPhoneNumbers() {
+        HashMap<ContactType, Set<String>> initContacts = new HashMap<>();
         
-        phoneNumbers.put(PhoneNumberType.WORK, new LinkedHashSet<>());
-        phoneNumbers.put(PhoneNumberType.HOME, new LinkedHashSet<>());
-        phoneNumbers.put(PhoneNumberType.MOBILE, new LinkedHashSet<>());
-        phoneNumbers.put(PhoneNumberType.PAGER, new LinkedHashSet<>());
-        phoneNumbers.put(PhoneNumberType.FAX, new LinkedHashSet<>());
+        initContacts.put(ContactType.WORK, new LinkedHashSet<>());
+        initContacts.put(ContactType.HOME, new LinkedHashSet<>());
+        initContacts.put(ContactType.MOBILE, new LinkedHashSet<>());
+        initContacts.put(ContactType.PAGER, new LinkedHashSet<>());
+        initContacts.put(ContactType.FAX, new LinkedHashSet<>());
+        initContacts.put(ContactType.EMAIL, new LinkedHashSet<>());
         
-        return phoneNumbers;
+        return initContacts;
     }
 
     public Address getPresentAddress() {
@@ -59,16 +61,16 @@ public class ContactInfo {
         this.email = email;
     }
 
-    public HashMap<PhoneNumberType, Set<String>> getPhoneNumbers() {
-        return phoneNumbers;
+    public HashMap<ContactType, Set<String>> getContacts() {
+        return contacts;
     }
 
-    public void addPhoneNumber(PhoneNumberType type, String number) {
-        this.phoneNumbers.get(type).add(number);
+    public void addPhoneNumber(ContactType type, String number) {
+        this.contacts.get(type).add(number);
     }  
     
-    public void setPhoneNumber(PhoneNumberType type, Set<String> number) {
-        this.phoneNumbers.put(type, number);
+    public void setPhoneNumber(ContactType type, Set<String> number) {
+        this.contacts.put(type, number);
     }  
 
     public static class Address {
@@ -77,6 +79,7 @@ public class ContactInfo {
         private String city;
         private String state;
         private String zipCode;
+        private AddressType type;  
         
 
         public Address() {
@@ -122,6 +125,16 @@ public class ContactInfo {
             this.zipCode = zipCode;
         }
 
+        public AddressType getType() {
+            return type;
+        }
+
+        public void setType(AddressType type) {
+            this.type = type;
+        }
+        
+        
+
         @Override
         public String toString() {
             return "Address{" + "\nstreet=" + street + "\narea=" + area + "\ncity=" + city + "\nstate=" + state + "\nzipCode=" + zipCode + '}';
@@ -135,7 +148,7 @@ public class ContactInfo {
         return "ContactInfo{" + 
                 "\npresentAddress\n\t" + presentAddress + 
                 "\npermanentAddress\n\t" + permanentAddress + 
-                "\nemail=" + email + "\nphoneNumbers=\n\t" + phoneNumbers;
+                "\nemail=" + email + "\nphoneNumbers=\n\t" + contacts;
     }
     
     

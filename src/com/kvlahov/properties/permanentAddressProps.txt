@@ -1,6 +1,5 @@
 #comments
 #Wed Jun 26 17:54:41 CEST 2019
-permanentAddZip=zipCode
 permanentAddArea=area
 permanentAddState=state
 permanentAddCity=city

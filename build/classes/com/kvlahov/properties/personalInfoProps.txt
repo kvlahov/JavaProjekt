@@ -4,5 +4,4 @@ height=height
 noOfDependents=noOFDependents
 maritalStatus=maritalStatus
 weight=weight
-grossIncome=annualIncome
 occupation=occupation

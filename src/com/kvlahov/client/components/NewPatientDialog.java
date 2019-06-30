@@ -7,7 +7,7 @@ package com.kvlahov.client.components;
 
 import com.kvlahov.controller.PatientController;
 import com.kvlahov.model.Patient;
-import com.kvlahov.model.enums.PhoneNumberType;
+import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.enums.Sex;
 import com.kvlahov.model.patientInfo.*;
 import com.kvlahov.model.patientInfo.NextOfKin;
@@ -133,7 +133,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jLabel30 = new javax.swing.JLabel();
         jTextField21 = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
-        jTextField26 = new javax.swing.JTextField();
+        tfPermaZip = new javax.swing.JTextField();
         presentAddressPane = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jTextField22 = new javax.swing.JTextField();
@@ -144,7 +144,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jLabel35 = new javax.swing.JLabel();
         jTextField25 = new javax.swing.JTextField();
         jLabel36 = new javax.swing.JLabel();
-        jTextField27 = new javax.swing.JTextField();
+        tfPresentZip = new javax.swing.JTextField();
         contactInfoPane = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         btnAddContact1 = new javax.swing.JButton();
@@ -165,7 +165,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jLabel26 = new javax.swing.JLabel();
         jTextField17 = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
-        jTextField28 = new javax.swing.JTextField();
+        tfNokZip = new javax.swing.JTextField();
         nokContact = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         btnAddContact = new javax.swing.JButton();
@@ -193,7 +193,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jLabel21 = new javax.swing.JLabel();
         jTextField14 = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        tfIncome = new javax.swing.JTextField();
         jPanel23 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -522,8 +522,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jLabel31.setText("Zip code");
         permanentAddressPane.add(jLabel31);
 
-        jTextField26.setName("permanentAddZip"); // NOI18N
-        permanentAddressPane.add(jTextField26);
+        tfPermaZip.setName("permanentAddZip"); // NOI18N
+        permanentAddressPane.add(tfPermaZip);
 
         jPanel7.add(permanentAddressPane);
 
@@ -557,8 +557,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jLabel36.setText("Zip code");
         presentAddressPane.add(jLabel36);
 
-        jTextField27.setName("presentAddZip"); // NOI18N
-        presentAddressPane.add(jTextField27);
+        tfPresentZip.setName("presentAddZip"); // NOI18N
+        presentAddressPane.add(tfPresentZip);
 
         jPanel7.add(presentAddressPane);
 
@@ -654,8 +654,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jLabel27.setText("Zip code");
         notAddress.add(jLabel27);
 
-        jTextField28.setName("nokAddZip"); // NOI18N
-        notAddress.add(jTextField28);
+        tfNokZip.setName("nokAddZip"); // NOI18N
+        notAddress.add(tfNokZip);
 
         jPanel4.add(notAddress);
 
@@ -792,8 +792,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jLabel22.setText("Gross Annual Income");
         jPanel10.add(jLabel22);
 
-        jTextField15.setName("grossIncome"); // NOI18N
-        jPanel10.add(jTextField15);
+        tfIncome.setName("grossIncome"); // NOI18N
+        jPanel10.add(tfIncome);
 
         personalLifeStyle.add(jPanel10);
 
@@ -1218,6 +1218,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         } else {
             int pid = PatientController.insertBasicInformation(p);
 //            int pid = 1;
+            p.setId(pid);
             JOptionPane.showMessageDialog(null, "Patient " + pid + " succesfuly saved", "Success", JOptionPane.INFORMATION_MESSAGE);
             jTabbedPane1.setEnabledAt(0, false);
         }
@@ -1283,6 +1284,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         ExtendedPatientInformation info = bindExtendedInformationToPatient(values);
 
         extendedInfoModel = info;
+        PatientController.insertExtendedInformation(patientModel, extendedInfoModel);
         dispose();
     }//GEN-LAST:event_btnExtendedSaveActionPerformed
 
@@ -1519,7 +1521,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
@@ -1530,9 +1531,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField25;
-    private javax.swing.JTextField jTextField26;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField28;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
@@ -1558,11 +1556,15 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JTextField tfContact;
     private javax.swing.JFormattedTextField tfDateOfBirth;
     private javax.swing.JTextField tfFirstName;
+    private javax.swing.JTextField tfIncome;
     private javax.swing.JTextField tfLastName;
     private javax.swing.JTextField tfNokContact;
     private javax.swing.JTextField tfNokName;
     private javax.swing.JTextField tfNokRelationship;
     private javax.swing.JTextField tfNokSurname;
+    private javax.swing.JTextField tfNokZip;
+    private javax.swing.JTextField tfPermaZip;
+    private javax.swing.JTextField tfPresentZip;
     // End of variables declaration//GEN-END:variables
     private CardLayout mainCardLayout;
 
@@ -1635,7 +1637,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         JComboBox comboBox = new JComboBox();
         comboBox.setPreferredSize(new java.awt.Dimension(75, 20));
-        comboBox.setModel(new DefaultComboBoxModel(PhoneNumberType.values()));
+        comboBox.setModel(new DefaultComboBoxModel(ContactType.values()));
 
         JTextField tf = new JTextField();
         tf.setInputVerifier(new IsNumberVerifier());
@@ -1681,8 +1683,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         JComboBox comboBox = new JComboBox();
         comboBox.setPreferredSize(new java.awt.Dimension(75, 20));
-        comboBox.setModel(new DefaultComboBoxModel(PhoneNumberType.values()));
-        comboBox.setSelectedItem(PhoneNumberType.MOBILE);
+        comboBox.setModel(new DefaultComboBoxModel(ContactType.values()));
+        comboBox.setSelectedItem(ContactType.MOBILE);
 
         JTextField tf = new JTextField(initialText);
         tf.setInputVerifier(new IsNumberVerifier());
@@ -1784,7 +1786,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
                 tfNokRelationship.getText().trim());
 
         ContactInfo contact = new ContactInfo();
-        contact.addPhoneNumber(PhoneNumberType.MOBILE, tfNokContact.getText().trim());
+        contact.addPhoneNumber(ContactType.MOBILE, tfNokContact.getText().trim());
         nok.setContactInformation(contact);
         nok.setRelationshipToPatient(tfNokRelationship.getText().trim());
 
@@ -1832,7 +1834,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
             return ((JSpinner) c).getValue().toString();
         } else if (c instanceof JComboBox) {
             Object selectedItem = ((JComboBox) c).getSelectedItem();
-            if (selectedItem instanceof PhoneNumberType) {
+            if (selectedItem instanceof ContactType) {
                 return "";
             }
             return selectedItem.toString();
@@ -1852,8 +1854,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
             ((JSpinner) c).setValue(value);
         } else if (c instanceof JComboBox) {
             Object selectedItem = ((JComboBox) c).getSelectedItem();
-            if (selectedItem instanceof PhoneNumberType) {
-                ((JComboBox) c).setSelectedItem(PhoneNumberType.valueOf(value.toUpperCase()));
+            if (selectedItem instanceof ContactType) {
+                ((JComboBox) c).setSelectedItem(ContactType.valueOf(value.toUpperCase()));
             }
 
         }
@@ -1869,12 +1871,14 @@ public class NewPatientDialog extends javax.swing.JDialog {
         Utilities.invokeSetters(permaAddress,
                 (Map) Utilities.readProperties(path + "permanentAddress" + "Props.txt"),
                 componentValues);
-
+        permaAddress.setZipCode(tfPermaZip.getText().trim());
+        
         ContactInfo.Address presentAddress = new ContactInfo.Address();
         Utilities.invokeSetters(presentAddress,
                 (Map) Utilities.readProperties(path + "presentAddress" + "Props.txt"),
                 componentValues);
-
+        presentAddress.setZipCode(tfPresentZip.getText().trim());
+        
         ContactInfo contactInfo = new ContactInfo();
         contactInfo.setPermanentAddress(permaAddress);
         contactInfo.setPresentAddress(presentAddress);
@@ -1896,6 +1900,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         Utilities.invokeSetters(nokAddress,
                 (Map) Utilities.readProperties(path + "nokAddress" + "Props.txt"),
                 componentValues);
+        nokAddress.setZipCode(tfNokZip.getText().trim());
 
         ContactInfo nokContacts = new ContactInfo();
         nokContacts.setPermanentAddress(nokAddress);
@@ -1906,6 +1911,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
                 (Map) Utilities.readProperties(path + "personalInfo" + "Props.txt"),
                 componentValues);
         personalInfo.setBloodType(cbBloodType.getSelectedItem() + " " + cbBloodRh.getSelectedItem());
+        personalInfo.setAnnualIncome(tfIncome.getText().trim());
+        
         NextOfKin nok = new NextOfKin(
                 tfNokName.getText().trim(),
                 tfNokSurname.getText().trim(),
@@ -2013,7 +2020,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         values.keySet().stream()
                 .filter(s -> s.startsWith(prefix))
                 .forEach(s -> contactInfo
-                        .setPhoneNumber(PhoneNumberType.valueOf(s.substring(prefix.length()).toUpperCase()),
+                        .setPhoneNumber(ContactType.valueOf(s.substring(prefix.length()).toUpperCase()),
                                 (Set) values.get(s)));
     }
 
@@ -2035,11 +2042,10 @@ public class NewPatientDialog extends javax.swing.JDialog {
         tfComplaint.setText(patientModel.getStmtOfComplaint());
         tfContact.setText(patientModel.getContact());
         NextOfKin nok = patientModel.getNextOfKin();
-        tfNokContact.setText(
-                nok
+        tfNokContact.setText(nok
                 .getContactInformation()
-                .getPhoneNumbers()
-                .get(PhoneNumberType.MOBILE)
+                .getContacts()
+                .get(ContactType.MOBILE)
                 .stream().findFirst().orElse(""));
         
         tfNokName.setText(nok.getName());

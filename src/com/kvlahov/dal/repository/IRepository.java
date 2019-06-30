@@ -8,6 +8,7 @@ package com.kvlahov.dal.repository;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.User;
+import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.enums.UserRole;
 import com.kvlahov.model.patientInfo.ComplaintsInfo;
 import com.kvlahov.model.patientInfo.ContactInfo;
@@ -47,10 +48,11 @@ public interface IRepository {
     ContactInfo.Address getNextOfKinAdd(int nok);
     ContactInfo getNextOfKinContact(int nok);
     
-    ContactInfo.Address getPatientAddress(int pid);
+    List<ContactInfo.Address> getPatientAddress(int pid);
     ContactInfo getPatientContact(int pid);
     PersonalInfo getPersonalInfo(int pid);
     
+    int getContactTypeId(ContactType type);
     Doctor getDoctor(int idDoctor);
     List<Doctor> getDoctors();    
     
