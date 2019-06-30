@@ -18,7 +18,10 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,8 +58,9 @@ public class NewPatientDialog extends javax.swing.JDialog {
     /**
      * Creates new form NewPatientDialog
      */
-    public NewPatientDialog(java.awt.Frame parent, boolean modal) {
+    public NewPatientDialog(java.awt.Frame parent, boolean modal, Patient p) {
         super(parent, modal);
+        patientModel = p;
         initComponents();
         initDialog();
         initContent();
@@ -858,7 +862,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jPanel22.add(jLabel15);
         jPanel22.add(filler18);
 
-        spinnerCigarettesPerDay.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spinnerCigarettesPerDay.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerCigarettesPerDay.setEnabled(false);
         spinnerCigarettesPerDay.setName("spinnerCigsPerDay"); // NOI18N
         jPanel22.add(spinnerCigarettesPerDay);
@@ -871,7 +875,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jPanel24.add(jLabel45);
         jPanel24.add(filler19);
 
-        spinnerAlcoholPerDay.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spinnerAlcoholPerDay.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerAlcoholPerDay.setEnabled(false);
         spinnerAlcoholPerDay.setName("spinnerAlcoholPerDay"); // NOI18N
         jPanel24.add(spinnerAlcoholPerDay);
@@ -894,14 +898,14 @@ public class NewPatientDialog extends javax.swing.JDialog {
         lblBloodType1.setText("Consumption of caffeine drinks per day");
         jPanel11.add(lblBloodType1);
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         jSpinner1.setName("spinCaffeinePerDay"); // NOI18N
         jPanel11.add(jSpinner1);
 
         jLabel40.setText("Consumption of soft drinks per day");
         jPanel11.add(jLabel40);
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         jSpinner2.setName("spinSoftPerDay"); // NOI18N
         jPanel11.add(jSpinner2);
 
@@ -1212,8 +1216,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
             PatientController.updatePatient(p);
             JOptionPane.showMessageDialog(null, "Patient " + p.getId() + " succesfuly updated", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
-//            int pid = PatientController.insertBasicInformation(p);
-            int pid = 1;
+            int pid = PatientController.insertBasicInformation(p);
+//            int pid = 1;
             JOptionPane.showMessageDialog(null, "Patient " + pid + " succesfuly saved", "Success", JOptionPane.INFORMATION_MESSAGE);
             jTabbedPane1.setEnabledAt(0, false);
         }
@@ -1307,9 +1311,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
         if (tp.getTitleAt(selected).equalsIgnoreCase("extended info")) {
             addContactForm(nokContact, tfNokContact.getText());
             addContactForm(contactInfoPane, tfContact.getText());
-            
+
 //            PatientBinder.bindPatientToComponents();
-            
         }
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
@@ -1342,7 +1345,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
-            NewPatientDialog dialog = new NewPatientDialog(new javax.swing.JFrame(), true);
+            NewPatientDialog dialog = new NewPatientDialog(new javax.swing.JFrame(), true, null);
             dialog.setVisible(true);
         });
     }
@@ -1565,7 +1568,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
     private Patient patientModel;
     private ExtendedPatientInformation extendedInfoModel;
-    
+
     private void initDialog() {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         final String title = patientModel == null ? "New patient" : "Edit patient";
@@ -1591,7 +1594,12 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jScrollPane4.getVerticalScrollBar().setUnitIncrement(16);
         jScrollPane5.getVerticalScrollBar().setUnitIncrement(16);
         jScrollPane8.getVerticalScrollBar().setUnitIncrement(16);
-        
+
+        if (patientModel != null) {
+            bindPatientToBIForm();
+
+        }
+
     }
 
     private void registerEvents() {
@@ -1751,56 +1759,39 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
     private Patient bindBasicInfoToPatient(List<Component> components) {
         Patient p = new Patient(null, null, Sex.MALE, LocalDate.MIN);
-        
+
         boolean emptyIsPresent = components.stream()
                 .filter(x -> x instanceof JTextField)
-                .map(x -> ((JTextField)x).getText().trim())
+                .map(x -> ((JTextField) x).getText().trim())
                 .filter(x -> x.isEmpty())
                 .findAny()
                 .isPresent();
-        
-        if(emptyIsPresent) {
+
+        if (emptyIsPresent) {
             return null;
         }
-        
-//        final String path = ".\\src\\com\\kvlahov\\properties\\";
-//        
-//        Map<String, Object> tempValues = initValueMap(components);
-//        Map<String, String> valuesMap = getStringMap(tempValues);
-//        Utilities.invokeSetters(
-//                p, 
-//                (Map)Utilities.readProperties(path + "patientDialogProps.txt"),
-//                valuesMap);
+
         p.setName(tfFirstName.getText().trim());
         p.setSurname(tfLastName.getText().trim());
         p.setDateOfBirth(Utilities.toLocalDate((Date) tfDateOfBirth.getValue()));
-        
-        String actionCmnd = rbMale.isSelected()? "Male" : "Female";
-        
+
+        String actionCmnd = rbMale.isSelected() ? "Male" : "Female";
         p.setSex(Sex.valueOf(actionCmnd.toUpperCase()));
+
         NextOfKin nok = new NextOfKin(
                 tfNokName.getText().trim(),
-                tfNokSurname.getText().trim(), 
+                tfNokSurname.getText().trim(),
                 tfNokRelationship.getText().trim());
 
         ContactInfo contact = new ContactInfo();
         contact.addPhoneNumber(PhoneNumberType.MOBILE, tfNokContact.getText().trim());
         nok.setContactInformation(contact);
-        
-        ContactInfo patientContact = new ContactInfo();
-        patientContact.addPhoneNumber(PhoneNumberType.MOBILE, tfContact.getText().trim());
+        nok.setRelationshipToPatient(tfNokRelationship.getText().trim());
 
-        if(extendedInfoModel == null) {
-            extendedInfoModel = new ExtendedPatientInformation();
-        }
-        
-        ComplaintsInfo complaintsInfo = new ComplaintsInfo();
-        complaintsInfo.setStatementComplaint(tfComplaint.getText().trim());
-        
-        extendedInfoModel.setContactInfo(patientContact);
-        extendedInfoModel.setNextOfKin(nok);
-        extendedInfoModel.setComplaints(complaintsInfo);
-        
+        p.setNextOfKin(nok);
+        p.setContact(tfContact.getText().trim());
+        p.setStmtOfComplaint(tfComplaint.getText().trim());
+
         return p;
     }
 
@@ -1848,7 +1839,24 @@ public class NewPatientDialog extends javax.swing.JDialog {
         } else {
             return "";
         }
+    }
 
+    private void setComponentContent(Component c, String value) {
+        if (c instanceof JTextField) {
+            ((JTextField) c).setText(value);
+        } else if (c instanceof JTextArea) {
+            ((JTextArea) c).setText(value);
+        } else if (c instanceof JCheckBox) {
+            ((JCheckBox) c).setSelected(Boolean.valueOf(value));
+        } else if (c instanceof JSpinner) {
+            ((JSpinner) c).setValue(value);
+        } else if (c instanceof JComboBox) {
+            Object selectedItem = ((JComboBox) c).getSelectedItem();
+            if (selectedItem instanceof PhoneNumberType) {
+                ((JComboBox) c).setSelectedItem(PhoneNumberType.valueOf(value.toUpperCase()));
+            }
+
+        }
     }
 
     private ExtendedPatientInformation bindExtendedInformationToPatient(Map<String, Object> values) {
@@ -2015,16 +2023,41 @@ public class NewPatientDialog extends javax.swing.JDialog {
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> (String) e.getValue()));
     }
 
+    private void bindPatientToBIForm() {
+        tfFirstName.setText(patientModel.getName());
+        tfLastName.setText(patientModel.getSurname());
+        tfDateOfBirth.setValue(Utilities.asDate(patientModel.getDateOfBirth().atStartOfDay()));
+        if (patientModel.getSex().toString().equalsIgnoreCase("male")) {
+            rbMale.setSelected(true);
+        } else {
+            rbFemale.setSelected(true);
+        }
+        tfComplaint.setText(patientModel.getStmtOfComplaint());
+        tfContact.setText(patientModel.getContact());
+        NextOfKin nok = patientModel.getNextOfKin();
+        tfNokContact.setText(
+                nok
+                .getContactInformation()
+                .getPhoneNumbers()
+                .get(PhoneNumberType.MOBILE)
+                .stream().findFirst().orElse(""));
+        
+        tfNokName.setText(nok.getName());
+        tfNokRelationship.setText(nok.getRelationshipToPatient());
+        tfNokSurname.setText(nok.getSurname());
+                
+    }
+
     static class IsNumberVerifier extends InputVerifier {
 
         @Override
         public boolean verify(JComponent input) {
             String text = ((JTextField) input).getText();
             try {
-                 text.chars()
-                         .mapToObj(c -> (char) c)
-                         .map(c -> String.valueOf(c))
-                         .forEach(s -> Integer.parseInt(s));
+                text.chars()
+                        .mapToObj(c -> (char) c)
+                        .map(c -> String.valueOf(c))
+                        .forEach(s -> Integer.parseInt(s));
                 return true;
             } catch (NumberFormatException e) {
                 return false;

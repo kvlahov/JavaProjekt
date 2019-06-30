@@ -24,19 +24,7 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
     public DoctorUI() {
         initComponents();
 
-        int w = sideMenuPane.getWidth();
-        int h = getContentPane().getHeight();
-        sideMenuPane.setPreferredSize(new Dimension(w, h));
-
-        getContentPane().addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent evt) {
-                int w = sideMenuPane.getWidth();
-                int h = getHeight();
-                sideMenuPane.setSize(new Dimension(w, h));
-            }
-
-        });
+        
     }
 
     /**
@@ -48,53 +36,13 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        sideMenuPane = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        sideMenuPane.setBackground(new java.awt.Color(51, 255, 255));
-        sideMenuPane.setForeground(new java.awt.Color(51, 102, 255));
-        sideMenuPane.setMinimumSize(new java.awt.Dimension(200, 10));
-        sideMenuPane.setPreferredSize(new java.awt.Dimension(100, 600));
-
-        jButton1.setText("jButton1");
-        jButton1.setPreferredSize(new java.awt.Dimension(133, 43));
-        sideMenuPane.add(jButton1);
-
-        jButton4.setText("jButton1");
-        jButton4.setPreferredSize(new java.awt.Dimension(133, 43));
-        sideMenuPane.add(jButton4);
-
-        jButton5.setText("jButton1");
-        jButton5.setPreferredSize(new java.awt.Dimension(133, 43));
-        sideMenuPane.add(jButton5);
-
-        jButton6.setText("jButton1");
-        jButton6.setPreferredSize(new java.awt.Dimension(133, 43));
-        sideMenuPane.add(jButton6);
-
-        jButton7.setText("jButton1");
-        jButton7.setPreferredSize(new java.awt.Dimension(133, 43));
-        sideMenuPane.add(jButton7);
-
-        jButton8.setText("jButton1");
-        jButton8.setPreferredSize(new java.awt.Dimension(133, 43));
-        sideMenuPane.add(jButton8);
-
-        getContentPane().add(sideMenuPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 150, 600));
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 0, 415, 422));
+        getContentPane().setLayout(new java.awt.CardLayout());
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -146,16 +94,8 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel sideMenuPane;
     // End of variables declaration//GEN-END:variables
 }

@@ -52,7 +52,7 @@ public class ComplaintsInfo {
         this.hospitalTreated = hospitalTreated;
     }
 
-    public boolean isIsDiabetic() {
+    public boolean getIsDiabetic() {
         return isDiabetic;
     }
 
@@ -60,7 +60,7 @@ public class ComplaintsInfo {
         this.isDiabetic = isDiabetic;
     }
 
-    public boolean isIsHypertensive() {
+    public boolean getIsHypertensive() {
         return isHypertensive;
     }
 

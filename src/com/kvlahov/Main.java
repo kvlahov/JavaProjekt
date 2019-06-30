@@ -86,7 +86,12 @@ public class Main {
         map.put("patientSurname", "surname");
         map.put("patientId", "id");
         map.put("patientSex", "sex");
-        Patient p = new Patient(-1, "Frankica", "Mumu", Sex.MALE, LocalDate.MIN);   
+        
+        String s = "Pero";
+        String[] split = s.split(" ");
+        System.out.println(split.length);
+        
+        repo.insertPatientContact(1, 6, "testmail@mail.com");
         
 //        mapa.forEach((k,v) -> System.out.println(k + " " + v));
         

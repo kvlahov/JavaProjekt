@@ -11,6 +11,8 @@ import com.kvlahov.model.Person;
 import com.kvlahov.model.patientInfo.ExtendedPatientInformation;
 import com.kvlahov.model.patientInfo.NextOfKin;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  *
@@ -19,6 +21,8 @@ import java.time.LocalDate;
 public class Patient extends Person {
 
     private NextOfKin nextOfKin;
+    private String stmtOfComplaint;
+    private String contact;
     private Sex sex;
     private LocalDate dateOfBirth;
 
@@ -32,6 +36,14 @@ public class Patient extends Person {
         super(id, name, surname);
         this.sex = sex;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public NextOfKin getNextOfKin() {
@@ -58,9 +70,25 @@ public class Patient extends Person {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public String getStmtOfComplaint() {
+        return stmtOfComplaint;
+    }
+
+    public void setStmtOfComplaint(String stmtOfComplaint) {
+        this.stmtOfComplaint = stmtOfComplaint;
+    }
+
     @Override
     public String toString() {
         return "Patient{" + "sex=" + sex + ", dateOfBirth=" + dateOfBirth + '}';
     }
 
-}
+    public String getFormatedDate(String pattern) {
+        if (pattern == null) {
+            return getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+        return getDateOfBirth().format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    
+  }

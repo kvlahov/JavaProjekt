@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -214,6 +215,10 @@ public class Utilities {
 
     public static LocalDate toLocalDate(Date date) {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public static Date asDate(LocalDateTime localDate) {
+        return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public static void invokeGetters(Object target, Map<String, String> nameFieldMap, Map<String, String> values) {
