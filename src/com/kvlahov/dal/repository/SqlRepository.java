@@ -4,6 +4,7 @@ import com.kvlahov.dal.sql.DataSourceSingleton;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.User;
+import com.kvlahov.model.enums.AddressType;
 import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.enums.Sex;
 import com.kvlahov.model.enums.UserRole;
@@ -381,12 +382,12 @@ class SqlRepository implements IRepository {
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_LIFESTYLE)) {
             stmt.setInt("IDPatient", pid);
-            stmt.setBoolean("IsSmoker", lifestyle.isIsSmoker());
-            stmt.setBoolean("IsVegetarian", lifestyle.isIsVegetarian());
+            stmt.setBoolean("IsSmoker", lifestyle.getIsSmoker());
+            stmt.setBoolean("IsVegetarian", lifestyle.getIsVegetarian());
             stmt.setInt("CigarretesPerDay", lifestyle.getAverageCigarettesPerDay());
-            stmt.setBoolean("ConsumesAlcohol", lifestyle.isConsumesAlcohol());
+            stmt.setBoolean("ConsumesAlcohol", lifestyle.getConsumesAlcohol());
             stmt.setInt("AlcoholPerDay", lifestyle.getAverageDrinksPerDay());
-            stmt.setString("UsesStimulants", lifestyle.isUsesStimulants());
+            stmt.setString("UsesStimulants", lifestyle.getUsesStimulants());
             stmt.setInt("CaffeineDrinkPerDay", lifestyle.getCoffeineDrinkPerDay());
             stmt.setInt("SoftDrinkPerDay", lifestyle.getSoftDrinkPerDay());
             stmt.setString("EatingHabits", lifestyle.getEatingHabits());
@@ -561,7 +562,7 @@ class SqlRepository implements IRepository {
                     li.setAverageDrinksPerDay(resultSet.getInt("AlcoholPerDay"));
                     li.setCoffeineDrinkPerDay(resultSet.getInt("CaffeineDrinkPerDay"));
                     li.setConsumesAlcohol(resultSet.getBoolean("ConsumesAlcohol"));
-                    li.setEatingHabits(resultSet.getString("EatingHabita"));
+                    li.setEatingHabits(resultSet.getString("EatingHabits"));
                     li.setIsSmoker(resultSet.getBoolean("IsSmoker"));
                     li.setIsVegetarian(resultSet.getBoolean("IsVegetarian"));
                     li.setSoftDrinkPerDay(resultSet.getInt("SoftDrinkPerDay"));
@@ -617,7 +618,7 @@ class SqlRepository implements IRepository {
                     add.setArea(resultSet.getString("Area"));
                     add.setCity(resultSet.getString("City"));
                     add.setState(resultSet.getString("State"));
-                    add.setStreet(resultSet.getString("Stret"));
+                    add.setStreet(resultSet.getString("Street"));
                     add.setZipCode(resultSet.getString("ZipCode"));
 
                 }
@@ -669,11 +670,12 @@ class SqlRepository implements IRepository {
                     addr.setArea(resultSet.getString("Area"));
                     addr.setCity(resultSet.getString("City"));
                     addr.setState(resultSet.getString("State"));
-                    addr.setStreet(resultSet.getString("Stret"));
+                    addr.setStreet(resultSet.getString("Street"));
                     addr.setZipCode(resultSet.getString("ZipCode"));
+                    addr.setType(AddressType.valueOf(resultSet.getString("Type").toUpperCase()));
 
                 }
-                
+
                 return addList;
             }
 
@@ -710,7 +712,30 @@ class SqlRepository implements IRepository {
 
     @Override
     public PersonalInfo getPersonalInfo(int pid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_PERSONAL = "{ CALL getPersonalInfo (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_PERSONAL)) {
+            stmt.setInt(1, pid);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    PersonalInfo pi = new PersonalInfo();
+
+                    pi.setAnnualIncome(resultSet.getString("AnnualIncome"));
+                    pi.setBloodType(resultSet.getString("BloodType"));
+                    pi.setHeight(resultSet.getFloat("Height"));
+                    pi.setNoOFDependents(resultSet.getInt("NoOfDependents"));
+                    pi.setOccupation(resultSet.getString("Occupation"));
+                    pi.setWeight(resultSet.getFloat("PWeight"));
+
+                    return pi;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override

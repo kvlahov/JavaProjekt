@@ -22,7 +22,7 @@ public class LifestyleInfo {
     private int softDrinkPerDay;
     private String eatingHabits;
 
-    public boolean isIsVegetarian() {
+    public boolean getIsVegetarian() {
         return isVegetarian;
     }
 
@@ -30,7 +30,7 @@ public class LifestyleInfo {
         this.isVegetarian = isVegetarian;
     }
 
-    public boolean isIsSmoker() {
+    public boolean getIsSmoker() {
         return isSmoker;
     }
 
@@ -46,7 +46,7 @@ public class LifestyleInfo {
         this.averageCigarettesPerDay = averageCigarettesPerDay;
     }
 
-    public boolean isConsumesAlcohol() {
+    public boolean getConsumesAlcohol() {
         return consumesAlcohol;
     }
 
@@ -62,7 +62,7 @@ public class LifestyleInfo {
         this.averageDrinksPerDay = averageDrinksPerDay;
     }
 
-    public String isUsesStimulants() {
+    public String getUsesStimulants() {
         return usesStimulants;
     }
 

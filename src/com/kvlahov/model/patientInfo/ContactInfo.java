@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -63,6 +64,16 @@ public class ContactInfo {
 
     public HashMap<ContactType, Set<String>> getContacts() {
         return contacts;
+    }
+    
+    public String getFirstContactForType(ContactType type) {
+
+        return contacts.keySet().stream()
+                .filter(k -> k == type)
+                .flatMap(k -> contacts.get(k).stream())
+                .findFirst()
+                .orElse("");
+                
     }
 
     public void addPhoneNumber(ContactType type, String number) {

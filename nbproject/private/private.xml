@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="3">
+        <file>
+            <url>src/com/kvlahov/client/components/NewPatientDialog.java</url>
+            <bookmark id="2">
+                <name/>
+                <line>1279</line>
+                <key/>
+            </bookmark>
+            <bookmark id="3">
+                <name/>
+                <line>2057</line>
+                <key/>
+            </bookmark>
+        </file>
         <file>
             <url>src/com/kvlahov/client/RegularUI.java</url>
             <bookmark id="1">
                 <name/>
-                <line>384</line>
+                <line>385</line>
                 <key/>
             </bookmark>
         </file>
@@ -16,6 +29,8 @@
             <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/Main.java</file>
             <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/controller/PatientController.java</file>
             <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/dal/repository/SqlRepository.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/utils/Utilities.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/model/patientInfo/ContactInfo.java</file>
             <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/client/components/NewPatientDialog.java</file>
             <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/client/RegularUI.java</file>
         </group>

@@ -58,9 +58,12 @@ public class NewPatientDialog extends javax.swing.JDialog {
     /**
      * Creates new form NewPatientDialog
      */
-    public NewPatientDialog(java.awt.Frame parent, boolean modal, Patient p) {
+    public NewPatientDialog(java.awt.Frame parent, boolean modal, Patient p, ExtendedPatientInformation ei) {
         super(parent, modal);
+
         patientModel = p;
+        extendedInfoModel = ei;
+
         initComponents();
         initDialog();
         initContent();
@@ -241,7 +244,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         jLabel42 = new javax.swing.JLabel();
         jScrollPane10 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        eiStatement = new javax.swing.JTextArea();
         jLabel43 = new javax.swing.JLabel();
         jScrollPane11 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
@@ -975,10 +978,10 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jLabel42.setText("Statement of Complaint");
         jPanel13.add(jLabel42);
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jTextArea3.setName("statementOfComplaint"); // NOI18N
-        jScrollPane10.setViewportView(jTextArea3);
+        eiStatement.setColumns(20);
+        eiStatement.setRows(5);
+        eiStatement.setName("statementOfComplaint"); // NOI18N
+        jScrollPane10.setViewportView(eiStatement);
 
         jPanel13.add(jScrollPane10);
 
@@ -1267,15 +1270,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRemoveContact1ActionPerformed
 
     private void btnExtendedSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtendedSaveActionPerformed
-        List<Class> validClasses = new ArrayList<>();
-        validClasses.add(JTextField.class);
-        validClasses.add(JCheckBox.class);
-        validClasses.add(JComboBox.class);
-        validClasses.add(JTextArea.class);
-        validClasses.add(JSpinner.class);
 
-        List<Component> formElements
-                = Utilities.getFlattenedListOfComponents(extendedInfoPane.getComponents(), validClasses);
+        List<Component> formElements = getEIComponents();
 
         Map<String, Object> values = initValueMap(formElements);
 
@@ -1313,6 +1309,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         if (tp.getTitleAt(selected).equalsIgnoreCase("extended info")) {
             addContactForm(nokContact, tfNokContact.getText());
             addContactForm(contactInfoPane, tfContact.getText());
+            eiStatement.setText(tfComplaint.getText().trim());
 
 //            PatientBinder.bindPatientToComponents();
         }
@@ -1347,7 +1344,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
-            NewPatientDialog dialog = new NewPatientDialog(new javax.swing.JFrame(), true, null);
+            NewPatientDialog dialog = new NewPatientDialog(new javax.swing.JFrame(), true, null, null);
             dialog.setVisible(true);
         });
     }
@@ -1373,6 +1370,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JCheckBox chbConsumesAlcohol;
     private javax.swing.JCheckBox chbIsSmoker;
     private javax.swing.JPanel contactInfoPane;
+    private javax.swing.JTextArea eiStatement;
     private javax.swing.JPanel extendedInfoPane;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
@@ -1509,7 +1507,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextArea12;
     private javax.swing.JTextArea jTextArea13;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextArea jTextArea5;
     private javax.swing.JTextArea jTextArea6;
@@ -1599,6 +1596,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         if (patientModel != null) {
             bindPatientToBIForm();
+            fillExtendedInfo();
 
         }
 
@@ -1790,9 +1788,9 @@ public class NewPatientDialog extends javax.swing.JDialog {
         nok.setContactInformation(contact);
         nok.setRelationshipToPatient(tfNokRelationship.getText().trim());
 
-        p.setNextOfKin(nok);
+//        p.setNextOfKin(nok);
         p.setContact(tfContact.getText().trim());
-        p.setStmtOfComplaint(tfComplaint.getText().trim());
+//        p.setStmtOfComplaint(tfComplaint.getText().trim());
 
         return p;
     }
@@ -1872,13 +1870,13 @@ public class NewPatientDialog extends javax.swing.JDialog {
                 (Map) Utilities.readProperties(path + "permanentAddress" + "Props.txt"),
                 componentValues);
         permaAddress.setZipCode(tfPermaZip.getText().trim());
-        
+
         ContactInfo.Address presentAddress = new ContactInfo.Address();
         Utilities.invokeSetters(presentAddress,
                 (Map) Utilities.readProperties(path + "presentAddress" + "Props.txt"),
                 componentValues);
         presentAddress.setZipCode(tfPresentZip.getText().trim());
-        
+
         ContactInfo contactInfo = new ContactInfo();
         contactInfo.setPermanentAddress(permaAddress);
         contactInfo.setPresentAddress(presentAddress);
@@ -1912,7 +1910,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
                 componentValues);
         personalInfo.setBloodType(cbBloodType.getSelectedItem() + " " + cbBloodRh.getSelectedItem());
         personalInfo.setAnnualIncome(tfIncome.getText().trim());
-        
+
         NextOfKin nok = new NextOfKin(
                 tfNokName.getText().trim(),
                 tfNokSurname.getText().trim(),
@@ -2039,19 +2037,63 @@ public class NewPatientDialog extends javax.swing.JDialog {
         } else {
             rbFemale.setSelected(true);
         }
-        tfComplaint.setText(patientModel.getStmtOfComplaint());
-        tfContact.setText(patientModel.getContact());
-        NextOfKin nok = patientModel.getNextOfKin();
+        tfComplaint.setText(extendedInfoModel.getComplaints().getStatementComplaint());
+        String contact = extendedInfoModel.getContactInfo().getFirstContactForType(ContactType.MOBILE);
+
+        tfContact.setText(contact);
+        NextOfKin nok = extendedInfoModel.getNextOfKin();
         tfNokContact.setText(nok
                 .getContactInformation()
                 .getContacts()
                 .get(ContactType.MOBILE)
                 .stream().findFirst().orElse(""));
-        
+
         tfNokName.setText(nok.getName());
         tfNokRelationship.setText(nok.getRelationshipToPatient());
         tfNokSurname.setText(nok.getSurname());
-                
+
+    }
+
+    private void fillExtendedInfo() {
+        final String path = ".\\src\\com\\kvlahov\\properties\\";
+        List<Component> formElements = getEIComponents();
+        
+        Map<String, String> values = new HashMap<>();
+        
+        formElements.forEach(s -> values.put(s.getName(), ""));
+        
+        Utilities.invokeGetters(extendedInfoModel.getComplaints(),
+                (Map) Utilities.readProperties(path + "complaints" + "Props.txt"), 
+                values);
+        
+        Utilities.invokeGetters(extendedInfoModel.getLifestyle(),
+                (Map) Utilities.readProperties(path + "lifestyle" + "Props.txt"), 
+                values);
+        Utilities.invokeGetters(extendedInfoModel.getPersonalInfo(),
+                (Map) Utilities.readProperties(path + "personalInfo" + "Props.txt"), 
+                values);
+        Utilities.invokeGetters(extendedInfoModel.getNextOfKin().getContactInformation().getPermanentAddress(),
+                (Map) Utilities.readProperties(path + "nokAddress" + "Props.txt"), 
+                values);
+        Utilities.invokeGetters(extendedInfoModel.getContactInfo().getPermanentAddress(),
+                (Map) Utilities.readProperties(path + "permanentAddress" + "Props.txt"), 
+                values);
+        Utilities.invokeGetters(extendedInfoModel.getContactInfo().getPresentAddress(),
+                (Map) Utilities.readProperties(path + "presentAddress" + "Props.txt"), 
+                values);
+        
+        values.forEach((k,v) -> System.out.println(k + ": " + v));
+    }
+
+    private List<Component> getEIComponents() {
+        List<Class> validClasses = new ArrayList<>();
+        validClasses.add(JTextField.class);
+        validClasses.add(JCheckBox.class);
+//        validClasses.add(JComboBox.class);
+        validClasses.add(JTextArea.class);
+        validClasses.add(JSpinner.class);
+
+        return Utilities.getFlattenedListOfComponents(extendedInfoPane.getComponents(), validClasses);
     }
 
     static class IsNumberVerifier extends InputVerifier {

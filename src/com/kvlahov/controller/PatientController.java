@@ -8,6 +8,7 @@ package com.kvlahov.controller;
 import com.kvlahov.model.Patient;
 import com.kvlahov.dal.repository.*;
 import com.kvlahov.model.*;
+import com.kvlahov.model.enums.AddressType;
 import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.patientInfo.*;
 import java.util.HashMap;
@@ -68,8 +69,37 @@ public class PatientController {
                 });
     }
 
-    public static Map<String, Set<String>> getContactNumbersForPatient(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static ExtendedPatientInformation getExtendedInfo(int pid) {
+        ExtendedPatientInformation ei = new ExtendedPatientInformation();
+        
+        NextOfKin nok = repo.getNextOfKin(pid);
+        ContactInfo nokContact = repo.getNextOfKinContact(nok.getId());
+        nokContact.setPermanentAddress(repo.getNextOfKinAdd(nok.getId()));
+        nok.setContactInformation(nokContact);
+        
+        ContactInfo patientContact = repo.getPatientContact(pid);
+        
+        repo.getPatientAddress(pid).forEach(add -> {
+            if(add == null) return;
+            if(add.getType() == AddressType.PERMANENT) {
+                patientContact.setPermanentAddress(add);
+            } else if (add.getType() == AddressType.PERMANENT) {
+                patientContact.setPresentAddress(add);
+            }
+        });       
+        
+        
+        ei.setComplaints(repo.getComplaint(pid));
+        ei.setContactInfo(patientContact);
+        ei.setLifestyle(repo.getLifestyle(pid));
+        ei.setNextOfKin(nok);
+        ei.setPersonalInfo(repo.getPersonalInfo(pid));
+        
+        return ei;
+    }
+    
+    public static Map<ContactType, Set<String>> getContactNumbersForPatient(int id) {
+        return repo.getPatientContact(id).getContacts();
     }
 
     public static List<Patient> getPatients() {
