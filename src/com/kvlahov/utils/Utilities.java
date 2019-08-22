@@ -44,9 +44,10 @@ public class Utilities {
 
     public static void setDefaultsForJFrame() {
         UIManager.getLookAndFeelDefaults()
-                .put("defaultFont", new Font("Segoe UI Light", Font.PLAIN, 14));
+                .put("defaultFont", new Font("Segoe UI Light", Font.PLAIN, 18));
 
         UIManager.getDefaults().put("TextField.margin", new Insets(10, 10, 10, 10));
+        UIManager.getDefaults().put("TextArea.margin", new Insets(10, 10, 10, 10));
         UIManager.getDefaults().put("PasswordField.margin", new Insets(10, 10, 10, 10));
         UIManager.getDefaults().put("FormattedTextField.margin", new Insets(10, 10, 10, 10));
     }

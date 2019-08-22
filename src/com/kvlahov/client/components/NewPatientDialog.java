@@ -865,7 +865,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jPanel22.add(jLabel15);
         jPanel22.add(filler18);
 
-        spinnerCigarettesPerDay.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerCigarettesPerDay.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         spinnerCigarettesPerDay.setEnabled(false);
         spinnerCigarettesPerDay.setName("spinnerCigsPerDay"); // NOI18N
         jPanel22.add(spinnerCigarettesPerDay);
@@ -878,7 +878,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jPanel24.add(jLabel45);
         jPanel24.add(filler19);
 
-        spinnerAlcoholPerDay.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerAlcoholPerDay.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         spinnerAlcoholPerDay.setEnabled(false);
         spinnerAlcoholPerDay.setName("spinnerAlcoholPerDay"); // NOI18N
         jPanel24.add(spinnerAlcoholPerDay);
@@ -901,14 +901,14 @@ public class NewPatientDialog extends javax.swing.JDialog {
         lblBloodType1.setText("Consumption of caffeine drinks per day");
         jPanel11.add(lblBloodType1);
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         jSpinner1.setName("spinCaffeinePerDay"); // NOI18N
         jPanel11.add(jSpinner1);
 
         jLabel40.setText("Consumption of soft drinks per day");
         jPanel11.add(jLabel40);
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         jSpinner2.setName("spinSoftPerDay"); // NOI18N
         jPanel11.add(jSpinner2);
 

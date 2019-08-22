@@ -85,50 +85,91 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPatients = new org.jdesktop.swingx.JXTable();
         patientViewPane = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 0), new java.awt.Dimension(30, 32767));
-        lblName = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        lblSurname = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        lblSex = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        personalInfo = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        basicInfoPanel = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        lblDateOfBirth = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        lblContact = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        patientBasicInfo = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        lblComplaint = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
-        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        jLabel2 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel4 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel6 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        nokName = new javax.swing.JLabel();
+        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel8 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        nokSurname = new javax.swing.JLabel();
-        jPanel15 = new javax.swing.JPanel();
+        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         jLabel11 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel13 = new javax.swing.JLabel();
+        nokBasicInfo = new javax.swing.JPanel();
+        jPanel17 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel15 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        nokContact = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        btnEdit = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel19 = new javax.swing.JLabel();
+        jPanel20 = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel21 = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jPanel22 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jPanel21 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        medicalInfo = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel24 = new javax.swing.JLabel();
+        currentDoctor = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        appointments = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel26 = new javax.swing.JLabel();
+        nextAppointment = new javax.swing.JLabel();
+        jPanel24 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        finances = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        jPanel26 = new javax.swing.JPanel();
+        jPanel27 = new javax.swing.JPanel();
+        jPanel28 = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton7 = new javax.swing.JButton();
+        jPanel29 = new javax.swing.JPanel();
+        jLabel27 = new javax.swing.JLabel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         miNew = new javax.swing.JMenuItem();
@@ -192,7 +233,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         tblPatients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "Ivo", "Ivic", "22/02/1995", "Male"},
                 {"2", null, null, null, null},
                 {"3", null, null, null, null},
                 {"4", null, null, null, null}
@@ -217,139 +257,333 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         getContentPane().add(jScrollPane3, "patientTable");
 
-        patientViewPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 5, 10));
-        patientViewPane.setLayout(new java.awt.GridLayout(0, 1));
+        patientViewPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 10));
+        patientViewPane.setLayout(new javax.swing.BoxLayout(patientViewPane, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 80, 1, 80));
-        jPanel3.setLayout(new java.awt.GridLayout(0, 3));
+        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        personalInfo.setLayout(new javax.swing.BoxLayout(personalInfo, javax.swing.BoxLayout.Y_AXIS));
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
+
+        basicInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Basic info"));
+        basicInfoPanel.setLayout(new javax.swing.BoxLayout(basicInfoPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel10.setPreferredSize(new java.awt.Dimension(220, 215));
+        jPanel10.setLayout(new java.awt.GridLayout(0, 1, 0, 10));
+
+        patientBasicInfo.setMaximumSize(new java.awt.Dimension(250, 100));
+        patientBasicInfo.setPreferredSize(new java.awt.Dimension(250, 100));
+        patientBasicInfo.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+
+        jPanel7.setMaximumSize(new java.awt.Dimension(150, 20));
+        jPanel7.setLayout(new javax.swing.BoxLayout(jPanel7, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("First Name");
-        jPanel6.add(jLabel1);
-        jPanel6.add(filler1);
+        jPanel7.add(jLabel1);
+        jPanel7.add(filler7);
 
-        lblName.setText("jLabel2");
-        jPanel6.add(lblName);
-
-        jPanel3.add(jPanel6);
-
-        jPanel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
-
-        jLabel2.setText("Last Name");
+        jLabel2.setText("jLabel2");
         jPanel7.add(jLabel2);
-        jPanel7.add(filler3);
 
-        lblSurname.setText("jLabel2");
-        jPanel7.add(lblSurname);
+        patientBasicInfo.add(jPanel7);
 
-        jPanel3.add(jPanel7);
+        jPanel11.setMaximumSize(new java.awt.Dimension(150, 20));
+        jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Last Name");
+        jPanel11.add(jLabel3);
+        jPanel11.add(filler8);
 
-        jLabel3.setText("Sex");
-        jPanel9.add(jLabel3);
-        jPanel9.add(filler4);
+        jLabel4.setText("jLabel2");
+        jPanel11.add(jLabel4);
 
-        lblSex.setText("jLabel2");
-        jPanel9.add(lblSex);
+        patientBasicInfo.add(jPanel11);
 
-        jPanel3.add(jPanel9);
+        jPanel12.setMaximumSize(new java.awt.Dimension(150, 20));
+        jPanel12.setLayout(new javax.swing.BoxLayout(jPanel12, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Sex");
+        jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jPanel12.add(jLabel5);
+        jPanel12.add(filler1);
 
-        jLabel4.setText("Date Of Birth");
-        jPanel10.add(jLabel4);
-        jPanel10.add(filler5);
-
-        lblDateOfBirth.setText("jLabel2");
-        jPanel10.add(lblDateOfBirth);
-
-        jPanel3.add(jPanel10);
-
-        jPanel11.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
-
-        jLabel5.setText("Contact");
-        jPanel11.add(jLabel5);
-        jPanel11.add(filler6);
-
-        lblContact.setText("jLabel2");
-        jPanel11.add(lblContact);
-
-        jPanel3.add(jPanel11);
-
-        jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
-
-        jLabel6.setText("Statement of Complaint");
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel6.setText("jLabel2");
         jPanel12.add(jLabel6);
-        jPanel12.add(filler7);
 
-        lblComplaint.setText("jLabel2");
-        jPanel12.add(lblComplaint);
+        patientBasicInfo.add(jPanel12);
 
-        jPanel3.add(jPanel12);
-
-        jLabel8.setText("Next Of Kin");
-        jLabel8.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        jPanel3.add(jLabel8);
-        jPanel3.add(filler8);
-        jPanel3.add(filler9);
-
-        jPanel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        jPanel13.setMaximumSize(new java.awt.Dimension(150, 20));
         jPanel13.setLayout(new javax.swing.BoxLayout(jPanel13, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel7.setText("First Name");
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Date of Birth");
         jPanel13.add(jLabel7);
-        jPanel13.add(filler11);
+        jPanel13.add(filler9);
 
-        nokName.setText("jLabel2");
-        jPanel13.add(nokName);
+        jLabel8.setText("jLabel2");
+        jPanel13.add(jLabel8);
 
-        jPanel3.add(jPanel13);
+        patientBasicInfo.add(jPanel13);
 
-        jPanel14.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        jPanel14.setMaximumSize(new java.awt.Dimension(150, 20));
         jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel10.setText("Last Name");
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel10.setText("Statement of Complaint");
         jPanel14.add(jLabel10);
-        jPanel14.add(filler12);
+        jPanel14.add(filler10);
 
-        nokSurname.setText("jLabel2");
-        jPanel14.add(nokSurname);
+        jLabel11.setText("jLabel2");
+        jPanel14.add(jLabel11);
 
-        jPanel3.add(jPanel14);
+        patientBasicInfo.add(jPanel14);
 
-        jPanel15.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        jPanel15.setMaximumSize(new java.awt.Dimension(150, 20));
         jPanel15.setLayout(new javax.swing.BoxLayout(jPanel15, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel11.setText("Contact");
-        jPanel15.add(jLabel11);
-        jPanel15.add(filler13);
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("Contact");
+        jPanel15.add(jLabel12);
+        jPanel15.add(filler11);
 
-        nokContact.setText("jLabel2");
-        jPanel15.add(nokContact);
+        jLabel13.setText("jLabel2");
+        jPanel15.add(jLabel13);
 
-        jPanel3.add(jPanel15);
+        patientBasicInfo.add(jPanel15);
 
-        patientViewPane.add(jPanel3);
+        jPanel10.add(patientBasicInfo);
 
-        btnEdit.setText("Edit");
-        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+        nokBasicInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Next Of Kin"));
+        nokBasicInfo.setMaximumSize(new java.awt.Dimension(300, 100));
+        nokBasicInfo.setPreferredSize(new java.awt.Dimension(180, 100));
+        nokBasicInfo.setLayout(new java.awt.GridLayout(0, 1));
+
+        jPanel17.setMaximumSize(new java.awt.Dimension(150, 20));
+        jPanel17.setLayout(new javax.swing.BoxLayout(jPanel17, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel14.setText("First Name");
+        jPanel17.add(jLabel14);
+        jPanel17.add(filler12);
+
+        jLabel15.setText("jLabel2");
+        jPanel17.add(jLabel15);
+
+        nokBasicInfo.add(jPanel17);
+
+        jPanel18.setMaximumSize(new java.awt.Dimension(150, 20));
+        jPanel18.setLayout(new javax.swing.BoxLayout(jPanel18, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel16.setText("Last Name");
+        jPanel18.add(jLabel16);
+        jPanel18.add(filler13);
+
+        jLabel17.setText("jLabel2");
+        jPanel18.add(jLabel17);
+
+        nokBasicInfo.add(jPanel18);
+
+        jPanel19.setMaximumSize(new java.awt.Dimension(150, 20));
+        jPanel19.setLayout(new javax.swing.BoxLayout(jPanel19, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel18.setText("Contact");
+        jLabel18.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jPanel19.add(jLabel18);
+        jPanel19.add(filler3);
+
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel19.setText("jLabel2");
+        jPanel19.add(jLabel19);
+
+        nokBasicInfo.add(jPanel19);
+
+        jPanel20.setMaximumSize(new java.awt.Dimension(150, 20));
+        jPanel20.setLayout(new javax.swing.BoxLayout(jPanel20, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel20.setText("Relatinship to Patient");
+        jPanel20.add(jLabel20);
+        jPanel20.add(filler14);
+
+        jLabel21.setText("jLabel2");
+        jPanel20.add(jLabel21);
+
+        nokBasicInfo.add(jPanel20);
+
+        jPanel10.add(nokBasicInfo);
+
+        jPanel23.setMaximumSize(new java.awt.Dimension(32767, 100));
+
+        jButton4.setText("Edit Basic Information");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditActionPerformed(evt);
+                jButton4ActionPerformed(evt);
             }
         });
-        jPanel5.add(btnEdit);
+        jPanel23.add(jButton4);
 
-        jButton2.setText("Set Appointment");
-        jPanel5.add(jButton2);
+        jPanel10.add(jPanel23);
 
-        jButton3.setText("Generate Receipt");
-        jPanel5.add(jButton3);
+        basicInfoPanel.add(jPanel10);
 
-        patientViewPane.add(jPanel5);
+        jPanel22.setLayout(new javax.swing.BoxLayout(jPanel22, javax.swing.BoxLayout.Y_AXIS));
 
-        getContentPane().add(patientViewPane, "card4");
+        jPanel6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel6.setMaximumSize(new java.awt.Dimension(32767, 100));
+
+        jLabel22.setText("Extended information added:");
+        jPanel6.add(jLabel22);
+
+        jLabel23.setText("jLabel23");
+        jPanel6.add(jLabel23);
+
+        jPanel22.add(jPanel6);
+
+        jButton1.setText("Add");
+        jPanel21.add(jButton1);
+
+        jButton2.setText("Edit Extended Information");
+        jPanel21.add(jButton2);
+
+        jPanel22.add(jPanel21);
+
+        basicInfoPanel.add(jPanel22);
+
+        jPanel5.add(basicInfoPanel);
+
+        personalInfo.add(jPanel5);
+
+        jTabbedPane1.addTab("Personal Info", personalInfo);
+
+        medicalInfo.setLayout(new javax.swing.BoxLayout(medicalInfo, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel8.setMaximumSize(new java.awt.Dimension(300, 500));
+
+        jLabel24.setText("Current physician");
+        jPanel8.add(jLabel24);
+
+        currentDoctor.setText("jLabel25");
+        jPanel8.add(currentDoctor);
+
+        jButton3.setText("Change");
+        jPanel8.add(jButton3);
+
+        jPanel2.add(jPanel8);
+
+        medicalInfo.add(jPanel2);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
+
+        appointments.setBorder(javax.swing.BorderFactory.createTitledBorder("Appointments"));
+        appointments.setLayout(new javax.swing.BoxLayout(appointments, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel16.setMaximumSize(new java.awt.Dimension(32767, 200));
+
+        jLabel26.setText("Next Appointment");
+        jPanel16.add(jLabel26);
+
+        nextAppointment.setText("jLabel27");
+        jPanel16.add(nextAppointment);
+
+        appointments.add(jPanel16);
+
+        jButton5.setText("Set appointment");
+        jPanel24.add(jButton5);
+
+        appointments.add(jPanel24);
+
+        jPanel3.add(appointments);
+        jPanel3.add(jPanel9);
+
+        medicalInfo.add(jPanel3);
+
+        jTabbedPane1.addTab("Medical Info", medicalInfo);
+
+        finances.setLayout(new javax.swing.BoxLayout(finances, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel25.setMaximumSize(new java.awt.Dimension(32767, 150));
+
+        jLabel25.setText("Generate receipt");
+        jPanel25.add(jLabel25);
+
+        jButton6.setText("Generate");
+        jPanel25.add(jButton6);
+
+        finances.add(jPanel25);
+
+        jPanel26.setLayout(new javax.swing.BoxLayout(jPanel26, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel27.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15));
+        jPanel27.setMaximumSize(new java.awt.Dimension(32832, 100));
+        jPanel27.setLayout(new javax.swing.BoxLayout(jPanel27, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel28.setMaximumSize(new java.awt.Dimension(500, 70));
+        jPanel28.setPreferredSize(new java.awt.Dimension(200, 20));
+        jPanel28.setLayout(new java.awt.GridLayout());
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel28.add(jTextField1);
+
+        jPanel27.add(jPanel28);
+
+        jButton7.setText("Search");
+        jButton7.setMaximumSize(new java.awt.Dimension(80, 70));
+        jButton7.setPreferredSize(new java.awt.Dimension(65, 80));
+        jPanel27.add(jButton7);
+
+        jPanel26.add(jPanel27);
+
+        jPanel29.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 15, 1, 15));
+        jPanel29.setMaximumSize(new java.awt.Dimension(32832, 100));
+        jPanel29.setLayout(new javax.swing.BoxLayout(jPanel29, javax.swing.BoxLayout.LINE_AXIS));
+
+        jLabel27.setText("Show last n receipts");
+        jPanel29.add(jLabel27);
+        jPanel29.add(filler4);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setMaximumSize(new java.awt.Dimension(100, 32767));
+        jPanel29.add(jComboBox1);
+
+        jPanel26.add(jPanel29);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel26.add(jScrollPane1);
+
+        finances.add(jPanel26);
+
+        jTabbedPane1.addTab("Finances", finances);
+
+        patientViewPane.add(jTabbedPane1);
+
+        getContentPane().add(patientViewPane, "viewPatient");
 
         jMenuBar.setBackground(new java.awt.Color(51, 204, 255));
         jMenuBar.setForeground(new java.awt.Color(51, 204, 255));
@@ -417,13 +651,13 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         viewSelectedPatient(tblPatients);
     }//GEN-LAST:event_btnViewActionPerformed
 
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        ExtendedPatientInformation extendedInfo = PatientController.getExtendedInfo(selectedPatientModel.getId());
-        NewPatientDialog dialog = new NewPatientDialog(this, true, selectedPatientModel, extendedInfo);
-        dialog.setVisible(true);
-        
-    }//GEN-LAST:event_btnEditActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -465,28 +699,53 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PatientsTable;
+    private javax.swing.JPanel appointments;
+    private javax.swing.JPanel basicInfoPanel;
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnView;
+    private javax.swing.JLabel currentDoctor;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler11;
     private javax.swing.Box.Filler filler12;
     private javax.swing.Box.Filler filler13;
+    private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
-    private javax.swing.Box.Filler filler5;
-    private javax.swing.Box.Filler filler6;
     private javax.swing.Box.Filler filler7;
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
+    private javax.swing.JPanel finances;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -503,26 +762,42 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel lblComplaint;
-    private javax.swing.JLabel lblContact;
-    private javax.swing.JLabel lblDateOfBirth;
-    private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblSex;
-    private javax.swing.JLabel lblSurname;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel medicalInfo;
     private javax.swing.JMenuItem miNew;
     private javax.swing.JMenuItem miShowPatients;
-    private javax.swing.JLabel nokContact;
-    private javax.swing.JLabel nokName;
-    private javax.swing.JLabel nokSurname;
+    private javax.swing.JLabel nextAppointment;
+    private javax.swing.JPanel nokBasicInfo;
+    private javax.swing.JPanel patientBasicInfo;
     private javax.swing.JPanel patientViewPane;
+    private javax.swing.JPanel personalInfo;
     private org.jdesktop.swingx.JXTable tblPatients;
     private javax.swing.JTextField tfSearch;
     // End of variables declaration//GEN-END:variables
@@ -588,9 +863,9 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         JOptionPane.showMessageDialog(null, "Patient: " + p.getId() + " " + p.getName());
 //        NewPatientDialog dialog = new NewPatientDialog(this, true, p);
 //        dialog.setVisible(true);
-        setLabelsForPatient(p);
+//        setLabelsForPatient(p);
         selectedPatientModel = p;
-        mainCardLayout.next(getContentPane());
+        mainCardLayout.show(getContentPane(), "viewPatient");
     }
 
     private Patient getPatientForRow(JTable target, int selectedRow) {
@@ -609,17 +884,17 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
     }
 
-    private void setLabelsForPatient(Patient p) {
-        lblName.setText(p.getName());
-        lblSurname.setText(p.getSurname());
-        lblSex.setText(p.getSex().toString());
-        lblDateOfBirth.setText(p.getFormatedDate("dd/MM/yyyy"));
-        lblContact.setText("");
-        lblComplaint.setText("");
-        
-        patientViewPane.repaint();
-        
-    }
+//    private void setLabelsForPatient(Patient p) {
+//        lblName.setText(p.getName());
+//        lblSurname.setText(p.getSurname());
+//        lblSex.setText(p.getSex().toString());
+//        lblDateOfBirth.setText(p.getFormatedDate("dd/MM/yyyy"));
+//        lblContact.setText("");
+//        lblComplaint.setText("");
+//        
+//        patientViewPane.repaint();
+//        
+//    }
 
     private static class PatientTableModel extends AbstractTableModel {
 

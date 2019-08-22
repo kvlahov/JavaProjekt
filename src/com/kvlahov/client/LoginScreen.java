@@ -81,6 +81,7 @@ public class LoginScreen extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(500, 400));
         setResizable(false);
         setSize(new java.awt.Dimension(400, 300));
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
         mainPanel.setBackground(new Color(0,0,0,0));
         mainPanel.setMinimumSize(new java.awt.Dimension(300, 420));
