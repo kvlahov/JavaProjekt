@@ -9,12 +9,12 @@ package com.kvlahov.exceptions;
  *
  * @author programer10
  */
-public class InvalidAppointmentException extends Exception {
+public class InvalidModelException extends Exception {
 
-    public InvalidAppointmentException() {
+    public InvalidModelException() {
     }
 
-    public InvalidAppointmentException(String message) {
+    public InvalidModelException(String message) {
         super(message);
     }
 }

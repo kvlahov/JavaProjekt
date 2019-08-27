@@ -5,6 +5,7 @@
  */
 package com.kvlahov.dal.repository;
 
+import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.User;
@@ -60,5 +61,16 @@ public interface IRepository {
     UserRole getUserRole(int id);
 
     public UserRole getRoleForUser(User user);
+
+    public void insertAppointment(Appointment appointment);
+
+    public void getScheduledAppointments(int doctorId);
+
+    public Appointment getAppointment(int id);
+
+    public void deleteAppointment(int id);
+
+    public void updateAppointment(Appointment appointment);
+
     
 }

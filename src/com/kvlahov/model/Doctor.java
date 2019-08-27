@@ -5,8 +5,6 @@
  */
 package com.kvlahov.model;
 
-import com.kvlahov.model.enums.Department;
-
 /**
  *
  * @author lordo
@@ -18,14 +16,6 @@ public class Doctor extends Person{
         super(id, name, surname);
         this.departmentID = departmentID;
     }
-
-//    public Department getDepartment() {
-//        return department;
-//    }
-//
-//    public void setDepartment(Department department) {
-//        this.department = department;
-//    }
 
     @Override
     public String toString() {

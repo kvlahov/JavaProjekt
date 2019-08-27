@@ -7,15 +7,9 @@ package com.kvlahov.controller;
 
 import com.kvlahov.model.Patient;
 import com.kvlahov.dal.repository.*;
-import com.kvlahov.exceptions.InvalidAppointmentException;
-import com.kvlahov.model.*;
 import com.kvlahov.model.enums.AddressType;
 import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.patientInfo.*;
-import com.kvlahov.utils.Utilities;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -109,16 +103,16 @@ public class PatientController {
         return repo.getPatients();
     }
 
-    public void setAppointment(Patient p, LocalDateTime datetime, Doctor doctor) throws InvalidAppointmentException {
-        if (Utilities.isOverlapping(datetime, repo.getScheduledAppointments(doctor.getId()))) throw new InvalidAppointmentException("Appointment Taken");
-        
-        repo.setAppointment(p.getId(), datetime, doctor.getId());
-//        int calendar = CalendarController.getCalendarFor(p);
-    }
-    
-    public Receipt generateReceipt(Patient patient, Appointment appointment) {
-        
-    }
+//    public void setAppointment(Patient p, LocalDateTime datetime, Doctor doctor) throws InvalidAppointmentException {
+//        if (Utilities.isOverlapping(datetime, repo.getScheduledAppointments(doctor.getId()))) throw new InvalidAppointmentException("Appointment Taken");
+//        
+//        repo.setAppointment(p.getId(), datetime, doctor.getId());
+////        int calendar = CalendarController.getCalendarFor(p);
+//    }
+//    
+//    public Receipt generateReceipt(Patient patient, Appointment appointment) {
+//        
+//    }
     
     public static void addObserver(Observer o) {
         obs.addObserver(o);
