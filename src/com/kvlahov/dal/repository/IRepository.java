@@ -8,6 +8,9 @@ package com.kvlahov.dal.repository;
 import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
+import com.kvlahov.model.Receipt;
+import com.kvlahov.model.Service;
+import com.kvlahov.model.ServiceAppointment;
 import com.kvlahov.model.User;
 import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.enums.UserRole;
@@ -22,15 +25,15 @@ import java.util.List;
  *
  * @author dnlbe
  */
-public interface IRepository {    
+public interface IRepository {
+    //Patient CRUD
     int insertPatient(Patient patient);
-    void updatePatient(Patient newPatient, int idPatient);
     Patient getPatient(int id);
-    int insertDoctor(Doctor doctor);
     List<Patient> getPatients();
     List<Patient> getPatientsForDoctor(int idDoctor);
-    
-    //info
+    void updatePatient(Patient newPatient, int idPatient);
+        
+    //Patient info
     void insertComplaint(int pid, ComplaintsInfo complaints);
     void insertLifestyle(int pid, LifestyleInfo lifestyle);
     int insertNextOfKin(int pid, NextOfKin nok);
@@ -41,8 +44,7 @@ public interface IRepository {
     void insertPatientContact(int pid, int contactType, String contact);
     void insertPersonalInfo(int pid, PersonalInfo personal);
     
-    //info get
-    
+    //Patient info get
     ComplaintsInfo getComplaint(int pid);
     LifestyleInfo getLifestyle(int pid);
     NextOfKin getNextOfKin(int pid);
@@ -52,25 +54,57 @@ public interface IRepository {
     List<ContactInfo.Address> getPatientAddress(int pid);
     ContactInfo getPatientContact(int pid);
     PersonalInfo getPersonalInfo(int pid);
-    
     int getContactTypeId(ContactType type);
-    Doctor getDoctor(int idDoctor);
-    List<Doctor> getDoctors();    
     
+    //Patient info update
+    void updateComplaints(int pid, ComplaintsInfo c);
+    void updateLifestyle(int pid, LifestyleInfo lifestyle);
+    void updatePersonalInfo(int pid, PersonalInfo personalInfo);
+    
+    void updateNextOfKin(int pid, NextOfKin nok);
+    void updateNextOfKinAdd(int nokId, ContactInfo.Address add);
+    void updateNextOfKinContact(int nokId, int contactType, String contact);
+    
+    void updatePatientAddress(int pid, ContactInfo.Address add, int addType);
+    void updatePatientContact(int pid, int contactType, String contact);
+    
+    //Doctors CRUD
+    int insertDoctor(Doctor doctor);
+    Doctor getDoctor(int idDoctor);
+    List<Doctor> getDoctors();
+    void updateDoctor(Doctor doctor);
+    void deleteDoctor(int doctorId);
+    
+    //Users
     boolean isValidUser(User user);
     UserRole getUserRole(int id);
-
     public UserRole getRoleForUser(User user);
 
+    //Appointment CRUD
     public void insertAppointment(Appointment appointment);
-
-    public void getScheduledAppointments(int doctorId);
-
+    public List<Appointment> getScheduledAppointments(int doctorId);
     public Appointment getAppointment(int id);
-
     public void deleteAppointment(int id);
-
     public void updateAppointment(Appointment appointment);
+
+    //Receipt CRUD
+    public void insertReceipt(Receipt receipt);
+    public Receipt getReceipt(int id);
+    public List<Receipt> getReceiptsforPatient(int pid);
+    public void updateReceipt(Receipt receipt);
+    public void deleteReceipt(int receiptId);
+    
+    //Service CRUD
+    public void insertService(Service service);
+    public Service getService(int serviceId);
+    public List<Service> getServices();
+    public void updateService(Service service);
+    public void deleteService(int serviceId);
+    
+    public void insertServiceForAppointment(ServiceAppointment sa);
+    public List<ServiceAppointment> getServicesForAppointment(int id);
+    public void updateServiceForAppointment(ServiceAppointment sa);
+    public void deleteServiceForAppointment(int id);
 
     
 }

@@ -20,11 +20,13 @@ import com.kvlahov.model.enums.UserRole;
 import com.kvlahov.model.patientInfo.LifestyleInfo;
 import com.kvlahov.model.patientInfo.PersonalInfo;
 import com.kvlahov.utils.Utilities;
+import com.kvlahov.utils.Validations;
 import com.sun.xml.internal.ws.util.StringUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -66,6 +68,13 @@ public class Main {
 //        getPatient(id);
 //        setAppointment(patient);
 //        Utilities.writeProperties();/
+
+        System.out.println(Validations.isPositive(5));
+        System.out.println(Validations.isPositive(5.0));
+        System.out.println(Validations.isPositive(0));
+        System.out.println(Validations.isPositive(-5));
+        System.out.println(Validations.isPositive(-5.25));
+        
         IRepository repo = RepositoryFactory.getRepository();
 
 //        LoginScreen.start();
@@ -94,6 +103,7 @@ public class Main {
         System.out.println(split.length);
         
         repo.insertPatientContact(1, 6, "testmail@mail.com");
+        
         
 //        mapa.forEach((k,v) -> System.out.println(k + " " + v));
         

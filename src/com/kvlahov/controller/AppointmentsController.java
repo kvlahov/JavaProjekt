@@ -9,6 +9,7 @@ import com.kvlahov.dal.repository.IRepository;
 import com.kvlahov.dal.repository.RepositoryFactory;
 import com.kvlahov.exceptions.InvalidModelException;
 import com.kvlahov.model.Appointment;
+import java.util.List;
 
 /**
  *
@@ -25,8 +26,8 @@ public class AppointmentsController {
         repo.insertAppointment(appointment);
     }
     
-    public static void getScheduledAppointments(int doctorId) {
-        repo.getScheduledAppointments(doctorId);
+    public static List<Appointment> getScheduledAppointments(int doctorId) {
+        return repo.getScheduledAppointments(doctorId);
     }
     
     public static Appointment getAppointment(int id) {
@@ -41,7 +42,7 @@ public class AppointmentsController {
         repo.updateAppointment(appointment);
     }
     
-    public static void deleteAppointment(Appointment appointment) {
-        repo.deleteAppointment(appointment.getId());
+    public static void deleteAppointment(int appointmentId) {
+        repo.deleteAppointment(appointmentId);
     }
 }

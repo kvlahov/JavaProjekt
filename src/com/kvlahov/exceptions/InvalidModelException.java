@@ -12,6 +12,7 @@ package com.kvlahov.exceptions;
 public class InvalidModelException extends Exception {
 
     public InvalidModelException() {
+        super("Invalid model");
     }
 
     public InvalidModelException(String message) {

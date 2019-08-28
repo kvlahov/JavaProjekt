@@ -102,17 +102,6 @@ public class PatientController {
     public static List<Patient> getPatients() {
         return repo.getPatients();
     }
-
-//    public void setAppointment(Patient p, LocalDateTime datetime, Doctor doctor) throws InvalidAppointmentException {
-//        if (Utilities.isOverlapping(datetime, repo.getScheduledAppointments(doctor.getId()))) throw new InvalidAppointmentException("Appointment Taken");
-//        
-//        repo.setAppointment(p.getId(), datetime, doctor.getId());
-////        int calendar = CalendarController.getCalendarFor(p);
-//    }
-//    
-//    public Receipt generateReceipt(Patient patient, Appointment appointment) {
-//        
-//    }
     
     public static void addObserver(Observer o) {
         obs.addObserver(o);

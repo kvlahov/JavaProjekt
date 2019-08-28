@@ -174,10 +174,8 @@ public class LoginScreen extends javax.swing.JFrame {
         Utilities.setDefaultsForJFrame();
         
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginScreen().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new LoginScreen().setVisible(true);
         });
     }
 
@@ -268,12 +266,14 @@ public class LoginScreen extends javax.swing.JFrame {
         Color accentColor = getColorFromHex("DF985B");
 
         tfUsername.addFocusListener(new FocusAdapter() {
+               @Override
                public void focusGained(FocusEvent e) {
                    tfUsername.selectAll();
             }
         });
         
         tfPassword.addFocusListener(new FocusAdapter() {
+               @Override
                public void focusGained(FocusEvent e) {
                    tfPassword.selectAll();
             }

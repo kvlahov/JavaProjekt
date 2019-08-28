@@ -28,4 +28,8 @@ public class Validations {
     public static boolean isAfterToday(LocalDateTime date) {
         return date.isAfter(LocalDateTime.now());
     }
+    
+    public static boolean isPositive(Number num) {
+        return num.doubleValue() > 0.0;
+    }
 }
