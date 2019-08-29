@@ -9,6 +9,7 @@ import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.Receipt;
+import com.kvlahov.model.ReceiptItem;
 import com.kvlahov.model.Service;
 import com.kvlahov.model.ServiceAppointment;
 import com.kvlahov.model.User;
@@ -93,6 +94,11 @@ public interface IRepository {
     public List<Receipt> getReceiptsforPatient(int pid);
     public void updateReceipt(Receipt receipt);
     public void deleteReceipt(int receiptId);
+    
+    public void insertReceiptItem(ReceiptItem item);
+    public List<ReceiptItem> getReceiptItems(int receiptId);
+    public void updateReceiptItem(ReceiptItem item);
+    public void deleteReceiptItem(int itemId);
     
     //Service CRUD
     public void insertService(Service service);

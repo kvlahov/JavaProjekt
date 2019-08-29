@@ -31,7 +31,7 @@ public class ReceiptController {
         List<ServiceAppointment> services = repo.getServicesForAppointment(appointment.getId());
         receipt.setItems(receiptItemsFromServices(services));
         
-        receipt.setPatientId(appointment.getPatient().getId());
+        receipt.setPatientId(appointment.getPatientId());
         
         return receipt;
     }

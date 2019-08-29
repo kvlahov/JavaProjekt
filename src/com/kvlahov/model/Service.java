@@ -15,7 +15,7 @@ public class Service {
     private String type;
     private String description;
     private double price;
-    private int typeOfService;
+    private int typeOfServiceId;
 
     public int getId() {
         return id;
@@ -49,12 +49,12 @@ public class Service {
         this.price = price;
     }
 
-    public int getTypeOfService() {
-        return typeOfService;
+    public int getTypeOfServiceId() {
+        return typeOfServiceId;
     }
 
-    public void setTypeOfService(int typeOfService) {
-        this.typeOfService = typeOfService;
+    public void setTypeOfServiceId(int typeOfServiceId) {
+        this.typeOfServiceId = typeOfServiceId;
     }
 
     public boolean isValid() {

@@ -17,13 +17,17 @@ public class Appointment {
     private int id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private Patient patient;
-    private Doctor doctor;
+    private int patientId;
+    private int doctorId;
     private String anamnesis;
     private String diagnosis;
 
     public int getId() {
         return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDateTime getStartTime() {
@@ -42,20 +46,20 @@ public class Appointment {
         this.endTime = endTime;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public int getPatientId() {
+        return patientId;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setPatientId(int patientId) {
+        this.patientId = patientId;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public int getDoctorId() {
+        return doctorId;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setDoctorId(int doctorId) {
+        this.doctorId = doctorId;
     }
 
     public String getAnamnesis() {

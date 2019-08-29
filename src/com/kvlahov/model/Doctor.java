@@ -9,7 +9,8 @@ package com.kvlahov.model;
  *
  * @author lordo
  */
-public class Doctor extends Person{
+public class Doctor extends Person {
+
     private int departmentID;
 
     public Doctor(int id, String name, String surname, int departmentID) {
@@ -17,9 +18,17 @@ public class Doctor extends Person{
         this.departmentID = departmentID;
     }
 
+    public int getDepartmentID() {
+        return departmentID;
+    }
+
+    public void setDepartmentID(int departmentID) {
+        this.departmentID = departmentID;
+    }
+
     @Override
     public String toString() {
-        return  "Doctor{" + super.toString() + "department = " + departmentID + '}';
+        return "Doctor{" + super.toString() + "department = " + departmentID + '}';
     }
 
 }

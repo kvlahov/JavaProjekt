@@ -5,6 +5,7 @@ import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.Receipt;
+import com.kvlahov.model.ReceiptItem;
 import com.kvlahov.model.Service;
 import com.kvlahov.model.ServiceAppointment;
 import com.kvlahov.model.User;
@@ -21,6 +22,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
@@ -168,7 +171,21 @@ class SqlRepository implements IRepository {
 
     @Override
     public int insertDoctor(Doctor doctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String INSERT_DOCTOR = "{ ? = CALL insertDoctor (?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(INSERT_DOCTOR)) {
+            stmt.registerOutParameter(1, Types.INTEGER);
+            stmt.setString(2, doctor.getName());
+            stmt.setString(3, doctor.getSurname());
+            stmt.setInt(4, doctor.getDepartmentID());
+
+            stmt.executeUpdate();
+            stmt.getInt(1);
+            return stmt.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
@@ -195,12 +212,12 @@ class SqlRepository implements IRepository {
 
     @Override
     public List<Doctor> getDoctors() {
-        List<Doctor> doctors = new ArrayList<>();
         final String GET_DOCTORS = "{ CALL getDoctors }";
-
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(GET_DOCTORS);
                 ResultSet resultSet = stmt.executeQuery()) {
+
+            List<Doctor> doctors = new ArrayList<>();
             while (resultSet.next()) {
                 doctors.add(
                         new Doctor(
@@ -214,12 +231,34 @@ class SqlRepository implements IRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return doctors;
+        return null;
     }
 
     @Override
     public List<Patient> getPatientsForDoctor(int idDoctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_PATIENTS = "{ CALL getPatientsForDoctor (?) }";
+
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_PATIENTS)) {
+            stmt.setInt(1, idDoctor);
+
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<Patient> patients = new ArrayList<>();
+                while (resultSet.next()) {
+                    Patient p = new Patient(
+                            resultSet.getInt("IDPatient"),
+                            resultSet.getString("Name"),
+                            resultSet.getString("Surname"),
+                            Sex.getValueForId(resultSet.getInt("SexID")),
+                            resultSet.getDate("DateOfBirth").toLocalDate()
+                    );
+                    patients.add(p);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -494,17 +533,17 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public void insertPersonalInfo(int pid, PersonalInfo personal) {
+    public void insertPersonalInfo(int pid, PersonalInfo personalInfo) {
         final String INSERT_PERSONAL = "{ CALL insertPersonalInfo (?,?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_PERSONAL)) {
             stmt.setInt("IDPatient", pid);
-            stmt.setInt("NoOfDependents", personal.getNoOFDependents());
-            stmt.setFloat("Height", personal.getHeight());
-            stmt.setFloat("PWeight", personal.getWeight());
-            stmt.setString("BloodType", personal.getBloodType());
-            stmt.setString("Occupation", personal.getOccupation());
-            stmt.setString("AnnualIncome", personal.getAnnualIncome());
+            stmt.setInt("NoOfDependents", personalInfo.getNoOFDependents());
+            stmt.setFloat("Height", personalInfo.getHeight());
+            stmt.setFloat("PWeight", personalInfo.getWeight());
+            stmt.setString("BloodType", personalInfo.getBloodType());
+            stmt.setString("Occupation", personalInfo.getOccupation());
+            stmt.setString("AnnualIncome", personalInfo.getAnnualIncome());
 
             stmt.executeUpdate();
 
@@ -761,48 +800,179 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public void updateComplaints(int pid, ComplaintsInfo c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateComplaints(int pid, ComplaintsInfo complaints) {
+        final String UPDATE_COMPLAINT = "{ CALL updateComplaint (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_COMPLAINT)) {
+            stmt.setInt("IDPatient", pid);
+            stmt.setString("TreatmentHistory", complaints.getPreviousTreatments());
+            stmt.setString("StatementOfComplaint", complaints.getStatementComplaint());
+            stmt.setString("HospitalTreated", complaints.getHospitalTreated());
+            stmt.setBoolean("IsDiabetic", complaints.getIsDiabetic());
+            stmt.setBoolean("IsHypertensive", complaints.getIsHypertensive());
+            stmt.setString("CardiacCondition", complaints.getCardiacCondition());
+            stmt.setString("RespitoryCondition", complaints.getRespiratoryCondition());
+            stmt.setString("DigestiveCondition", complaints.getDigestiveCondition());
+            stmt.setString("OrthopedicCondition", complaints.getOrthopedicCondition());
+            stmt.setString("MuscularCondition", complaints.getMuscularCondition());
+            stmt.setString("NeurologicalCondition", complaints.getNeurologicalCondition());
+            stmt.setString("Allergies", complaints.getKnownAllergies());
+            stmt.setString("ReactionToDrugs", complaints.getReactionDrugs());
+            stmt.setString("SurgeryHistory", complaints.getMajorSurgeries());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateLifestyle(int pid, LifestyleInfo lifestyle) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_LIFESTYLE = "{ CALL updateLifestyle (?,?,?,?,?,?,?,?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_LIFESTYLE)) {
+            stmt.setInt("IDPatient", pid);
+            stmt.setBoolean("IsSmoker", lifestyle.getIsSmoker());
+            stmt.setBoolean("IsVegetarian", lifestyle.getIsVegetarian());
+            stmt.setInt("CigarretesPerDay", lifestyle.getAverageCigarettesPerDay());
+            stmt.setBoolean("ConsumesAlcohol", lifestyle.getConsumesAlcohol());
+            stmt.setInt("AlcoholPerDay", lifestyle.getAverageDrinksPerDay());
+            stmt.setString("UsesStimulants", lifestyle.getUsesStimulants());
+            stmt.setInt("CaffeineDrinkPerDay", lifestyle.getCoffeineDrinkPerDay());
+            stmt.setInt("SoftDrinkPerDay", lifestyle.getSoftDrinkPerDay());
+            stmt.setString("EatingHabits", lifestyle.getEatingHabits());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updatePersonalInfo(int pid, PersonalInfo personalInfo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_PERSONAL = "{ CALL updatePersonalInfo (?,?,?,?,?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_PERSONAL)) {
+            stmt.setInt("IDPatient", pid);
+            stmt.setInt("NoOfDependents", personalInfo.getNoOFDependents());
+            stmt.setFloat("Height", personalInfo.getHeight());
+            stmt.setFloat("PWeight", personalInfo.getWeight());
+            stmt.setString("BloodType", personalInfo.getBloodType());
+            stmt.setString("Occupation", personalInfo.getOccupation());
+            stmt.setString("AnnualIncome", personalInfo.getAnnualIncome());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateNextOfKin(int pid, NextOfKin nok) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_NOK = "{ CALL updateNextOfKin (?,?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_NOK)) {
+            stmt.registerOutParameter(1, Types.INTEGER);
+            stmt.setInt("PatientID", pid);
+            stmt.setString("FirstName", nok.getName());
+            stmt.setString("LastName", nok.getSurname());
+            stmt.setString("RelationshipToPatient", nok.getRelationshipToPatient());
+
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateNextOfKinAdd(int nokId, ContactInfo.Address add) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_NOKADD = "{ CALL updateNokAddress (?,?,?,?,?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_NOKADD)) {
+            stmt.setInt("NextOfKinID", nokId);
+            stmt.setString("Street", add.getStreet());
+            stmt.setString("Area", add.getArea());
+            stmt.setString("City", add.getCity());
+            stmt.setString("State", add.getState());
+            stmt.setString("ZipCode", add.getZipCode());
+            stmt.setInt("AddressTypeID", 1);
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateNextOfKinContact(int nokId, int contactType, String contact) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_NOKCONTACT = "{ CALL updateNokContact (?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_NOKCONTACT)) {
+            stmt.setInt(1, nokId);
+            stmt.setInt(2, contactType);
+            stmt.setString(3, contact);
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updatePatientAddress(int pid, ContactInfo.Address add, int addType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_PADD = "{ CALL updatePatientAddress (?,?,?,?,?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_PADD)) {
+            stmt.setInt("PatientID", pid);
+            stmt.setString("Street", add.getStreet());
+            stmt.setString("Area", add.getArea());
+            stmt.setString("City", add.getCity());
+            stmt.setString("State", add.getState());
+            stmt.setString("ZipCode", add.getZipCode());
+            stmt.setInt("AddressTypeID", addType);
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updatePatientContact(int pid, int contactType, String contact) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_PCONTACT = "{ CALL updatePatientContact (?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_PCONTACT)) {
+            stmt.setInt(1, pid);
+            stmt.setInt(2, contactType);
+            stmt.setString(3, contact);
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateDoctor(Doctor doctor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_DOCTOR = "{ CALL updateDoctor (?,?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_DOCTOR)) {
+            stmt.setInt(1, doctor.getId());
+            stmt.setString(2, doctor.getName());
+            stmt.setString(3, doctor.getSurname());
+            stmt.setInt(4, doctor.getDepartmentID());
+
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -812,17 +982,77 @@ class SqlRepository implements IRepository {
 
     @Override
     public void insertAppointment(Appointment appointment) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String INSERT_APPOINTMENT = "{ CALL insertAppointment (?,?,?,?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(INSERT_APPOINTMENT)) {
+            stmt.setString(1, appointment.getStartTime().toString());
+            stmt.setString(2, appointment.getEndTime().toString());
+            stmt.setInt(3, appointment.getPatientId());
+            stmt.setInt(4, appointment.getDoctorId());
+            stmt.setString(5, appointment.getAnamnesis());
+            stmt.setString(6, appointment.getDiagnosis());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Appointment> getScheduledAppointments(int doctorId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_APPFORDOCTOR = "{ CALL getAppointmentsForDoctor (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_APPFORDOCTOR)) {
+            stmt.setInt(1, doctorId);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<Appointment> appointments = new ArrayList<>();
+                while (resultSet.next()) {
+                    Appointment app = new Appointment();
+                    app.setId(resultSet.getInt("IDAppointment"));
+                    app.setAnamnesis(resultSet.getString("Anamnesis"));
+                    app.setDiagnosis(resultSet.getString("Diagnosis"));
+                    app.setDoctorId(resultSet.getInt("DoctorID"));
+                    app.setEndTime(resultSet.getTimestamp("EndTime").toLocalDateTime());
+                    app.setPatientId(resultSet.getInt("PatientID"));
+                    app.setStartTime(resultSet.getTimestamp("StartTime").toLocalDateTime());
+
+                    appointments.add(app);
+                }
+                return appointments;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public Appointment getAppointment(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_APPOINTMENT = "{ CALL getAppointment (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_APPOINTMENT)) {
+            stmt.setInt(1, id);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    Appointment app = new Appointment();
+                    app.setId(resultSet.getInt("IDAppointment"));
+                    app.setAnamnesis(resultSet.getString("Anamnesis"));
+                    app.setDiagnosis(resultSet.getString("Diagnosis"));
+                    app.setDoctorId(resultSet.getInt("DoctorID"));
+                    app.setEndTime(resultSet.getTimestamp("EndTime").toLocalDateTime());
+                    app.setPatientId(resultSet.getInt("PatientID"));
+                    app.setStartTime(resultSet.getTimestamp("StartTime").toLocalDateTime());
+
+                    return app;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -832,27 +1062,114 @@ class SqlRepository implements IRepository {
 
     @Override
     public void updateAppointment(Appointment appointment) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_APPOINTMENT = "{ CALL updateAppointment (?,?,?,?,?,?,?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_APPOINTMENT)) {
+            stmt.setInt(1, appointment.getId());
+            stmt.setString(2, appointment.getStartTime().toString());
+            stmt.setString(3, appointment.getEndTime().toString());
+            stmt.setInt(4, appointment.getPatientId());
+            stmt.setInt(5, appointment.getDoctorId());
+            stmt.setString(6, appointment.getAnamnesis());
+            stmt.setString(7, appointment.getDiagnosis());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void insertReceipt(Receipt receipt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String INSERT_RECEIPT = "{ CALL insertReceipt (?,?,?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(INSERT_RECEIPT)) {
+            stmt.setString(1, receipt.getReceiptNumber());
+            stmt.setString(2, receipt.getDate().toString());
+            stmt.setInt(3, receipt.getPaymentMethodId());
+            stmt.setString(4, receipt.getComment());
+            stmt.setInt(5, receipt.getPatientId());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Receipt getReceipt(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_RECEIPT = "{ CALL getReceipt (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_RECEIPT)) {
+            stmt.setInt(1, id);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<ReceiptItem> items = new ArrayList<>();
+                while (resultSet.next()) {
+                    Receipt receipt = new Receipt();
+                    receipt.setId(resultSet.getInt("IDReceipt"));
+                    receipt.setComment(resultSet.getString("Comment"));
+                    receipt.setDate(resultSet.getDate("Date").toLocalDate());
+                    receipt.setPatientId(resultSet.getInt("PatientID"));
+                    receipt.setPaymentMethodId(resultSet.getInt("PaymentMethodID"));
+                    receipt.setReceiptNumber(resultSet.getString("ReceiptNumber"));
+
+                    return receipt;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public List<Receipt> getReceiptsforPatient(int pid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_RECEIPTS = "{ CALL getReceiptsForPatient (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_RECEIPTS)) {
+            stmt.setInt(1, pid);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<Receipt> receipts = new ArrayList<>();
+                while (resultSet.next()) {
+                    Receipt receipt = new Receipt();
+                    receipt.setId(resultSet.getInt("IDReceipt"));
+                    receipt.setComment(resultSet.getString("Comment"));
+                    receipt.setDate(resultSet.getDate("Date").toLocalDate());
+                    receipt.setPatientId(resultSet.getInt("PatientID"));
+                    receipt.setPaymentMethodId(resultSet.getInt("PaymentMethodID"));
+                    receipt.setReceiptNumber(resultSet.getString("ReceiptNumber"));
+
+                    receipts.add(receipt);
+                }
+                return receipts;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public void updateReceipt(Receipt receipt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_RECEIPT = "{ CALL updateReceipt (?,?,?,?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_RECEIPT)) {
+            stmt.setInt(1, receipt.getId());
+            stmt.setString(2, receipt.getReceiptNumber());
+            stmt.setString(3, receipt.getDate().toString());
+            stmt.setInt(4, receipt.getPaymentMethodId());
+            stmt.setString(5, receipt.getComment());
+            stmt.setInt(6, receipt.getPatientId());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -862,22 +1179,90 @@ class SqlRepository implements IRepository {
 
     @Override
     public void insertService(Service service) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String INSERT_SERVICE = "{ CALL insertService (?,?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(INSERT_SERVICE)) {
+
+            stmt.setString(1, service.getType());
+            stmt.setDouble(2, service.getPrice());
+            stmt.setInt(3, service.getTypeOfServiceId());
+            stmt.setString(4, service.getDescription());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Service getService(int serviceId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_SERVICE = "{ CALL getService (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_SERVICE)) {
+            stmt.setInt(1, serviceId);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    Service service = new Service();
+
+                    service.setId(resultSet.getInt("IDService"));
+                    service.setDescription(resultSet.getString("Description"));
+                    service.setPrice(resultSet.getDouble("Price"));
+                    service.setType(resultSet.getString("Type"));
+                    service.setTypeOfServiceId(resultSet.getInt("TypeOfServiceID"));
+
+                    return service;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public List<Service> getServices() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_SERVICES = "{ CALL getAllServices }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_SERVICES);
+                ResultSet resultSet = stmt.executeQuery()) {
+            List<Service> services = new ArrayList<>();
+            while (resultSet.next()) {
+                Service service = new Service();
+
+                service.setId(resultSet.getInt("IDService"));
+                service.setDescription(resultSet.getString("Description"));
+                service.setPrice(resultSet.getDouble("Price"));
+                service.setType(resultSet.getString("Type"));
+                service.setTypeOfServiceId(resultSet.getInt("TypeOfServiceID"));
+
+                services.add(service);
+            }
+            return services;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public void updateService(Service service) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_SERVICE = "{ CALL updateService (?,?,?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(UPDATE_SERVICE)) {
+            stmt.setInt(1, service.getId());
+            stmt.setString(2, service.getType());
+            stmt.setDouble(3, service.getPrice());
+            stmt.setInt(4, service.getTypeOfServiceId());
+            stmt.setString(5, service.getDescription());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -887,21 +1272,145 @@ class SqlRepository implements IRepository {
 
     @Override
     public void insertServiceForAppointment(ServiceAppointment sa) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String INSERT_SERVICE = "{ CALL insertServiceAppointment (?,?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(INSERT_SERVICE)) {
+
+            stmt.setInt(1, sa.getServiceId());
+            stmt.setInt(2, sa.getAppointmentId());
+            stmt.setInt(3, sa.getQuantity());
+            stmt.setString(4, sa.getDescription());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<ServiceAppointment> getServicesForAppointment(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String GET_SERVICE = "{ CALL getService (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_SERVICE)) {
+            stmt.setInt(1, id);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<ServiceAppointment> services = new ArrayList<>();
+                while (resultSet.next()) {
+                    ServiceAppointment service = new ServiceAppointment();
+
+                    service.setId(resultSet.getInt("IDServiceForAppointment"));
+                    service.setServiceId(resultSet.getInt("ServiceID"));
+                    service.setAppointmentId(resultSet.getInt("AppointmentID"));
+                    service.setQuantity(resultSet.getInt("Quantity"));
+                    service.setDescription(resultSet.getString("Description"));
+
+                    services.add(service);
+                }
+                return services;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public void updateServiceForAppointment(ServiceAppointment sa) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String INSERT_SERVICE = "{ CALL insertServiceAppointment (?,?,?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(INSERT_SERVICE)) {
+
+            stmt.setInt(1, sa.getId());
+            stmt.setInt(2, sa.getServiceId());
+            stmt.setInt(3, sa.getAppointmentId());
+            stmt.setInt(4, sa.getQuantity());
+            stmt.setString(5, sa.getDescription());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteServiceForAppointment(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void insertReceiptItem(ReceiptItem item) {
+        final String INSERT_RITEM = "{ CALL insertService (?,?,?,?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(INSERT_RITEM)) {
+
+            stmt.setInt(1, item.getReceiptId());
+            stmt.setInt(2, item.getServiceId());
+            stmt.setDouble(3, item.getPricePerItem());
+            stmt.setDouble(4, item.getDiscount());
+            stmt.setDouble(5, item.getTotalPrice());
+            stmt.setInt(6, item.getQuantity());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<ReceiptItem> getReceiptItems(int receiptId) {
+        final String GET_RITEM = "{ CALL getService (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_RITEM)) {
+            stmt.setInt(1, receiptId);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<ReceiptItem> receiptItems = new ArrayList<>();
+                while (resultSet.next()) {
+                    ReceiptItem item = new ReceiptItem();
+
+                    item.setId(resultSet.getInt("IDReceiptItem"));
+                    item.setReceiptId(resultSet.getInt("ReceiptID"));
+                    item.setServiceId(resultSet.getInt("ServiceID"));
+                    item.setPricePerItem(resultSet.getDouble("PricePerItem"));
+                    item.setDiscount(resultSet.getDouble("DiscountPercentage"));
+                    item.setTotalPrice(resultSet.getDouble("TotalPrice"));                   
+                    item.setQuantity(resultSet.getInt("Quantity"));
+
+                    receiptItems.add(item);
+                }
+                return receiptItems;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void updateReceiptItem(ReceiptItem item) {
+        final String INSERT_RITEM = "{ CALL insertService (?,?,?,?,?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(INSERT_RITEM)) {
+
+            stmt.setInt(1, item.getId());
+            stmt.setInt(2, item.getReceiptId());
+            stmt.setInt(3, item.getServiceId());
+            stmt.setDouble(4, item.getPricePerItem());
+            stmt.setDouble(5, item.getDiscount());
+            stmt.setDouble(6, item.getTotalPrice());
+            stmt.setInt(7, item.getQuantity());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteReceiptItem(int itemId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

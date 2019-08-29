@@ -16,11 +16,15 @@ public class ReceiptItem {
     private int serviceId;
     private double pricePerItem;
     private int quantity;
-    private int totalPrice;
+    private double totalPrice;
     private double discount;
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getReceiptId() {
@@ -55,11 +59,11 @@ public class ReceiptItem {
         this.quantity = quantity;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
