@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author programer10
  */
-public class ServicesControlleer {
+public class ServicesController {
 
     private static final IRepository repo = RepositoryFactory.getRepository();
 

@@ -5,17 +5,30 @@
  */
 package com.kvlahov.client.components;
 
+import com.kvlahov.controller.ServicesController;
+import com.kvlahov.model.Appointment;
+import com.kvlahov.model.Service;
+import com.kvlahov.model.ServiceAppointment;
+import com.kvlahov.model.TypeOfService;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author lordo
  */
 public class EditAppointment extends javax.swing.JPanel {
 
+    private List<ServiceAppointment> servicesForAppointment = new ArrayList<>();
+    private List<Service> services = new ArrayList<>();
+    private List<TypeOfService> typesOfService = new ArrayList<>();
+    private Appointment appointment;
     /**
      * Creates new form EditAppointment
      */
     public EditAppointment() {
         initComponents();
+        initData();
     }
 
     /**
@@ -41,7 +54,7 @@ public class EditAppointment extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         tbDiagnosis = new javax.swing.JTextArea();
         btnMedicalInfo = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox();
@@ -51,8 +64,6 @@ public class EditAppointment extends javax.swing.JPanel {
         spQuantity = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblPatientName = new javax.swing.JLabel();
@@ -139,12 +150,12 @@ public class EditAppointment extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         mainPanel.add(btnMedicalInfo, gridBagConstraints);
 
-        jButton3.setText("Add");
+        btnAdd.setText("Add");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        mainPanel.add(jButton3, gridBagConstraints);
+        mainPanel.add(btnAdd, gridBagConstraints);
 
         jLabel8.setText("Type of Service:");
         jPanel3.add(jLabel8);
@@ -175,41 +186,6 @@ public class EditAppointment extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         mainPanel.add(jPanel3, gridBagConstraints);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Tyoe Of Service", "Service", "Quantity", "Description", ""
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-        }
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        mainPanel.add(jScrollPane4, gridBagConstraints);
-
         jScrollPane1.setViewportView(mainPanel);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -235,11 +211,11 @@ public class EditAppointment extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnMedicalInfo;
     private javax.swing.JButton btnSave;
     private javax.swing.JLabel date;
-    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -257,8 +233,6 @@ public class EditAppointment extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblAppointmentDuration;
     private javax.swing.JLabel lblPatientName;
@@ -267,4 +241,10 @@ public class EditAppointment extends javax.swing.JPanel {
     private javax.swing.JTextArea tbAnamnesis;
     private javax.swing.JTextArea tbDiagnosis;
     // End of variables declaration//GEN-END:variables
+
+    private void initData() {
+        services = ServicesController.getServices();
+    }
+    
+    
 }

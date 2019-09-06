@@ -6,6 +6,7 @@
 package com.kvlahov.client;
 
 import com.kvlahov.client.components.Calendar;
+import com.kvlahov.client.components.EditAppointment;
 import com.kvlahov.controller.AppointmentsController;
 import com.kvlahov.controller.DoctorController;
 import javax.swing.JPanel;
@@ -80,10 +81,8 @@ public class Test extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initData() {
-        Calendar calendar = new Calendar();
-        int doctorId = DoctorController.getGeneralPhysicians().get(1).getId();
-        calendar.setScheduledAppointments(AppointmentsController.getScheduledAppointments(doctorId));
+        EditAppointment pane = new EditAppointment();
         
-        add(calendar);
+        add(pane);
     }
 }
