@@ -5,14 +5,17 @@
  */
 package com.kvlahov.model;
 
+import com.kvlahov.utils.Validatable;
 import com.kvlahov.utils.Validations;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
  * @author lordo
  */
-public class Appointment {
+public class Appointment implements Validatable {
 
     private int id;
     private LocalDateTime startTime;
@@ -78,10 +81,21 @@ public class Appointment {
         this.diagnosis = diagnosis;
     }
 
-    public boolean isValid() {
-        if (!Validations.dateBeforeOther(startTime, endTime)) return false;
-        if (!Validations.isAfterToday(startTime)) return false;
+    @Override
+    public boolean isValid() {      
+        List<Boolean> validations = Arrays.asList
+        (
+            Validations.dateBeforeOther(startTime, endTime),
+            Validations.isAfterOrEqualNow(startTime)
+        );
         
-        return true;
+        return Validations.validate(validations);
     }
+
+    @Override
+    public String toString() {
+        return "Appointment{" + "id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + ", patientId=" + patientId + ", doctorId=" + doctorId + '}';
+    }
+    
+    
 }

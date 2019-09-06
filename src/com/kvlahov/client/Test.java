@@ -5,6 +5,11 @@
  */
 package com.kvlahov.client;
 
+import com.kvlahov.client.components.Calendar;
+import com.kvlahov.controller.AppointmentsController;
+import com.kvlahov.controller.DoctorController;
+import javax.swing.JPanel;
+
 /**
  *
  * @author lordo
@@ -16,6 +21,7 @@ public class Test extends javax.swing.JFrame {
      */
     public Test() {
         initComponents();
+        initData();
     }
 
     /**
@@ -26,70 +32,10 @@ public class Test extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
-
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        jLabel1.setText("Name");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 4, 5);
-        jPanel1.add(jLabel1, gridBagConstraints);
-
-        jTextField1.setColumns(10);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 4, 0);
-        jPanel1.add(jTextField1, gridBagConstraints);
-
-        jLabel2.setText("Surname");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        jPanel1.add(jLabel2, gridBagConstraints);
-
-        jTextField2.setColumns(10);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 1);
-        jPanel1.add(jTextField2, gridBagConstraints);
-
-        jLabel3.setText("Complaints");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        jPanel1.add(jLabel3, gridBagConstraints);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        jPanel1.add(jScrollPane1, gridBagConstraints);
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().setLayout(new java.awt.CardLayout());
 
         pack();
         setLocationRelativeTo(null);
@@ -131,13 +77,13 @@ public class Test extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    private void initData() {
+        Calendar calendar = new Calendar();
+        int doctorId = DoctorController.getGeneralPhysicians().get(1).getId();
+        calendar.setScheduledAppointments(AppointmentsController.getScheduledAppointments(doctorId));
+        
+        add(calendar);
+    }
 }

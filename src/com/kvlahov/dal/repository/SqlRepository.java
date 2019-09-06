@@ -18,9 +18,12 @@ import com.kvlahov.model.patientInfo.ContactInfo;
 import com.kvlahov.model.patientInfo.LifestyleInfo;
 import com.kvlahov.model.patientInfo.NextOfKin;
 import com.kvlahov.model.patientInfo.PersonalInfo;
+import com.kvlahov.utils.Utilities;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -985,8 +988,8 @@ class SqlRepository implements IRepository {
         final String INSERT_APPOINTMENT = "{ CALL insertAppointment (?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_APPOINTMENT)) {
-            stmt.setString(1, appointment.getStartTime().toString());
-            stmt.setString(2, appointment.getEndTime().toString());
+            stmt.setTimestamp(1, Timestamp.valueOf(appointment.getStartTime()));
+            stmt.setTimestamp(2, Timestamp.valueOf(appointment.getEndTime()));
             stmt.setInt(3, appointment.getPatientId());
             stmt.setInt(4, appointment.getDoctorId());
             stmt.setString(5, appointment.getAnamnesis());
@@ -1375,7 +1378,7 @@ class SqlRepository implements IRepository {
                     item.setServiceId(resultSet.getInt("ServiceID"));
                     item.setPricePerItem(resultSet.getDouble("PricePerItem"));
                     item.setDiscount(resultSet.getDouble("DiscountPercentage"));
-                    item.setTotalPrice(resultSet.getDouble("TotalPrice"));                   
+                    item.setTotalPrice(resultSet.getDouble("TotalPrice"));
                     item.setQuantity(resultSet.getInt("Quantity"));
 
                     receiptItems.add(item);
@@ -1412,6 +1415,67 @@ class SqlRepository implements IRepository {
     @Override
     public void deleteReceiptItem(int itemId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Doctor> getGeneralPhysicians() {
+        final String GET_DOCTORS = "{ CALL getGeneralPhysicians }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_DOCTORS);
+                ResultSet resultSet = stmt.executeQuery()) {
+
+            List<Doctor> doctors = new ArrayList<>();
+            while (resultSet.next()) {
+                doctors.add(
+                        new Doctor(
+                                resultSet.getInt("IDDoctor"),
+                                resultSet.getString("Name"),
+                                resultSet.getString("Surname"),
+                                resultSet.getInt("DepartmentID")));
+            }
+            return doctors;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Doctor getDoctorForPatient(int pid) {
+        final String GET_DOCTOR = "{ CALL getDoctorForPatient (?) }";
+
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_DOCTOR)) {
+            stmt.setInt(1, pid);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Doctor(
+                            resultSet.getInt("IDDoctor"),
+                            resultSet.getString("Name"),
+                            resultSet.getString("Surname"),
+                            resultSet.getInt("DepartmentID"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void assignDoctorForPatient(int pid, int doctorId) {
+        final String ASSIGN_DOCTOR = "{ CALL assignPatientToDoctor (?,?,?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(ASSIGN_DOCTOR)) {
+            stmt.setInt(1, pid);
+            stmt.setInt(2, doctorId);
+            stmt.setString(3, LocalDateTime.now().toString());
+
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -10,15 +10,19 @@ import com.kvlahov.model.enums.Sex;
 import com.kvlahov.model.Person;
 import com.kvlahov.model.patientInfo.ExtendedPatientInformation;
 import com.kvlahov.model.patientInfo.NextOfKin;
+import com.kvlahov.utils.Validatable;
+import com.kvlahov.utils.Validations;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author lordo
  */
-public class Patient extends Person {
+public class Patient extends Person implements Validatable {
 
     private NextOfKin nextOfKin;
     private String stmtOfComplaint;
@@ -80,7 +84,7 @@ public class Patient extends Person {
 
     @Override
     public String toString() {
-        return "Patient{" + "sex=" + sex + ", dateOfBirth=" + dateOfBirth + '}';
+        return this.getName() + " " + this.getSurname();
     }
 
     public String getFormatedDate(String pattern) {
@@ -88,6 +92,11 @@ public class Patient extends Person {
             return getDateOfBirth().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         }
         return getDateOfBirth().format(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    @Override
+    public boolean isValid() {
+        return true;
     }
 
     

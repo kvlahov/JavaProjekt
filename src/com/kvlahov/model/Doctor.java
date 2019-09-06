@@ -5,11 +5,14 @@
  */
 package com.kvlahov.model;
 
+import com.kvlahov.utils.Validatable;
+import com.kvlahov.utils.Validations;
+
 /**
  *
  * @author lordo
  */
-public class Doctor extends Person {
+public class Doctor extends Person implements Validatable{
 
     private int departmentID;
 
@@ -28,7 +31,12 @@ public class Doctor extends Person {
 
     @Override
     public String toString() {
-        return "Doctor{" + super.toString() + "department = " + departmentID + '}';
+        return this.getName() + " " + this.getSurname();
+    }
+
+    @Override
+    public boolean isValid() {
+        return true;
     }
 
 }

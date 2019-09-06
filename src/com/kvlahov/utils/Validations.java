@@ -6,6 +6,9 @@
 package com.kvlahov.utils;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  *
@@ -25,11 +28,16 @@ public class Validations {
         return !start1.isAfter(end2) && !start2.isAfter(end1);
     }
     
-    public static boolean isAfterToday(LocalDateTime date) {
-        return date.isAfter(LocalDateTime.now());
+    public static boolean isAfterOrEqualNow(LocalDateTime date) {
+        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        return date.isAfter(now) || date.isEqual(now);
     }
     
     public static boolean isPositive(Number num) {
         return num.doubleValue() > 0.0;
+    }
+    
+    public static boolean validate(Collection<Boolean> validations ) {
+        return validations.stream().allMatch(val -> val == true);
     }
 }

@@ -76,6 +76,10 @@ public interface IRepository {
     void updateDoctor(Doctor doctor);
     void deleteDoctor(int doctorId);
     
+    List<Doctor> getGeneralPhysicians();
+    Doctor getDoctorForPatient(int pid);
+    void assignDoctorForPatient(int pid, int doctorId);
+    
     //Users
     boolean isValidUser(User user);
     UserRole getUserRole(int id);

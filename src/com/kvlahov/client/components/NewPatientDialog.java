@@ -2031,7 +2031,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private void bindPatientToBIForm() {
         tfFirstName.setText(patientModel.getName());
         tfLastName.setText(patientModel.getSurname());
-        tfDateOfBirth.setValue(Utilities.asDate(patientModel.getDateOfBirth().atStartOfDay()));
+        tfDateOfBirth.setValue(Utilities.toDate(patientModel.getDateOfBirth().atStartOfDay()));
         if (patientModel.getSex().toString().equalsIgnoreCase("male")) {
             rbMale.setSelected(true);
         } else {

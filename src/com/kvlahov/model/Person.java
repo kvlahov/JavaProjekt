@@ -5,11 +5,16 @@
  */
 package com.kvlahov.model;
 
+import com.kvlahov.utils.Validatable;
+import com.kvlahov.utils.Validations;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author lordo
  */
-public abstract class Person {
+public abstract class Person implements Validatable {
     private int id = -1;
     private String name;
     private String surname;
@@ -75,6 +80,17 @@ public abstract class Person {
     
     public boolean hasIdSet() {
         return id != -1;
+    }
+    
+    @Override
+    public boolean isValid() {
+        List<Boolean> validations = Arrays.asList
+        (
+            Validations.notNullOrEmpty(this.name),
+            Validations.notNullOrEmpty(this.surname)
+                
+        );
+        return Validations.validate(validations);
     }
 
 }

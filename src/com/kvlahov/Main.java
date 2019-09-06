@@ -12,6 +12,8 @@ import com.kvlahov.client.RegularUI;
 import com.kvlahov.client.Test;
 import com.kvlahov.controller.PatientController;
 import com.kvlahov.dal.repository.*;
+import com.kvlahov.model.Appointment;
+import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.Person;
 import com.kvlahov.model.User;
@@ -25,8 +27,13 @@ import com.sun.xml.internal.ws.util.StringUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -68,45 +75,19 @@ public class Main {
 //        getPatient(id);
 //        setAppointment(patient);
 //        Utilities.writeProperties();/
-
-        System.out.println(Validations.isPositive(5));
-        System.out.println(Validations.isPositive(5.0));
-        System.out.println(Validations.isPositive(0));
-        System.out.println(Validations.isPositive(-5));
-        System.out.println(Validations.isPositive(-5.25));
-        
         IRepository repo = RepositoryFactory.getRepository();
 
 //        LoginScreen.start();
 //        DoctorUI.start();
         JFrame f = new RegularUI();
-        ((Gui) f).start();
-//        Test.main(null);
+//        ((Gui) f).start();
+        Test.main(null);
 
+        Doctor doctor = repo.getGeneralPhysicians().get(1);
+        List<Appointment> scheduledAppointments = repo.getScheduledAppointments(doctor.getId());
+        scheduledAppointments.forEach(app -> System.out.println(app));
         ////////////////////////////////
         //TESTING
-        Map<String, String> map = new HashMap<>();
-        Map<String, String> values = new HashMap<>();
-
-        values.put("patientName", "Kreso");
-        values.put("patientSurname", "Vlahov");
-        values.put("patientId", "100");
-        values.put("patientSex", "female");
-
-        map.put("patientName", "name");
-        map.put("patientSurname", "surname");
-        map.put("patientId", "id");
-        map.put("patientSex", "sex");
-        
-        String s = "Pero";
-        String[] split = s.split(" ");
-        System.out.println(split.length);
-        
-        repo.insertPatientContact(1, 6, "testmail@mail.com");
-        
-        
-//        mapa.forEach((k,v) -> System.out.println(k + " " + v));
-        
     }
 
 }

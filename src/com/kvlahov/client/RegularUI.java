@@ -167,7 +167,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         jPanel29 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jMenuBar = new javax.swing.JMenuBar();
@@ -530,7 +530,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         jPanel28.setMaximumSize(new java.awt.Dimension(500, 70));
         jPanel28.setPreferredSize(new java.awt.Dimension(200, 20));
-        jPanel28.setLayout(new java.awt.GridLayout());
+        jPanel28.setLayout(new java.awt.GridLayout(1, 0));
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -556,7 +556,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         jPanel29.add(jLabel27);
         jPanel29.add(filler4);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setMaximumSize(new java.awt.Dimension(100, 32767));
         jPanel29.add(jComboBox1);
 

@@ -86,14 +86,14 @@ public class Receipt implements Validatable{
     
     @Override
     public boolean isValid() {
-        Boolean[] validations = new Boolean[] 
-        {
+        List<Boolean> validations = Arrays.asList
+        (
             Validations.notNullOrEmpty(receiptNumber),
             Validations.isPositive(patientId),
             Validations.isPositive(paymentMethodId)
-        };
+        );
         
-        return Stream.of(validations).allMatch(val -> val == true);
+        return Validations.validate(validations);
     }
 
 }
