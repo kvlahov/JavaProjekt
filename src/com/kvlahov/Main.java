@@ -9,7 +9,8 @@ import com.kvlahov.client.DoctorUI;
 import com.kvlahov.client.Gui;
 import com.kvlahov.client.LoginScreen;
 import com.kvlahov.client.RegularUI;
-import com.kvlahov.client.Test;
+import com.kvlahov.client.TempAppointmentFrame;
+import com.kvlahov.client.Tets;
 import com.kvlahov.controller.PatientController;
 import com.kvlahov.dal.repository.*;
 import com.kvlahov.model.Appointment;
@@ -81,7 +82,7 @@ public class Main {
 //        DoctorUI.start();
         JFrame f = new RegularUI();
 //        ((Gui) f).start();
-        Test.main(null);
+        Tets.main(null);
 
         ////////////////////////////////
         //TESTING

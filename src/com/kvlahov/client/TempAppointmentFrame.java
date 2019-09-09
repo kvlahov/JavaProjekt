@@ -6,7 +6,7 @@
 package com.kvlahov.client;
 
 import com.kvlahov.client.components.Calendar;
-import com.kvlahov.client.components.EditAppointment;
+import com.kvlahov.client.components.EditAppointmentComponent;
 import com.kvlahov.controller.AppointmentsController;
 import com.kvlahov.controller.DoctorController;
 import com.kvlahov.controller.ServicesController;
@@ -23,14 +23,14 @@ import javax.swing.JPanel;
  *
  * @author lordo
  */
-public class Test extends javax.swing.JFrame {
+public class TempAppointmentFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form Test
+     * Creates new form TempAppointmentFrame
      */
     private List<ServiceAppointment> servicesForAppointment;
 
-    public Test() {
+    public TempAppointmentFrame() {
         initComponents();
         initData();
     }
@@ -69,20 +69,21 @@ public class Test extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Test.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TempAppointmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Test.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TempAppointmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Test.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TempAppointmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Test.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TempAppointmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Test().setVisible(true);
+                new TempAppointmentFrame().setVisible(true);
             }
         });
     }
@@ -91,7 +92,7 @@ public class Test extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private void initData() {
         Appointment appointment = AppointmentsController.getScheduledAppointments(4).get(0);
-        EditAppointment pane = new EditAppointment(
+        EditAppointmentComponent pane = new EditAppointmentComponent(
                 ServicesController.getTypesOfService(),
                 appointment,
                 ServicesController.getServices()
@@ -108,11 +109,9 @@ public class Test extends javax.swing.JFrame {
                 ServicesController.addServicesForAppointment(newServicesForAppointment);
                 ServicesController.deleteServicesForAppointment(servicesToDelete(newServicesForAppointment));
             } catch (InvalidModelException ex) {
-                Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TempAppointmentFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            pane.getServicesForAppointment().forEach(sa -> System.out.printf(
-                    "\nID: %d\n ServiceID: %d\n Service: %s\n Quantity: %s\n Description: %s\n", sa.getId(), sa.getService().getId(), sa.getService().getType(), sa.getQuantity(), sa.getDescription()));
         });
 
         pane.setBtnCancelActionListener((e) -> {

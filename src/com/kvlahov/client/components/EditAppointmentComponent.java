@@ -27,7 +27,7 @@ import javax.swing.JButton;
  *
  * @author lordo
  */
-public class EditAppointment extends javax.swing.JPanel {
+public class EditAppointmentComponent extends javax.swing.JPanel {
 
     private List<ServiceAppointment> servicesForAppointment = new ArrayList<>();
     private List<Service> services = new ArrayList<>();
@@ -38,7 +38,7 @@ public class EditAppointment extends javax.swing.JPanel {
     private ActionListener btnSaveActionListener;
     private ActionListener btnCancelActionListener;
 
-    public EditAppointment(List<TypeOfService> typesOfService, Appointment appointment, List<Service> services) {
+    public EditAppointmentComponent(List<TypeOfService> typesOfService, Appointment appointment, List<Service> services) {
         this.typesOfService = typesOfService;
         this.appointment = appointment;
         this.services = services;

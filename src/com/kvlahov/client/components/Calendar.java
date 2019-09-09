@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -50,6 +51,19 @@ public class Calendar extends javax.swing.JPanel {
     private Map<Integer, LocalTime> timeOfDay = new HashMap<>();
 
     private static final Color COLOR_TODAY = Color.yellow;
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM");
+    private static final DateTimeFormatter HOUR_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+
+    private ActionListener freeAppointmentsActionListener;
+    private ActionListener scheduledAppointmentsActionListener;
+
+    public void setFreeAppointmentsActionListener(ActionListener freeAppointmentsActionListener) {
+        this.freeAppointmentsActionListener = freeAppointmentsActionListener;
+    }
+
+    public void setScheduledAppointmentsActionListener(ActionListener scheduledAppointmentsActionListener) {
+        this.scheduledAppointmentsActionListener = scheduledAppointmentsActionListener;
+    }
 
     public LocalTime getDayStartTime() {
         return dayStartTime;
@@ -204,8 +218,8 @@ public class Calendar extends javax.swing.JPanel {
         for (Map.Entry<Integer, LocalDate> entry : weekdays.entrySet()) {
             gridBagConstraints.gridx = entry.getKey();
             String dayOFWeek = entry.getValue().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
-            String date = entry.getValue().format(DateTimeFormatter.ofPattern("dd/MM"));
-            
+            String date = entry.getValue().format(DATE_FORMAT);
+
             JLabel lblDayOfWeek = new JLabel(dayOFWeek + " " + date);
             lblDayOfWeek.setHorizontalAlignment(SwingConstants.CENTER);
             mainPanel.add(lblDayOfWeek, gridBagConstraints);
@@ -219,7 +233,7 @@ public class Calendar extends javax.swing.JPanel {
         for (Map.Entry<Integer, LocalTime> entry : timeOfDay.entrySet()) {
             gridBagConstraints.gridy = entry.getKey();
 
-            JLabel label = new JLabel(entry.getValue().format(DateTimeFormatter.ofPattern("HH:mm")));
+            JLabel label = new JLabel(entry.getValue().format(HOUR_FORMAT));
             label.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
             mainPanel.add(label, gridBagConstraints);
         }
@@ -235,14 +249,16 @@ public class Calendar extends javax.swing.JPanel {
         for (Map.Entry<Integer, LocalDate> entry : weekdays.entrySet()) {
             gridx = entry.getKey();
             String dayOfWeek = entry.getValue().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
-            String date = entry.getValue().format(DateTimeFormatter.ofPattern("dd/MM"));
+            String date = entry.getValue().format(DATE_FORMAT);
 
             Component c = getComponentAtGridBagConstraint(gridx, gridy);
             if (c instanceof JLabel) {
                 JLabel lblDay = (JLabel) c;
-                if(entry.getValue().isEqual(LocalDate.now())) {
+                if (entry.getValue().isEqual(LocalDate.now())) {
                     lblDay.setOpaque(true);
                     lblDay.setBackground(COLOR_TODAY);
+                } else {
+                    lblDay.setOpaque(false);
                 }
 
                 lblDay.setText(dayOfWeek + " " + date);
@@ -278,15 +294,14 @@ public class Calendar extends javax.swing.JPanel {
                 timeOfDay.put(i++, currentTime);
             }
         }
-        
+
         scheduledAppointments = new ArrayList<>();
 
     }
 
     private void updateWeekLabel() {
         LocalDate endOfWeek = startOfWeek.plusDays(6);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
-        dateRange.setText(startOfWeek.format(formatter) + " - " + endOfWeek.format(formatter));
+        dateRange.setText(startOfWeek.format(DATE_FORMAT) + " - " + endOfWeek.format(DATE_FORMAT));
     }
 
     private void updateData() {
@@ -299,7 +314,7 @@ public class Calendar extends javax.swing.JPanel {
         Stream.of(mainPanel.getComponents())
                 .filter(c -> c instanceof JButton)
                 .forEach(c -> mainPanel.remove(c));
-        
+
         List<Appointment> appointmentsForWeek = scheduledAppointments
                 .stream()
                 .filter(app -> Utilities.isInTargetWeek(startOfWeek, app.getStartTime().toLocalDate()))
@@ -325,9 +340,12 @@ public class Calendar extends javax.swing.JPanel {
                 if (optionalAppointment.isPresent()) {
                     Appointment appointment = optionalAppointment.get();
                     styleAppointmentButton(appointment, btnAppointment);
+                    btnAppointment.addActionListener((e) -> scheduledAppointmentsActionListener.actionPerformed(e));
+                } else {
+                    btnAppointment.addActionListener(freeAppointmentsActionListener);
                 }
-                
-                if(dateEntry.getValue().isEqual(LocalDate.now())) {
+
+                if (dateEntry.getValue().isEqual(LocalDate.now())) {
                     btnAppointment.setBorder(new MatteBorder(1, 1, 1, 1, COLOR_TODAY));
                 }
 
@@ -342,14 +360,12 @@ public class Calendar extends javax.swing.JPanel {
 
     private void styleAppointmentButton(Appointment appointment, JButton btnAppointment) {
         btnAppointment.setBackground(Color.red);
-//        btnAppointment.setEnabled(false);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         StringBuilder sb = new StringBuilder();
         LocalTime startTime = appointment.getStartTime().toLocalTime();
         sb.append("<html>");
         sb.append("<b>");
-        sb.append(startTime.format(formatter)).append(" - ").append(startTime.plusMinutes(30).format(formatter));
+        sb.append(startTime.format(HOUR_FORMAT)).append(" - ").append(startTime.plusMinutes(30).format(HOUR_FORMAT));
         sb.append("</b>");
         sb.append("<br>");
         sb.append("Patient").append(appointment.getPatientId());
