@@ -77,6 +77,10 @@ public class ServicesController {
     public static void deleteServiceForAppointment(ServiceAppointment sa) {
         repo.deleteServiceForAppointment(sa.getId());
     }
+    
+    public static void deleteServicesForAppointment(List<ServiceAppointment> services) {
+        services.stream().forEach(sa -> repo.deleteServiceForAppointment(sa.getId()));
+    }
 
     public static void addServicesForAppointment(List<ServiceAppointment> servicesForAppointment) throws InvalidModelException {
         for (ServiceAppointment sa : servicesForAppointment) {

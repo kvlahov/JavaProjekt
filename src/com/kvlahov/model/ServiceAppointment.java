@@ -13,7 +13,6 @@ public class ServiceAppointment {
 
     private int id;
     private int appointmentId;
-    private int serviceId;
     private int quantity;
     private String description;
     private Service service;
@@ -42,14 +41,6 @@ public class ServiceAppointment {
         this.appointmentId = appointmentId;
     }
 
-    public int getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
-    }
-
     public int getQuantity() {
         return quantity;
     }
@@ -68,6 +59,25 @@ public class ServiceAppointment {
 
     public boolean isValid() {
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ServiceAppointment other = (ServiceAppointment) obj;
+        return this.id == other.id;
     }
 
 }

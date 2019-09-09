@@ -83,9 +83,6 @@ public class Main {
 //        ((Gui) f).start();
         Test.main(null);
 
-        Doctor doctor = repo.getGeneralPhysicians().get(1);
-        List<Appointment> scheduledAppointments = repo.getScheduledAppointments(doctor.getId());
-        scheduledAppointments.forEach(app -> System.out.println(app));
         ////////////////////////////////
         //TESTING
     }

@@ -66,4 +66,25 @@ public class Service {
         return type;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Service other = (Service) obj;
+        return this.id == other.id;
+    }
+    
+    
+
 }

@@ -68,8 +68,8 @@ public class ReceiptController {
         List<ReceiptItem> receiptItems = new ArrayList<>();
         for (ServiceAppointment service : services) {
             ReceiptItem item = new ReceiptItem();
-            item.setServiceId(service.getServiceId());
-            item.setPricePerItem(repo.getService(service.getServiceId()).getPrice());
+            item.setServiceId(service.getService().getId());
+            item.setPricePerItem(service.getService().getPrice());
             item.setQuantity(service.getQuantity());
             
             receiptItems.add(item);

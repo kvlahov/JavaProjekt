@@ -1207,15 +1207,7 @@ class SqlRepository implements IRepository {
             stmt.setInt(1, serviceId);
             try (ResultSet resultSet = stmt.executeQuery()) {
                 if (resultSet.next()) {
-                    Service service = new Service();
-
-                    service.setId(resultSet.getInt("IDService"));
-                    service.setDescription(resultSet.getString("Description"));
-                    service.setPrice(resultSet.getDouble("Price"));
-                    service.setType(resultSet.getString("Type"));
-                    service.setTypeOfServiceId(resultSet.getInt("TypeOfServiceID"));
-
-                    return service;
+                    return SqlTableHelper.getService(resultSet);
                 }
             }
 
@@ -1231,17 +1223,10 @@ class SqlRepository implements IRepository {
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(GET_SERVICES);
                 ResultSet resultSet = stmt.executeQuery()) {
+
             List<Service> services = new ArrayList<>();
             while (resultSet.next()) {
-                Service service = new Service();
-
-                service.setId(resultSet.getInt("IDService"));
-                service.setDescription(resultSet.getString("Description"));
-                service.setPrice(resultSet.getDouble("Price"));
-                service.setType(resultSet.getString("Type"));
-                service.setTypeOfServiceId(resultSet.getInt("TypeOfServiceID"));
-
-                services.add(service);
+                services.add(SqlTableHelper.getService(resultSet));
             }
             return services;
 
@@ -1280,7 +1265,7 @@ class SqlRepository implements IRepository {
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_SERVICE)) {
 
-            stmt.setInt(1, sa.getServiceId());
+            stmt.setInt(1, sa.getService().getId());
             stmt.setInt(2, sa.getAppointmentId());
             stmt.setInt(3, sa.getQuantity());
             stmt.setString(4, sa.getDescription());
@@ -1304,10 +1289,10 @@ class SqlRepository implements IRepository {
                     ServiceAppointment service = new ServiceAppointment();
 
                     service.setId(resultSet.getInt("IDServiceForAppointment"));
-                    service.setServiceId(resultSet.getInt("ServiceID"));
                     service.setAppointmentId(resultSet.getInt("AppointmentID"));
                     service.setQuantity(resultSet.getInt("Quantity"));
                     service.setDescription(resultSet.getString("Description"));
+                    service.setService(SqlTableHelper.getService(resultSet));
 
                     services.add(service);
                 }
@@ -1326,7 +1311,7 @@ class SqlRepository implements IRepository {
                 CallableStatement stmt = con.prepareCall(UPDATE_SERVICE)) {
 
             stmt.setInt(1, sa.getId());
-            stmt.setInt(2, sa.getServiceId());
+            stmt.setInt(2, sa.getService().getId());
             stmt.setInt(3, sa.getAppointmentId());
             stmt.setInt(4, sa.getQuantity());
             stmt.setString(5, sa.getDescription());
@@ -1340,7 +1325,18 @@ class SqlRepository implements IRepository {
 
     @Override
     public void deleteServiceForAppointment(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String DELETE_SERVICE_FOR_APPOINTMENT = "{ CALL deleteServiceForAppointment (?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(DELETE_SERVICE_FOR_APPOINTMENT)) {
+
+            stmt.setInt(1, id);
+            
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }
 
     @Override

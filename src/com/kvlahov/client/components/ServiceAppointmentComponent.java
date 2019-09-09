@@ -18,24 +18,25 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author lordo
  */
-public class ServiceForAppointment extends javax.swing.JPanel {
+public class ServiceAppointmentComponent extends javax.swing.JPanel {
 
     /**
-     * Creates new form ServiceForAppointment
+     * Creates new form ServiceAppointmentComponent
      */
     private ServiceAppointment serviceForAppointment = new ServiceAppointment();
     private List<Service> services = new ArrayList<>();
 
     private ActionListener btnRemoveActionListener = null;
 
-    public ServiceForAppointment(ServiceAppointment service, List<Service> services) {
+    public ServiceAppointmentComponent(ServiceAppointment service, List<Service> services) {
         initComponents();
         this.serviceForAppointment = service;
         this.services = services;
 
         cardLayout = (CardLayout) getLayout();
-        updateDetailsPane();
         updateEditPane();
+
+        updateDetailsPane();
 
     }
 
@@ -165,10 +166,11 @@ public class ServiceForAppointment extends javax.swing.JPanel {
         Object selectedItem = ddlService.getSelectedItem();
         if (selectedItem instanceof Service) {
             Service s = (Service) selectedItem;
-            serviceForAppointment.setServiceId(s.getId());
             serviceForAppointment.setService(s);
         }
-        serviceForAppointment.setDescription(tfDescription.getText().trim());
+        
+        String desc = tfDescription.getText().trim();
+        serviceForAppointment.setDescription(desc.isEmpty() ? null : desc);
         serviceForAppointment.setQuantity((Integer) spQuantity.getValue());
 
         updateDetailsPane();

@@ -17,9 +17,11 @@ import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 
 /**
  *
@@ -217,6 +219,8 @@ public class EditAppointment extends javax.swing.JPanel {
 
         jLabel7.setText("Quantity:");
         addServicePane.add(jLabel7);
+
+        spQuantity.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
         addServicePane.add(spQuantity);
 
         jLabel9.setText("Description");
@@ -281,14 +285,26 @@ public class EditAppointment extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        ServiceAppointment sa = new ServiceAppointment();
-        sa.setAppointmentId(appointment.getId());
-        sa.setServiceId(((Service) ddlServices.getSelectedItem()).getId());
-        sa.setQuantity((Integer) spQuantity.getValue());
-        sa.setDescription(tfDescription.getText().trim());
-        sa.setService((Service) ddlServices.getSelectedItem());
+        ServiceAppointment newServiceAppointment = new ServiceAppointment();
+        newServiceAppointment.setAppointmentId(appointment.getId());
+        newServiceAppointment.setQuantity((Integer) spQuantity.getValue());
+        newServiceAppointment.setDescription(tfDescription.getText().trim());
+        newServiceAppointment.setService((Service) ddlServices.getSelectedItem());
+        
+        Optional<ServiceAppointment> optionalSA = Stream.of(servicesPanel.getComponents())
+                .filter(c -> c instanceof ServiceAppointmentComponent)
+                .map(c -> ((ServiceAppointmentComponent) c).getServiceForAppointment())
+                .filter(s -> s.getService().equals(newServiceAppointment.getService()))
+                .findFirst();
+        if(optionalSA.isPresent()) {
+            optionalSA.get().setQuantity(newServiceAppointment.getQuantity());
+        }
+        else {
+            addServiceComponent(newServiceAppointment, filterServicesByType());
+        }
+        
+        updateServicesForAppointment();
 
-        addServiceComponent(sa, filterServicesByType());
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void ddlTypeOfServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddlTypeOfServiceActionPerformed
@@ -297,8 +313,8 @@ public class EditAppointment extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         servicesForAppointment = Stream.of(servicesPanel.getComponents())
-                .filter(c -> c instanceof ServiceForAppointment)
-                .map(c -> ((ServiceForAppointment) c).getServiceForAppointment())
+                .filter(c -> c instanceof ServiceAppointmentComponent)
+                .map(c -> ((ServiceAppointmentComponent) c).getServiceForAppointment())
                 .collect(Collectors.toList());
 
         appointment.setAnamnesis(tbAnamnesis.getText().trim());
@@ -373,19 +389,19 @@ public class EditAppointment extends javax.swing.JPanel {
         servicesPanel.removeAll();
         servicesForAppointment.stream()
                 .forEach(sa -> addServiceComponent(sa, filterServicesByType(sa.getService().getTypeOfServiceId())));
+        for (Component component : servicesPanel.getComponents()) {
+            System.out.println(component);
+        }
     }
 
     private void addServiceComponent(ServiceAppointment sa, List<Service> services) {
-        ServiceForAppointment serviceComponent = new ServiceForAppointment(sa, services);
+        ServiceAppointmentComponent serviceComponent = new ServiceAppointmentComponent(sa, services);
         serviceComponent.addBtnRemoveActionListener((ActionEvent e) -> {
             servicesPanel.remove(serviceComponent);
             this.revalidate();
             this.repaint();
         });
-        serviceComponent.setPreferredSize(addServicePane.getSize());
-        System.out.println(serviceComponent.getSize());
-        System.out.println(serviceComponent.getPreferredSize());
-        System.out.println(serviceComponent.getWidth());
+//        serviceComponent.setPreferredSize(addServicePane.getSize());
         servicesPanel.add(serviceComponent);
     }
 

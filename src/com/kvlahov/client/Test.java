@@ -12,8 +12,11 @@ import com.kvlahov.controller.DoctorController;
 import com.kvlahov.controller.ServicesController;
 import com.kvlahov.exceptions.InvalidModelException;
 import com.kvlahov.model.Appointment;
+import com.kvlahov.model.ServiceAppointment;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.JPanel;
 
 /**
@@ -25,6 +28,8 @@ public class Test extends javax.swing.JFrame {
     /**
      * Creates new form Test
      */
+    private List<ServiceAppointment> servicesForAppointment;
+
     public Test() {
         initComponents();
         initData();
@@ -84,34 +89,44 @@ public class Test extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
     private void initData() {
         Appointment appointment = AppointmentsController.getScheduledAppointments(4).get(0);
         EditAppointment pane = new EditAppointment(
                 ServicesController.getTypesOfService(),
                 appointment,
                 ServicesController.getServices()
-        );       
-        
+        );
+
+        servicesForAppointment = ServicesController.getServicesForAppointment(appointment);
+        pane.setServicesForAppointment(servicesForAppointment);
+
         pane.setBtnSaveActionListener((e) -> {
             try {
                 AppointmentsController.updateAppointment(pane.getAppointment());
-                ServicesController.addServicesForAppointment(pane.getServicesForAppointment());
+                List<ServiceAppointment> newServicesForAppointment = pane.getServicesForAppointment();
+
+                ServicesController.addServicesForAppointment(newServicesForAppointment);
+                ServicesController.deleteServicesForAppointment(servicesToDelete(newServicesForAppointment));
             } catch (InvalidModelException ex) {
                 Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Appointment app = pane.getAppointment();
-            System.out.println(app);
-            System.out.printf("Anamnesis: %s\n Diagnosis %s", app.getAnamnesis(), app.getDiagnosis());
+
             pane.getServicesForAppointment().forEach(sa -> System.out.printf(
-                    "ID: %d\n, ServiceID: %d\n Service: %s\n Quantity: %s\n Description: %s\n", sa.getId(), sa.getServiceId(), sa.getService().getType(), sa.getQuantity(), sa.getDescription()));
+                    "\nID: %d\n ServiceID: %d\n Service: %s\n Quantity: %s\n Description: %s\n", sa.getId(), sa.getService().getId(), sa.getService().getType(), sa.getQuantity(), sa.getDescription()));
         });
-        
+
         pane.setBtnCancelActionListener((e) -> {
             getContentPane().remove(pane);
         });
-        
-        pane.setServicesForAppointment(ServicesController.getServicesForAppointment(appointment));
+
         add(pane);
+    }
+
+    private List<ServiceAppointment> servicesToDelete(List<ServiceAppointment> newServicesForAppointment) {
+        //return every item from old list that is not in new list
+        return servicesForAppointment
+                .stream()
+                .filter(sa -> !newServicesForAppointment.contains(sa))
+                .collect(Collectors.toList());
     }
 }
