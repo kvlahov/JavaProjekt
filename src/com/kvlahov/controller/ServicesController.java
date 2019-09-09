@@ -29,7 +29,7 @@ public class ServicesController {
     public static List<ServiceAppointment> getServicesForAppointment(Appointment appointment) {
         return repo.getServicesForAppointment(appointment.getId());
     }
-    
+
     public static List<TypeOfService> getTypesOfService() {
         return repo.getTypesOfService();
     }
@@ -61,7 +61,7 @@ public class ServicesController {
 
         repo.updateService(service);
     }
-    
+
     public static void updateServiceForAppointment(ServiceAppointment sa) throws InvalidModelException {
         if (!sa.isValid()) {
             throw new InvalidModelException();
@@ -73,9 +73,22 @@ public class ServicesController {
     public static void deleteService(Service service) {
         repo.deleteService(service.getId());
     }
-    
+
     public static void deleteServiceForAppointment(ServiceAppointment sa) {
         repo.deleteServiceForAppointment(sa.getId());
+    }
+
+    public static void addServicesForAppointment(List<ServiceAppointment> servicesForAppointment) throws InvalidModelException {
+        for (ServiceAppointment sa : servicesForAppointment) {
+            if (!sa.isValid()) {
+                throw new InvalidModelException();
+            }
+            if(sa.getId() > 0) {
+                repo.updateServiceForAppointment(sa);
+            } else {
+                repo.insertServiceForAppointment(sa);
+            }
+        }
     }
 
 }

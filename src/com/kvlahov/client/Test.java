@@ -10,6 +10,10 @@ import com.kvlahov.client.components.EditAppointment;
 import com.kvlahov.controller.AppointmentsController;
 import com.kvlahov.controller.DoctorController;
 import com.kvlahov.controller.ServicesController;
+import com.kvlahov.exceptions.InvalidModelException;
+import com.kvlahov.model.Appointment;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -82,12 +86,32 @@ public class Test extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initData() {
+        Appointment appointment = AppointmentsController.getScheduledAppointments(4).get(0);
         EditAppointment pane = new EditAppointment(
                 ServicesController.getTypesOfService(),
-                AppointmentsController.getScheduledAppointments(4).get(0),
+                appointment,
                 ServicesController.getServices()
         );       
         
+        pane.setBtnSaveActionListener((e) -> {
+            try {
+                AppointmentsController.updateAppointment(pane.getAppointment());
+                ServicesController.addServicesForAppointment(pane.getServicesForAppointment());
+            } catch (InvalidModelException ex) {
+                Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Appointment app = pane.getAppointment();
+            System.out.println(app);
+            System.out.printf("Anamnesis: %s\n Diagnosis %s", app.getAnamnesis(), app.getDiagnosis());
+            pane.getServicesForAppointment().forEach(sa -> System.out.printf(
+                    "ID: %d\n, ServiceID: %d\n Service: %s\n Quantity: %s\n Description: %s\n", sa.getId(), sa.getServiceId(), sa.getService().getType(), sa.getQuantity(), sa.getDescription()));
+        });
+        
+        pane.setBtnCancelActionListener((e) -> {
+            getContentPane().remove(pane);
+        });
+        
+        pane.setServicesForAppointment(ServicesController.getServicesForAppointment(appointment));
         add(pane);
     }
 }

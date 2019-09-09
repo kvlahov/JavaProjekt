@@ -1070,8 +1070,8 @@ class SqlRepository implements IRepository {
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(UPDATE_APPOINTMENT)) {
             stmt.setInt(1, appointment.getId());
-            stmt.setString(2, appointment.getStartTime().toString());
-            stmt.setString(3, appointment.getEndTime().toString());
+            stmt.setTimestamp(2, Timestamp.valueOf(appointment.getStartTime()));
+            stmt.setTimestamp(3, Timestamp.valueOf(appointment.getEndTime()));
             stmt.setInt(4, appointment.getPatientId());
             stmt.setInt(5, appointment.getDoctorId());
             stmt.setString(6, appointment.getAnamnesis());
@@ -1294,9 +1294,9 @@ class SqlRepository implements IRepository {
 
     @Override
     public List<ServiceAppointment> getServicesForAppointment(int id) {
-        final String GET_SERVICE = "{ CALL getService (?)}";
+        final String GET_SERVICE_FOR_APPOINTMENT = "{ CALL getServicesForAppointment (?)}";
         try (Connection con = dataSource.getConnection();
-                CallableStatement stmt = con.prepareCall(GET_SERVICE)) {
+                CallableStatement stmt = con.prepareCall(GET_SERVICE_FOR_APPOINTMENT)) {
             stmt.setInt(1, id);
             try (ResultSet resultSet = stmt.executeQuery()) {
                 List<ServiceAppointment> services = new ArrayList<>();
@@ -1321,9 +1321,9 @@ class SqlRepository implements IRepository {
 
     @Override
     public void updateServiceForAppointment(ServiceAppointment sa) {
-        final String INSERT_SERVICE = "{ CALL insertServiceAppointment (?,?,?,?,?) }";
+        final String UPDATE_SERVICE = "{ CALL updateServiceForAppointment (?,?,?,?,?) }";
         try (Connection con = dataSource.getConnection();
-                CallableStatement stmt = con.prepareCall(INSERT_SERVICE)) {
+                CallableStatement stmt = con.prepareCall(UPDATE_SERVICE)) {
 
             stmt.setInt(1, sa.getId());
             stmt.setInt(2, sa.getServiceId());
@@ -1345,7 +1345,7 @@ class SqlRepository implements IRepository {
 
     @Override
     public void insertReceiptItem(ReceiptItem item) {
-        final String INSERT_RITEM = "{ CALL insertService (?,?,?,?,?,?) }";
+        final String INSERT_RITEM = "{ CALL insertReceiptItem (?,?,?,?,?,?) }";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_RITEM)) {
 
@@ -1365,7 +1365,7 @@ class SqlRepository implements IRepository {
 
     @Override
     public List<ReceiptItem> getReceiptItems(int receiptId) {
-        final String GET_RITEM = "{ CALL getService (?)}";
+        final String GET_RITEM = "{ CALL getReceiptItemsForReceipt (?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(GET_RITEM)) {
             stmt.setInt(1, receiptId);
@@ -1394,9 +1394,9 @@ class SqlRepository implements IRepository {
 
     @Override
     public void updateReceiptItem(ReceiptItem item) {
-        final String INSERT_RITEM = "{ CALL insertService (?,?,?,?,?,?,?) }";
+        final String UPDATE_RITEM = "{ CALL updateReceiptItem (?,?,?,?,?,?,?) }";
         try (Connection con = dataSource.getConnection();
-                CallableStatement stmt = con.prepareCall(INSERT_RITEM)) {
+                CallableStatement stmt = con.prepareCall(UPDATE_RITEM)) {
 
             stmt.setInt(1, item.getId());
             stmt.setInt(2, item.getReceiptId());

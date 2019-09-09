@@ -96,8 +96,8 @@ public class Appointment implements Validatable {
     @Override
     public boolean isValid() {
         List<Boolean> validations = Arrays.asList(
-                Validations.dateBeforeOther(startTime, endTime),
-                Validations.isAfterOrEqualNow(startTime)
+                Validations.dateBeforeOther(startTime, endTime)
+//                Validations.isAfterOrEqualNow(startTime)
         );
 
         return Validations.validate(validations);

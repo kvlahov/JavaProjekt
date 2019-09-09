@@ -32,43 +32,34 @@ public class EditAppointment extends javax.swing.JPanel {
     private List<TypeOfService> typesOfService = new ArrayList<>();
     private Appointment appointment;
     private String patientName = "";
-    
-    /**
-     * Creates new form EditAppointment
-     */
+
+    private ActionListener btnSaveActionListener;
+    private ActionListener btnCancelActionListener;
 
     public EditAppointment(List<TypeOfService> typesOfService, Appointment appointment, List<Service> services) {
         this.typesOfService = typesOfService;
         this.appointment = appointment;
         this.services = services;
-        
+
         initComponents();
         initUI();
     }
 
-    
+    public void setBtnSaveActionListener(ActionListener btnSaveActionListener) {
+        this.btnSaveActionListener = btnSaveActionListener;
+    }
+
+    public void setBtnCancelActionListener(ActionListener btnCancelActionListener) {
+        this.btnCancelActionListener = btnCancelActionListener;
+    }
+
     public List<ServiceAppointment> getServicesForAppointment() {
         return servicesForAppointment;
     }
 
     public void setServicesForAppointment(List<ServiceAppointment> servicesForAppointment) {
         this.servicesForAppointment = servicesForAppointment;
-    }
-
-    public List<Service> getServices() {
-        return services;
-    }
-
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
-
-    public List<TypeOfService> getTypesOfService() {
-        return typesOfService;
-    }
-
-    public void setTypesOfService(List<TypeOfService> typesOfService) {
-        this.typesOfService = typesOfService;
+        updateServicesForAppointment();
     }
 
     public Appointment getAppointment() {
@@ -279,6 +270,11 @@ public class EditAppointment extends javax.swing.JPanel {
         jPanel2.add(btnSave);
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnCancel);
 
         add(jPanel2, java.awt.BorderLayout.PAGE_END);
@@ -291,7 +287,7 @@ public class EditAppointment extends javax.swing.JPanel {
         sa.setQuantity((Integer) spQuantity.getValue());
         sa.setDescription(tfDescription.getText().trim());
         sa.setService((Service) ddlServices.getSelectedItem());
-        
+
         addServiceComponent(sa, filterServicesByType());
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -300,14 +296,25 @@ public class EditAppointment extends javax.swing.JPanel {
     }//GEN-LAST:event_ddlTypeOfServiceActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        Stream.of(servicesPanel.getComponents())
-                .filter(c -> c instanceof ServiceForAppointment )
-                .map(c -> ((ServiceForAppointment) c).getServiceForAppointment().getService())
-                .forEach(System.out::println);
+        servicesForAppointment = Stream.of(servicesPanel.getComponents())
+                .filter(c -> c instanceof ServiceForAppointment)
+                .map(c -> ((ServiceForAppointment) c).getServiceForAppointment())
+                .collect(Collectors.toList());
+
+        appointment.setAnamnesis(tbAnamnesis.getText().trim());
+        appointment.setDiagnosis(tbDiagnosis.getText().trim());
+
+        btnSaveActionListener.actionPerformed(evt);
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        btnCancelActionListener.actionPerformed(evt);
+
+    }//GEN-LAST:event_btnCancelActionPerformed
+
     private List<Service> filterServicesByType() {
-        TypeOfService typeOfService = ((TypeOfService)ddlTypeOfService.getSelectedItem());
+        TypeOfService typeOfService = ((TypeOfService) ddlTypeOfService.getSelectedItem());
         List<Service> filteredServices = services.stream().filter(s -> s.getTypeOfServiceId() == typeOfService.getId()).collect(Collectors.toList());
         return filteredServices;
     }
@@ -352,10 +359,20 @@ public class EditAppointment extends javax.swing.JPanel {
         ddlTypeOfService.setSelectedIndex(0);
         lblPatientName.setText(patientName);
 
-        if(appointment != null) {
+        if (appointment != null) {
             lblDate.setText(appointment.getDate());
             lblAppointmentDuration.setText(appointment.getDuration());
+            tbAnamnesis.setText(appointment.getAnamnesis());
+            tbDiagnosis.setText(appointment.getDiagnosis());
         }
+
+        updateServicesForAppointment();
+    }
+
+    private void updateServicesForAppointment() {
+        servicesPanel.removeAll();
+        servicesForAppointment.stream()
+                .forEach(sa -> addServiceComponent(sa, filterServicesByType(sa.getService().getTypeOfServiceId())));
     }
 
     private void addServiceComponent(ServiceAppointment sa, List<Service> services) {
@@ -371,6 +388,10 @@ public class EditAppointment extends javax.swing.JPanel {
         System.out.println(serviceComponent.getWidth());
         servicesPanel.add(serviceComponent);
     }
-    
-    
+
+    private List<Service> filterServicesByType(int typeOfServiceId) {
+        List<Service> filteredServices = services.stream().filter(s -> s.getTypeOfServiceId() == typeOfServiceId).collect(Collectors.toList());
+        return filteredServices;
+    }
+
 }
