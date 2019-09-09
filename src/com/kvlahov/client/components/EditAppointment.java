@@ -10,8 +10,16 @@ import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Service;
 import com.kvlahov.model.ServiceAppointment;
 import com.kvlahov.model.TypeOfService;
+import com.sun.javafx.geom.transform.BaseTransform;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -23,12 +31,52 @@ public class EditAppointment extends javax.swing.JPanel {
     private List<Service> services = new ArrayList<>();
     private List<TypeOfService> typesOfService = new ArrayList<>();
     private Appointment appointment;
+    private String patientName = "";
+    
     /**
      * Creates new form EditAppointment
      */
-    public EditAppointment() {
+
+    public EditAppointment(List<TypeOfService> typesOfService, Appointment appointment, List<Service> services) {
+        this.typesOfService = typesOfService;
+        this.appointment = appointment;
+        this.services = services;
+        
         initComponents();
-        initData();
+        initUI();
+    }
+
+    
+    public List<ServiceAppointment> getServicesForAppointment() {
+        return servicesForAppointment;
+    }
+
+    public void setServicesForAppointment(List<ServiceAppointment> servicesForAppointment) {
+        this.servicesForAppointment = servicesForAppointment;
+    }
+
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
+    }
+
+    public List<TypeOfService> getTypesOfService() {
+        return typesOfService;
+    }
+
+    public void setTypesOfService(List<TypeOfService> typesOfService) {
+        this.typesOfService = typesOfService;
+    }
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 
     /**
@@ -44,7 +92,7 @@ public class EditAppointment extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         mainPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        date = new javax.swing.JLabel();
+        lblDate = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblAppointmentDuration = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -53,20 +101,21 @@ public class EditAppointment extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbDiagnosis = new javax.swing.JTextArea();
-        btnMedicalInfo = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        addServicePane = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
+        ddlTypeOfService = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        ddlServices = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         spQuantity = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfDescription = new javax.swing.JTextField();
+        servicesPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblPatientName = new javax.swing.JLabel();
+        btnMedicalInfo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
@@ -83,11 +132,11 @@ public class EditAppointment extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         mainPanel.add(jLabel2, gridBagConstraints);
 
-        date.setText("date");
+        lblDate.setText("N/A");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 6);
-        mainPanel.add(date, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        mainPanel.add(lblDate, gridBagConstraints);
 
         jLabel3.setText("Time:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -97,12 +146,12 @@ public class EditAppointment extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 5);
         mainPanel.add(jLabel3, gridBagConstraints);
 
-        lblAppointmentDuration.setText("duration");
+        lblAppointmentDuration.setText("N/A");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 6);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
         mainPanel.add(lblAppointmentDuration, gridBagConstraints);
 
         jLabel4.setText("Anamnesis");
@@ -144,47 +193,65 @@ public class EditAppointment extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         mainPanel.add(jScrollPane3, gridBagConstraints);
 
-        btnMedicalInfo.setText("Medical Information");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        mainPanel.add(btnMedicalInfo, gridBagConstraints);
-
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.ipady = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
         mainPanel.add(btnAdd, gridBagConstraints);
 
         jLabel8.setText("Type of Service:");
-        jPanel3.add(jLabel8);
+        addServicePane.add(jLabel8);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(jComboBox2);
+        ddlTypeOfService.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ddlTypeOfService.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ddlTypeOfServiceActionPerformed(evt);
+            }
+        });
+        addServicePane.add(ddlTypeOfService);
 
         jLabel6.setText("Service:");
-        jPanel3.add(jLabel6);
+        addServicePane.add(jLabel6);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(jComboBox1);
+        ddlServices.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        addServicePane.add(ddlServices);
 
         jLabel7.setText("Quantity:");
-        jPanel3.add(jLabel7);
-        jPanel3.add(spQuantity);
+        addServicePane.add(jLabel7);
+        addServicePane.add(spQuantity);
 
         jLabel9.setText("Description");
-        jPanel3.add(jLabel9);
+        addServicePane.add(jLabel9);
 
-        jTextField1.setColumns(20);
-        jPanel3.add(jTextField1);
+        tfDescription.setColumns(20);
+        addServicePane.add(tfDescription);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        mainPanel.add(jPanel3, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 0.1;
+        mainPanel.add(addServicePane, gridBagConstraints);
+
+        servicesPanel.setLayout(new javax.swing.BoxLayout(servicesPanel, javax.swing.BoxLayout.Y_AXIS));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 1.0;
+        mainPanel.add(servicesPanel, gridBagConstraints);
 
         jScrollPane1.setViewportView(mainPanel);
 
@@ -195,12 +262,20 @@ public class EditAppointment extends javax.swing.JPanel {
         jLabel1.setText("Patient:");
         jPanel1.add(jLabel1);
 
-        lblPatientName.setText("patientName");
+        lblPatientName.setText("N/A");
         jPanel1.add(lblPatientName);
+
+        btnMedicalInfo.setText("Medical Information");
+        jPanel1.add(btnMedicalInfo);
 
         add(jPanel1, java.awt.BorderLayout.NORTH);
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnSave);
 
         btnCancel.setText("Cancel");
@@ -209,15 +284,43 @@ public class EditAppointment extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        ServiceAppointment sa = new ServiceAppointment();
+        sa.setAppointmentId(appointment.getId());
+        sa.setServiceId(((Service) ddlServices.getSelectedItem()).getId());
+        sa.setQuantity((Integer) spQuantity.getValue());
+        sa.setDescription(tfDescription.getText().trim());
+        sa.setService((Service) ddlServices.getSelectedItem());
+        
+        addServiceComponent(sa, filterServicesByType());
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void ddlTypeOfServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddlTypeOfServiceActionPerformed
+        ddlServices.setModel(new DefaultComboBoxModel(filterServicesByType().toArray()));
+    }//GEN-LAST:event_ddlTypeOfServiceActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        Stream.of(servicesPanel.getComponents())
+                .filter(c -> c instanceof ServiceForAppointment )
+                .map(c -> ((ServiceForAppointment) c).getServiceForAppointment().getService())
+                .forEach(System.out::println);
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private List<Service> filterServicesByType() {
+        TypeOfService typeOfService = ((TypeOfService)ddlTypeOfService.getSelectedItem());
+        List<Service> filteredServices = services.stream().filter(s -> s.getTypeOfServiceId() == typeOfService.getId()).collect(Collectors.toList());
+        return filteredServices;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel addServicePane;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnMedicalInfo;
     private javax.swing.JButton btnSave;
-    private javax.swing.JLabel date;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox ddlServices;
+    private javax.swing.JComboBox ddlTypeOfService;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -229,21 +332,44 @@ public class EditAppointment extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblAppointmentDuration;
+    private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblPatientName;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel servicesPanel;
     private javax.swing.JSpinner spQuantity;
     private javax.swing.JTextArea tbAnamnesis;
     private javax.swing.JTextArea tbDiagnosis;
+    private javax.swing.JTextField tfDescription;
     // End of variables declaration//GEN-END:variables
 
-    private void initData() {
-        services = ServicesController.getServices();
+    private void initUI() {
+        ddlServices.setModel(new DefaultComboBoxModel(services.toArray()));
+        ddlTypeOfService.setModel(new DefaultComboBoxModel(typesOfService.toArray()));
+        ddlTypeOfService.setSelectedIndex(0);
+        lblPatientName.setText(patientName);
+
+        if(appointment != null) {
+            lblDate.setText(appointment.getDate());
+            lblAppointmentDuration.setText(appointment.getDuration());
+        }
+    }
+
+    private void addServiceComponent(ServiceAppointment sa, List<Service> services) {
+        ServiceForAppointment serviceComponent = new ServiceForAppointment(sa, services);
+        serviceComponent.addBtnRemoveActionListener((ActionEvent e) -> {
+            servicesPanel.remove(serviceComponent);
+            this.revalidate();
+            this.repaint();
+        });
+        serviceComponent.setPreferredSize(addServicePane.getSize());
+        System.out.println(serviceComponent.getSize());
+        System.out.println(serviceComponent.getPreferredSize());
+        System.out.println(serviceComponent.getWidth());
+        servicesPanel.add(serviceComponent);
     }
     
     

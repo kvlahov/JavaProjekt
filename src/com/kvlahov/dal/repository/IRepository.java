@@ -12,6 +12,7 @@ import com.kvlahov.model.Receipt;
 import com.kvlahov.model.ReceiptItem;
 import com.kvlahov.model.Service;
 import com.kvlahov.model.ServiceAppointment;
+import com.kvlahov.model.TypeOfService;
 import com.kvlahov.model.User;
 import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.enums.UserRole;
@@ -116,5 +117,6 @@ public interface IRepository {
     public void updateServiceForAppointment(ServiceAppointment sa);
     public void deleteServiceForAppointment(int id);
 
+    public List<TypeOfService> getTypesOfService();
     
 }

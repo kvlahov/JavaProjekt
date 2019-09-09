@@ -8,6 +8,7 @@ import com.kvlahov.model.Receipt;
 import com.kvlahov.model.ReceiptItem;
 import com.kvlahov.model.Service;
 import com.kvlahov.model.ServiceAppointment;
+import com.kvlahov.model.TypeOfService;
 import com.kvlahov.model.User;
 import com.kvlahov.model.enums.AddressType;
 import com.kvlahov.model.enums.ContactType;
@@ -1476,6 +1477,28 @@ class SqlRepository implements IRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<TypeOfService> getTypesOfService() {
+        final String GET_TYPES_OF_SERVICE = "{ CALL getTypesOfService }";
+
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_TYPES_OF_SERVICE)) {
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<TypeOfService> types = new ArrayList<>();
+                while (resultSet.next()) {
+                    TypeOfService type = new TypeOfService();
+                    type.setId(resultSet.getInt("IDTypeOfService"));
+                    type.setType(resultSet.getString("Type"));
+                    types.add(type);
+                }
+                return types;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

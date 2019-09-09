@@ -16,6 +16,15 @@ public class ServiceAppointment {
     private int serviceId;
     private int quantity;
     private String description;
+    private Service service;
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
 
     public int getId() {
         return id;

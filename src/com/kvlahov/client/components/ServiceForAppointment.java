@@ -23,41 +23,28 @@ public class ServiceForAppointment extends javax.swing.JPanel {
     /**
      * Creates new form ServiceForAppointment
      */
-    private ServiceAppointment service = new ServiceAppointment();
-    private String serviceName;
+    private ServiceAppointment serviceForAppointment = new ServiceAppointment();
     private List<Service> services = new ArrayList<>();
 
     private ActionListener btnRemoveActionListener = null;
 
-    public ServiceForAppointment() {
+    public ServiceForAppointment(ServiceAppointment service, List<Service> services) {
         initComponents();
+        this.serviceForAppointment = service;
+        this.services = services;
+
+        cardLayout = (CardLayout) getLayout();
         updateDetailsPane();
-        registerEvents();
+        updateEditPane();
 
     }
 
-    public ServiceForAppointment(ServiceAppointment service, String serviceName) {
-        initComponents();
-        this.service = service;
-        this.serviceName = serviceName;
-
-        updateDetailsPane();
+    public ServiceAppointment getServiceForAppointment() {
+        return serviceForAppointment;
     }
 
-    public ServiceAppointment getService() {
-        return service;
-    }
-
-    public void setService(ServiceAppointment service) {
-        this.service = service;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public void setServiceForAppointment(ServiceAppointment service) {
+        this.serviceForAppointment = service;
     }
 
     public void addBtnRemoveActionListener(ActionListener action) {
@@ -68,7 +55,7 @@ public class ServiceForAppointment extends javax.swing.JPanel {
         this.btnRemoveActionListener = null;
     }
 
-    private final CardLayout cardLayout = new CardLayout();
+    private final CardLayout cardLayout;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,6 +118,11 @@ public class ServiceForAppointment extends javax.swing.JPanel {
         panelDetails.add(btnEdit);
 
         btnRemove.setText("Remove");
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
         panelDetails.add(btnRemove);
 
         add(panelDetails, "card2");
@@ -172,20 +164,28 @@ public class ServiceForAppointment extends javax.swing.JPanel {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         Object selectedItem = ddlService.getSelectedItem();
         if (selectedItem instanceof Service) {
-            service.setServiceId(((Service) selectedItem).getId());
+            Service s = (Service) selectedItem;
+            serviceForAppointment.setServiceId(s.getId());
+            serviceForAppointment.setService(s);
         }
-        service.setDescription(tfDescription.getText().trim());
-        service.setQuantity((Integer) spQuantity.getValue());
+        serviceForAppointment.setDescription(tfDescription.getText().trim());
+        serviceForAppointment.setQuantity((Integer) spQuantity.getValue());
 
         updateDetailsPane();
+//        revalidate();
         cardLayout.next(this);
 
 
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+
         cardLayout.next(this);
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        btnRemoveActionListener.actionPerformed(evt);
+    }//GEN-LAST:event_btnRemoveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -209,30 +209,24 @@ public class ServiceForAppointment extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void updateDetailsPane() {
-        if (service == null) {
+        if (serviceForAppointment == null) {
             return;
         }
 
-        lblService.setText(serviceName);
-        lblQuantity.setText(String.valueOf(service.getQuantity()));
-        lblDescription.setText(service.getDescription());
+        lblService.setText(serviceForAppointment.getService().getType());
+        lblQuantity.setText(String.valueOf(serviceForAppointment.getQuantity()));
+        lblDescription.setText(serviceForAppointment.getDescription());
     }
 
     private void updateEditPane() {
-        if (services == null) {
-            ddlService.setModel(new DefaultComboBoxModel(new Object[]{serviceName}));
-        } else {
-            ddlService.setModel(new DefaultComboBoxModel(services.toArray()));
-        }
-        if (service == null) {
+        ddlService.setModel(new DefaultComboBoxModel(services.toArray()));
+        ddlService.setSelectedItem(serviceForAppointment.getService());
+
+        if (serviceForAppointment == null) {
             return;
         }
 
-        spQuantity.setValue(service.getQuantity());
-        tfDescription.setText(service.getDescription());
-    }
-
-    private void registerEvents() {
-        btnRemove.addActionListener(btnRemoveActionListener);
+        spQuantity.setValue(serviceForAppointment.getQuantity());
+        tfDescription.setText(serviceForAppointment.getDescription());
     }
 }

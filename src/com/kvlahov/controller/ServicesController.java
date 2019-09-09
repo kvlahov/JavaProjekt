@@ -11,6 +11,7 @@ import com.kvlahov.exceptions.InvalidModelException;
 import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Service;
 import com.kvlahov.model.ServiceAppointment;
+import com.kvlahov.model.TypeOfService;
 import java.util.List;
 
 /**
@@ -27,6 +28,10 @@ public class ServicesController {
 
     public static List<ServiceAppointment> getServicesForAppointment(Appointment appointment) {
         return repo.getServicesForAppointment(appointment.getId());
+    }
+    
+    public static List<TypeOfService> getTypesOfService() {
+        return repo.getTypesOfService();
     }
 
     public static Service getService(int serviceId) {

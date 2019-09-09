@@ -9,6 +9,7 @@ import com.kvlahov.client.components.Calendar;
 import com.kvlahov.client.components.EditAppointment;
 import com.kvlahov.controller.AppointmentsController;
 import com.kvlahov.controller.DoctorController;
+import com.kvlahov.controller.ServicesController;
 import javax.swing.JPanel;
 
 /**
@@ -81,7 +82,11 @@ public class Test extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initData() {
-        EditAppointment pane = new EditAppointment();
+        EditAppointment pane = new EditAppointment(
+                ServicesController.getTypesOfService(),
+                AppointmentsController.getScheduledAppointments(4).get(0),
+                ServicesController.getServices()
+        );       
         
         add(pane);
     }
