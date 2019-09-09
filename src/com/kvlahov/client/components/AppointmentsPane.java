@@ -5,27 +5,20 @@
  */
 package com.kvlahov.client.components;
 
-import com.kvlahov.controller.AppointmentsController;
-import com.kvlahov.controller.DoctorController;
-import com.kvlahov.controller.PatientController;
-import com.kvlahov.exceptions.InvalidModelException;
 import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
-import com.kvlahov.utils.Utilities;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
-import javax.swing.SwingUtilities;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.DefaultFormatterFactory;
 
 /**
  *
@@ -34,14 +27,70 @@ import javax.swing.SwingUtilities;
 public class AppointmentsPane extends javax.swing.JPanel {
 
     private Patient patient = null;
-    private Doctor patientsDoctor;
+    private Doctor currentDoctor;
+    private Doctor originalDoctor;
+    private List<Doctor> doctors;
+    
+    private Appointment appointment;
 
-    /**
-     * Creates new form AppointmentsPane
-     */
-    public AppointmentsPane() {
+    private ActionListener btnAddAppointmentActionListener;
+    private ActionListener currentDoctorChangedListener;
+
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+
+    public AppointmentsPane(Patient patient, Doctor doctor, Appointment appointment, List<Doctor> doctors) {
+        this.patient = patient;
+        this.currentDoctor = doctor;
+        this.appointment = appointment;
+        this.doctors = doctors;
+
         initComponents();
-        initData();
+        initUI();
+        updateData();
+    }
+
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
+    public void setCurrentDoctorChangedListener(ActionListener currentDoctorChangedListener) {
+        this.currentDoctorChangedListener = currentDoctorChangedListener;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+        updatePatientUI(patient);
+    }
+
+    public Doctor getCurrentDoctor() {
+        return currentDoctor;
+    }
+
+    public void setCurrentDoctor(Doctor doctor) {
+        this.currentDoctor = doctor;
+        updateDoctorUI(doctor);
+    }
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+        updateAppointmentUI(appointment);
+    }
+
+    public void setBtnAddAppointmentActionListener(ActionListener btnAddAppointmentActionListener) {
+        this.btnAddAppointmentActionListener = btnAddAppointmentActionListener;
     }
 
     /**
@@ -55,7 +104,6 @@ public class AppointmentsPane extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
-        ddlDoctors = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         tfDate = new javax.swing.JFormattedTextField();
@@ -63,65 +111,61 @@ public class AppointmentsPane extends javax.swing.JPanel {
         tfStartTime = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         tfEndTime = new javax.swing.JFormattedTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        scheduledAppointments = new javax.swing.JList();
-        addAppointment = new javax.swing.JButton();
+        btnAddAppointment = new javax.swing.JButton();
+        lblPatient = new javax.swing.JLabel();
+        lblDoctor = new javax.swing.JLabel();
+        cbAnotherDoctor = new javax.swing.JCheckBox();
+        ddlDoctors = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
-        doctorName = new javax.swing.JLabel();
-        ddlPatients = new javax.swing.JComboBox();
+        lblOriginalDoctor = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Schedule an appointment"));
         setLayout(new java.awt.GridBagLayout());
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Patient");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 9);
         add(jLabel1, gridBagConstraints);
 
-        ddlDoctors.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ddlDoctorsActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
-        add(ddlDoctors, gridBagConstraints);
-
-        jLabel2.setText("Doctor");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("Schedule with Doctor");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 9);
         add(jLabel2, gridBagConstraints);
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Date");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 9);
         add(jLabel3, gridBagConstraints);
 
         tfDate.setColumns(10);
         tfDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
+        tfDate.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         add(tfDate, gridBagConstraints);
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Start time");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 9);
         add(jLabel4, gridBagConstraints);
 
         tfStartTime.setColumns(10);
@@ -129,158 +173,192 @@ public class AppointmentsPane extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         add(tfStartTime, gridBagConstraints);
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("End time");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 9);
         add(jLabel5, gridBagConstraints);
 
         tfEndTime.setColumns(10);
+        tfEndTime.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("HH:mm"))));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         add(tfEndTime, gridBagConstraints);
 
-        scheduledAppointments.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        scheduledAppointments.setEnabled(false);
-        jScrollPane1.setViewportView(scheduledAppointments);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.gridheight = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 4, 0, 0);
-        add(jScrollPane1, gridBagConstraints);
-
-        addAppointment.setText("Add Appointment");
-        addAppointment.addActionListener(new java.awt.event.ActionListener() {
+        btnAddAppointment.setText("Add Appointment");
+        btnAddAppointment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addAppointmentActionPerformed(evt);
+                btnAddAppointmentActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        add(addAppointment, gridBagConstraints);
+        add(btnAddAppointment, gridBagConstraints);
 
-        jLabel6.setText("Assigned Doctor");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        add(jLabel6, gridBagConstraints);
-
-        doctorName.setText("doctor");
-        add(doctorName, new java.awt.GridBagConstraints());
-
-        ddlPatients.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ddlPatientsActionPerformed(evt);
-            }
-        });
+        lblPatient.setText("N/A");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        add(ddlPatients, gridBagConstraints);
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        add(lblPatient, gridBagConstraints);
+
+        lblDoctor.setText("N/A");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        add(lblDoctor, gridBagConstraints);
+
+        cbAnotherDoctor.setText("Choose another");
+        cbAnotherDoctor.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbAnotherDoctorItemStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
+        add(cbAnotherDoctor, gridBagConstraints);
+
+        ddlDoctors.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ddlDoctors.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ddlDoctorsActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.ipadx = 30;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        add(ddlDoctors, gridBagConstraints);
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Original Doctor");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 10);
+        add(jLabel6, gridBagConstraints);
+
+        lblOriginalDoctor.setText("N/A");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 5, 0);
+        add(lblOriginalDoctor, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAppointmentActionPerformed
-        Appointment app = new Appointment();
-        app.setPatientId(patient.getId());
-        app.setDoctorId(((Doctor) ddlDoctors.getSelectedItem()).getId());
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate date = LocalDate.parse(tfDate.getText(), formatter);
-
-        app.setStartTime(LocalDateTime.of(date, LocalTime.parse(tfStartTime.getText())));
-        app.setEndTime(LocalDateTime.of(date, LocalTime.parse(tfEndTime.getText())));
-
-        System.out.println(app.getStartTime());
-        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        System.out.println(Utilities.toDate(now));
-
-        try {
-            AppointmentsController.setAppointment(app);
-        } catch (InvalidModelException ex) {
-            Logger.getLogger(AppointmentsPane.class.getName()).log(Level.SEVERE, null, ex);
+    private void btnAddAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAppointmentActionPerformed
+        if (btnAddAppointmentActionListener == null) {
+            return;
         }
-    }//GEN-LAST:event_addAppointmentActionPerformed
+
+        appointment.setPatientId(patient.getId());
+        appointment.setDoctorId(currentDoctor.getId());
+
+        LocalDate date = LocalDate.parse(tfDate.getText(), DATE_FORMAT);
+
+        appointment.setStartTime(LocalDateTime.of(date, LocalTime.parse(tfStartTime.getText())));
+        appointment.setEndTime(LocalDateTime.of(date, LocalTime.parse(tfEndTime.getText())));
+
+        btnAddAppointmentActionListener.actionPerformed(evt);
+
+    }//GEN-LAST:event_btnAddAppointmentActionPerformed
+
+    private void cbAnotherDoctorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbAnotherDoctorItemStateChanged
+        ddlDoctors.setEnabled(cbAnotherDoctor.isSelected());
+    }//GEN-LAST:event_cbAnotherDoctorItemStateChanged
 
     private void ddlDoctorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddlDoctorsActionPerformed
-        setListModel(((Doctor) ddlDoctors.getSelectedItem()).getId());
-    }//GEN-LAST:event_ddlDoctorsActionPerformed
+        setCurrentDoctor((Doctor) ddlDoctors.getSelectedItem());
 
-    private void ddlPatientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddlPatientsActionPerformed
-        Patient p = (Patient) ddlPatients.getSelectedItem();
-        doctorName.setText(DoctorController.getDoctorForPatient(p.getId()).toString());
-    }//GEN-LAST:event_ddlPatientsActionPerformed
+        if (currentDoctorChangedListener != null) {
+            currentDoctorChangedListener.actionPerformed(evt);
+        }
+    }//GEN-LAST:event_ddlDoctorsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addAppointment;
+    private javax.swing.JButton btnAddAppointment;
+    private javax.swing.JCheckBox cbAnotherDoctor;
     private javax.swing.JComboBox ddlDoctors;
-    private javax.swing.JComboBox ddlPatients;
-    private javax.swing.JLabel doctorName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList scheduledAppointments;
+    private javax.swing.JLabel lblDoctor;
+    private javax.swing.JLabel lblOriginalDoctor;
+    private javax.swing.JLabel lblPatient;
     private javax.swing.JFormattedTextField tfDate;
     private javax.swing.JFormattedTextField tfEndTime;
     private javax.swing.JFormattedTextField tfStartTime;
     // End of variables declaration//GEN-END:variables
 
-    private void initData() {
-        patient = PatientController.getPatients().get(5);
-        if (patient != null) {
-            patientsDoctor = DoctorController.getDoctorForPatient(patient.getId());
+    private void updateData() {
+        if (appointment != null) {
+            updateAppointmentUI(appointment);
         }
-
-        doctorName.setText(patientsDoctor.toString());
-
-        List<Doctor> doctors = DoctorController.getGeneralPhysicians();
-        ddlDoctors.setModel(new DefaultComboBoxModel(doctors.toArray()));
-        ddlDoctors.setEditable(false);
-        ddlDoctors.setSelectedIndex(0);
-
-        List<Patient> patients = PatientController.getPatients();
-        ddlPatients.setModel(new DefaultComboBoxModel(patients.toArray()));
-        ddlPatients.setEditable(false);
-        ddlPatients.setSelectedItem(patient);
-
-        tfDate.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-        tfStartTime.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")));
-        tfEndTime.setText(LocalTime.now().plusMinutes(30).format(DateTimeFormatter.ofPattern("HH:mm")));
-
-        setListModel(((Doctor) ddlDoctors.getSelectedItem()).getId());
+        if (patient != null) {
+            updatePatientUI(patient);
+        }
+        if (currentDoctor != null) {
+            updateDoctorUI(currentDoctor);
+        }
     }
 
-    private void setListModel(int id) {
-        SwingUtilities.invokeLater(() -> {
-            List<Appointment> scheduledAppointments1 = AppointmentsController.getScheduledAppointments(id);
-            DefaultListModel<Appointment> list = new DefaultListModel<>();
+    private void updateAppointmentUI(Appointment appointment) {
+        tfDate.setText(appointment.getStartTime().toLocalDate().format(DATE_FORMAT));
+        tfStartTime.setText(appointment.getStartTime().toLocalTime().format(TIME_FORMAT));
+        tfEndTime.setText(appointment.getEndTime().toLocalTime().format(TIME_FORMAT));
+    }
 
-            scheduledAppointments1.forEach(app -> list.addElement(app));
-            scheduledAppointments.setModel(list);
-        });
+    private void updatePatientUI(Patient patient) {
+        lblPatient.setText(patient.toString());
+    }
 
+    private void updateDoctorUI(Doctor patientsDoctor) {
+        lblDoctor.setText(currentDoctor.toString());
+    }
+
+    private void initUI() {
+        cbAnotherDoctor.setSelected(false);
+        
+        originalDoctor = currentDoctor;
+        lblOriginalDoctor.setText(originalDoctor.toString());
+        ddlDoctors.setModel(new DefaultComboBoxModel(doctors.toArray()));
+        ddlDoctors.setSelectedItem(currentDoctor);
+        ddlDoctors.setEnabled(false);
+        
+        tfDate.setEditable(false);
+        tfStartTime.setEditable(false);
+        tfEndTime.setEditable(false);
     }
 }

@@ -83,6 +83,7 @@ public class Main {
         JFrame f = new RegularUI();
 //        ((Gui) f).start();
         Tets.main(null);
+        
 
         ////////////////////////////////
         //TESTING

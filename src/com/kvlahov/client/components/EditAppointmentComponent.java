@@ -5,23 +5,21 @@
  */
 package com.kvlahov.client.components;
 
-import com.kvlahov.controller.ServicesController;
+
 import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Service;
 import com.kvlahov.model.ServiceAppointment;
 import com.kvlahov.model.TypeOfService;
-import com.sun.javafx.geom.transform.BaseTransform;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
+
 
 /**
  *

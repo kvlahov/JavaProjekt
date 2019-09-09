@@ -324,13 +324,16 @@ public class Utilities {
     }
     
     public static boolean isInCurrentWeek(LocalDate date) {
-        int subtractDays = 1 - LocalDate.now().getDayOfWeek().getValue();
-        LocalDate startOfWeek = LocalDate.now().plusDays(subtractDays);
+        LocalDate startOfWeek = getStartOfWeek(LocalDate.now());
         LocalDate endOfWeek = startOfWeek.plusDays(6);
         
         return (date.isAfter(startOfWeek) || date.isEqual(startOfWeek))
                 && 
                 (date.isBefore(endOfWeek) || date.isEqual(endOfWeek));
-        
+    }
+    
+    public static LocalDate getStartOfWeek(LocalDate date) {
+        int daysToSubtract = date.getDayOfWeek().getValue() - 1;
+        return date.minusDays(daysToSubtract);
     }
 }

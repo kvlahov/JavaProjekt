@@ -5,6 +5,8 @@
  */
 package com.kvlahov.client.components;
 
+import com.kvlahov.client.events.CalendarEvent;
+import com.kvlahov.client.events.CalendarListener;
 import com.kvlahov.model.Appointment;
 import com.kvlahov.utils.Utilities;
 import java.awt.BorderLayout;
@@ -12,6 +14,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,6 +46,7 @@ public class Calendar extends javax.swing.JPanel {
     private LocalDate startOfWeek;
     private LocalTime dayStartTime = LocalTime.of(8, 0);
     private LocalTime dayEndTime = LocalTime.of(16, 0);
+    private LocalDate minimumDate = LocalDate.MIN;
 
     private final int gridStartX = 1;
     private final int gridStartY = 1;
@@ -54,14 +58,22 @@ public class Calendar extends javax.swing.JPanel {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM");
     private static final DateTimeFormatter HOUR_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
 
-    private ActionListener freeAppointmentsActionListener;
-    private ActionListener scheduledAppointmentsActionListener;
+    private CalendarListener freeAppointmentsActionListener;
+    private CalendarListener scheduledAppointmentsActionListener;
 
-    public void setFreeAppointmentsActionListener(ActionListener freeAppointmentsActionListener) {
+    public CalendarListener getFreeAppointmentsActionListener() {
+        return freeAppointmentsActionListener;
+    }
+
+    public void setFreeAppointmentsActionListener(CalendarListener freeAppointmentsActionListener) {
         this.freeAppointmentsActionListener = freeAppointmentsActionListener;
     }
 
-    public void setScheduledAppointmentsActionListener(ActionListener scheduledAppointmentsActionListener) {
+    public CalendarListener getScheduledAppointmentsActionListener() {
+        return scheduledAppointmentsActionListener;
+    }
+
+    public void setScheduledAppointmentsActionListener(CalendarListener scheduledAppointmentsActionListener) {
         this.scheduledAppointmentsActionListener = scheduledAppointmentsActionListener;
     }
 
@@ -87,6 +99,7 @@ public class Calendar extends javax.swing.JPanel {
 
     public void setScheduledAppointments(List<Appointment> scheduledAppointments) {
         this.scheduledAppointments = scheduledAppointments;
+        updateAppointments();
     }
 
     public LocalDate getStartOfWeek() {
@@ -95,6 +108,14 @@ public class Calendar extends javax.swing.JPanel {
 
     public void setStartOfWeek(LocalDate startOfWeek) {
         this.startOfWeek = startOfWeek;
+    }
+
+    public LocalDate getMinimumDate() {
+        return minimumDate;
+    }
+
+    public void setMinimumDate(LocalDate minimumDate) {
+        this.minimumDate = minimumDate;
     }
 
     /**
@@ -183,14 +204,18 @@ public class Calendar extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnTodayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodayActionPerformed
-        int daysTosubtract = 1 - LocalDate.now().getDayOfWeek().getValue();
-        startOfWeek = LocalDate.now().plusDays(daysTosubtract);
+        startOfWeek = Utilities.getStartOfWeek(LocalDate.now());
         updateWeekLabel();
 
     }//GEN-LAST:event_btnTodayActionPerformed
 
     private void dateRangePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateRangePropertyChange
-        // TODO add your handling code here:
+        if(startOfWeek.isEqual(Utilities.getStartOfWeek(minimumDate))) {
+            btnBack.setEnabled(false);
+        }
+        else {
+            btnBack.setEnabled(true);
+        }
         updateData();
         updateGridBag();
     }//GEN-LAST:event_dateRangePropertyChange
@@ -281,8 +306,7 @@ public class Calendar extends javax.swing.JPanel {
     }
 
     private void initData() {
-        int daysTosubtract = 1 - LocalDate.now().getDayOfWeek().getValue();
-        startOfWeek = LocalDate.now().plusDays(daysTosubtract);
+        startOfWeek = Utilities.getStartOfWeek(LocalDate.now());
 
         for (int i = gridStartX, addDays = 0; i < gridStartX + 7; i++, addDays++) {
             weekdays.put(i, startOfWeek.plusDays(addDays));
@@ -326,36 +350,68 @@ public class Calendar extends javax.swing.JPanel {
         gbc.ipady = 150;
         gbc.weightx = 1.0;
 
-        for (Map.Entry<Integer, LocalDate> dateEntry : weekdays.entrySet()) {
-            for (Map.Entry<Integer, LocalTime> timeEntry : timeOfDay.entrySet()) {
-                JButton btnAppointment = new JButton();
-                btnAppointment.setHorizontalAlignment(SwingConstants.LEFT);
-                btnAppointment.setVerticalAlignment(SwingConstants.TOP);
-
-                LocalDateTime datetime = LocalDateTime.of(dateEntry.getValue(), timeEntry.getValue().truncatedTo(ChronoUnit.MINUTES));
-                Optional<Appointment> optionalAppointment = appointmentsForWeek
-                        .stream()
-                        .filter(app -> app.getStartTime().truncatedTo(ChronoUnit.MINUTES).equals(datetime))
-                        .findFirst();
-                if (optionalAppointment.isPresent()) {
-                    Appointment appointment = optionalAppointment.get();
-                    styleAppointmentButton(appointment, btnAppointment);
-                    btnAppointment.addActionListener((e) -> scheduledAppointmentsActionListener.actionPerformed(e));
-                } else {
-                    btnAppointment.addActionListener(freeAppointmentsActionListener);
-                }
-
-                if (dateEntry.getValue().isEqual(LocalDate.now())) {
-                    btnAppointment.setBorder(new MatteBorder(1, 1, 1, 1, COLOR_TODAY));
-                }
+        weekdays.entrySet().stream().forEach((dateEntry) -> {
+            timeOfDay.entrySet().stream().forEach((timeEntry) -> {
+                JButton btnAppointment = getAppointmentButton(dateEntry, timeEntry, appointmentsForWeek);
 
                 gbc.gridx = dateEntry.getKey();
                 gbc.gridy = timeEntry.getKey();
 
                 mainPanel.add(btnAppointment, gbc);
+            });
+        });
+    }
 
-            }
+    private JButton getAppointmentButton(Map.Entry<Integer, LocalDate> dateEntry, Map.Entry<Integer, LocalTime> timeEntry, List<Appointment> appointmentsForWeek) {
+        JButton btnAppointment = new JButton();
+        btnAppointment.setHorizontalAlignment(SwingConstants.LEFT);
+        btnAppointment.setVerticalAlignment(SwingConstants.TOP);
+        
+        LocalDateTime datetime = LocalDateTime.of(dateEntry.getValue(), timeEntry.getValue().truncatedTo(ChronoUnit.MINUTES));
+        Optional<Appointment> optionalAppointment = appointmentsForWeek
+                .stream()
+                .filter(app -> app.getStartTime().truncatedTo(ChronoUnit.MINUTES).equals(datetime))
+                .findFirst();
+        
+        if (optionalAppointment.isPresent()) {
+            Appointment appointment = optionalAppointment.get();
+            styleAppointmentButton(appointment, btnAppointment);
+            
+            btnAppointment.addActionListener((e) -> {
+                scheduledAppointmentActionPerformed(e, appointment);
+            });
+            
+        } else {
+            
+            btnAppointment.addActionListener((e) -> {
+                freeAppointmentActionPerformed(e, datetime);
+            });
+            
         }
+        if (dateEntry.getValue().isEqual(LocalDate.now())) {
+            btnAppointment.setBorder(new MatteBorder(1, 1, 1, 1, COLOR_TODAY));
+        }
+        return btnAppointment;
+    }
+    
+    private void freeAppointmentActionPerformed(ActionEvent e, LocalDateTime datetime) {
+        if (freeAppointmentsActionListener == null) {
+            return;
+        }
+
+        Appointment blankAppointment = new Appointment();
+        blankAppointment.setStartTime(datetime);
+        blankAppointment.setEndTime(datetime.plusMinutes(30));
+        CalendarEvent ce = new CalendarEvent(e.getSource(), blankAppointment);
+
+        freeAppointmentsActionListener.calendarEventOccured(ce);
+    }
+
+    private void scheduledAppointmentActionPerformed(ActionEvent e, Appointment appointment) {
+        if (scheduledAppointmentsActionListener == null) {
+            return;
+        }
+        scheduledAppointmentsActionListener.calendarEventOccured(new CalendarEvent(e.getSource(), appointment));
     }
 
     private void styleAppointmentButton(Appointment appointment, JButton btnAppointment) {

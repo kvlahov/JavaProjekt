@@ -5,6 +5,19 @@
  */
 package com.kvlahov.client;
 
+import com.kvlahov.client.components.AppointmentsPane;
+import com.kvlahov.client.components.Calendar;
+import com.kvlahov.controller.AppointmentsController;
+import com.kvlahov.controller.DoctorController;
+import com.kvlahov.controller.PatientController;
+import com.kvlahov.model.Appointment;
+import com.kvlahov.model.Doctor;
+import com.kvlahov.model.Patient;
+import java.awt.BorderLayout;
+import java.time.LocalDate;
+import java.util.List;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author lordo
@@ -16,7 +29,9 @@ public class Tets extends javax.swing.JFrame {
      */
     public Tets() {
         initComponents();
-        initCalendar();
+//        initCalendar();
+//        registerEvents();
+        initAppointmentPane();
     }
 
     /**
@@ -28,10 +43,9 @@ public class Tets extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        calendar1 = new com.kvlahov.client.components.Calendar();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().add(calendar1, java.awt.BorderLayout.CENTER);
+        setMinimumSize(new java.awt.Dimension(600, 500));
+        setSize(new java.awt.Dimension(600, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -72,6 +86,49 @@ public class Tets extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.kvlahov.client.components.Calendar calendar1;
     // End of variables declaration//GEN-END:variables
+//    private void initCalendar() {
+//        List<Appointment> scheduledAppointments = AppointmentsController.getScheduledAppointments(4);
+//        calendar1.setScheduledAppointments(scheduledAppointments);
+//    }
+//
+//    private void registerEvents() {
+//        calendar1.setFreeAppointmentsActionListener((calendarEvent) -> {
+//            System.out.println(calendarEvent.getAppointment());
+//        });
+//
+//        calendar1.setScheduledAppointmentsActionListener((calendarEvent) -> {
+//            System.out.println(calendarEvent.getAppointment());
+//
+//        });
+//    }
+    private void initAppointmentPane() {
+        Patient p = PatientController.getPatients().get(4);
+        Doctor d = DoctorController.getDoctorForPatient(p.getId());
+        List<Doctor> generalPhysicians = DoctorController.getGeneralPhysicians();
+        Appointment appointment = AppointmentsController.getScheduledAppointments(4).get(0);
+
+        AppointmentsPane appointmentsPane = new AppointmentsPane(p, d, appointment, generalPhysicians);
+        appointmentsPane.setBtnAddAppointmentActionListener((e) -> {
+            
+        });
+
+        Calendar calendar = new Calendar();
+        calendar.setMinimumDate(LocalDate.now());
+        
+        appointmentsPane.setCurrentDoctorChangedListener((e) -> {
+            Doctor targetDoctor = appointmentsPane.getCurrentDoctor();
+            SwingUtilities.invokeLater(() -> {
+                calendar.setScheduledAppointments(AppointmentsController.getScheduledAppointments(targetDoctor.getId()));
+            });
+
+        });
+
+        calendar.setFreeAppointmentsActionListener((calendarEvent) -> {
+            appointmentsPane.setAppointment(calendarEvent.getAppointment());
+        });
+
+        add(appointmentsPane, BorderLayout.NORTH);
+        add(calendar, BorderLayout.CENTER);
+    }
 }
