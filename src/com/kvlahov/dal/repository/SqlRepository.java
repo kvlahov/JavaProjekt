@@ -4,6 +4,7 @@ import com.kvlahov.dal.sql.DataSourceSingleton;
 import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
+import com.kvlahov.model.PaymentMethod;
 import com.kvlahov.model.Receipt;
 import com.kvlahov.model.ReceiptItem;
 import com.kvlahov.model.Service;
@@ -24,6 +25,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDate;
@@ -201,11 +203,7 @@ class SqlRepository implements IRepository {
             stmt.setInt(1, idDoctor);
             try (ResultSet resultSet = stmt.executeQuery()) {
                 if (resultSet.next()) {
-                    return new Doctor(
-                            resultSet.getInt("IDDoctor"),
-                            resultSet.getString("Name"),
-                            resultSet.getString("Surname"),
-                            resultSet.getInt("DepartmentID"));
+                    return SqlTableHelper.getDoctor(resultSet);
                 }
             }
         } catch (Exception e) {
@@ -223,12 +221,7 @@ class SqlRepository implements IRepository {
 
             List<Doctor> doctors = new ArrayList<>();
             while (resultSet.next()) {
-                doctors.add(
-                        new Doctor(
-                                resultSet.getInt("IDDoctor"),
-                                resultSet.getString("Name"),
-                                resultSet.getString("Surname"),
-                                resultSet.getInt("DepartmentID")));
+                doctors.add(SqlTableHelper.getDoctor(resultSet));
             }
             return doctors;
 
@@ -1109,17 +1102,10 @@ class SqlRepository implements IRepository {
                 CallableStatement stmt = con.prepareCall(GET_RECEIPT)) {
             stmt.setInt(1, id);
             try (ResultSet resultSet = stmt.executeQuery()) {
+                
                 List<ReceiptItem> items = new ArrayList<>();
                 while (resultSet.next()) {
-                    Receipt receipt = new Receipt();
-                    receipt.setId(resultSet.getInt("IDReceipt"));
-                    receipt.setComment(resultSet.getString("Comment"));
-                    receipt.setDate(resultSet.getDate("Date").toLocalDate());
-                    receipt.setPatientId(resultSet.getInt("PatientID"));
-                    receipt.setPaymentMethodId(resultSet.getInt("PaymentMethodID"));
-                    receipt.setReceiptNumber(resultSet.getString("ReceiptNumber"));
-
-                    return receipt;
+                    return SqlTableHelper.getReceipt(resultSet);
                 }
             }
 
@@ -1138,15 +1124,8 @@ class SqlRepository implements IRepository {
             try (ResultSet resultSet = stmt.executeQuery()) {
                 List<Receipt> receipts = new ArrayList<>();
                 while (resultSet.next()) {
-                    Receipt receipt = new Receipt();
-                    receipt.setId(resultSet.getInt("IDReceipt"));
-                    receipt.setComment(resultSet.getString("Comment"));
-                    receipt.setDate(resultSet.getDate("Date").toLocalDate());
-                    receipt.setPatientId(resultSet.getInt("PatientID"));
-                    receipt.setPaymentMethodId(resultSet.getInt("PaymentMethodID"));
-                    receipt.setReceiptNumber(resultSet.getString("ReceiptNumber"));
 
-                    receipts.add(receipt);
+                    receipts.add(SqlTableHelper.getReceipt(resultSet));
                 }
                 return receipts;
             }
@@ -1330,13 +1309,13 @@ class SqlRepository implements IRepository {
                 CallableStatement stmt = con.prepareCall(DELETE_SERVICE_FOR_APPOINTMENT)) {
 
             stmt.setInt(1, id);
-            
+
             stmt.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 
     @Override
@@ -1423,12 +1402,7 @@ class SqlRepository implements IRepository {
 
             List<Doctor> doctors = new ArrayList<>();
             while (resultSet.next()) {
-                doctors.add(
-                        new Doctor(
-                                resultSet.getInt("IDDoctor"),
-                                resultSet.getString("Name"),
-                                resultSet.getString("Surname"),
-                                resultSet.getInt("DepartmentID")));
+                doctors.add(SqlTableHelper.getDoctor(resultSet));
             }
             return doctors;
 
@@ -1447,18 +1421,17 @@ class SqlRepository implements IRepository {
             stmt.setInt(1, pid);
             try (ResultSet resultSet = stmt.executeQuery()) {
                 if (resultSet.next()) {
-                    return new Doctor(
-                            resultSet.getInt("IDDoctor"),
-                            resultSet.getString("Name"),
-                            resultSet.getString("Surname"),
-                            resultSet.getInt("DepartmentID"));
+                    return SqlTableHelper.getDoctor(resultSet);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            
         }
         return null;
     }
+
+    
 
     @Override
     public void assignDoctorForPatient(int pid, int doctorId) {
@@ -1490,6 +1463,26 @@ class SqlRepository implements IRepository {
                     types.add(type);
                 }
                 return types;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<PaymentMethod> getAllPaymentMethods() {
+        final String GET_PAYMENT_METHODS = "{ CALL getAllPaymentMethods }";
+
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_PAYMENT_METHODS)) {
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<PaymentMethod> paymentMethods = new ArrayList<>();
+                
+                while (resultSet.next()) {
+                    paymentMethods.add(SqlTableHelper.getPaymentMethod(resultSet));
+                }
+                return paymentMethods;
             }
         } catch (Exception e) {
             e.printStackTrace();

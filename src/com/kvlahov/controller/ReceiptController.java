@@ -9,6 +9,7 @@ import com.kvlahov.dal.repository.IRepository;
 import com.kvlahov.dal.repository.RepositoryFactory;
 import com.kvlahov.exceptions.InvalidModelException;
 import com.kvlahov.model.Appointment;
+import com.kvlahov.model.PaymentMethod;
 import com.kvlahov.model.Receipt;
 import com.kvlahov.model.ReceiptItem;
 import com.kvlahov.model.ServiceAppointment;
@@ -30,8 +31,10 @@ public class ReceiptController {
         
         List<ServiceAppointment> services = repo.getServicesForAppointment(appointment.getId());
         receipt.setItems(receiptItemsFromServices(services));
+        receipt.calculateTotal();
         
         receipt.setPatientId(appointment.getPatientId());
+        receipt.generateReceiptNumber();
         
         return receipt;
     }
@@ -71,11 +74,18 @@ public class ReceiptController {
             item.setServiceId(service.getService().getId());
             item.setPricePerItem(service.getService().getPrice());
             item.setQuantity(service.getQuantity());
+            item.setService(service.getService());
+            
+            item.calculateTotalPrice();
             
             receiptItems.add(item);
         }
         
         return receiptItems;
+    }
+    
+    public static List<PaymentMethod> getAllPaymentMethods() {
+        return repo.getAllPaymentMethods();
     }
 
 }

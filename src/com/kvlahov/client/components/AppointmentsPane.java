@@ -150,7 +150,6 @@ public class AppointmentsPane extends javax.swing.JPanel {
 
         tfDate.setColumns(10);
         tfDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
-        tfDate.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;

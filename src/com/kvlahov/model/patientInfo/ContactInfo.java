@@ -148,7 +148,7 @@ public class ContactInfo {
 
         @Override
         public String toString() {
-            return "Address{" + "\nstreet=" + street + "\narea=" + area + "\ncity=" + city + "\nstate=" + state + "\nzipCode=" + zipCode + '}';
+            return street + ", " + zipCode + " " + city + ", " + state;
         }
         
         
@@ -159,7 +159,7 @@ public class ContactInfo {
         return "ContactInfo{" + 
                 "\npresentAddress\n\t" + presentAddress + 
                 "\npermanentAddress\n\t" + permanentAddress + 
-                "\nemail=" + email + "\nphoneNumbers=\n\t" + contacts;
+                "\nemail=" + email;
     }
     
     

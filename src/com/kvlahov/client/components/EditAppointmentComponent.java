@@ -374,8 +374,8 @@ public class EditAppointmentComponent extends javax.swing.JPanel {
         lblPatientName.setText(patientName);
 
         if (appointment != null) {
-            lblDate.setText(appointment.getDate());
-            lblAppointmentDuration.setText(appointment.getDuration());
+            lblDate.setText(appointment.getFormattedDate());
+            lblAppointmentDuration.setText(appointment.getFormattedDuration());
             tbAnamnesis.setText(appointment.getAnamnesis());
             tbDiagnosis.setText(appointment.getDiagnosis());
         }

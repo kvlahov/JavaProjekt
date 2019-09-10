@@ -8,6 +8,7 @@ package com.kvlahov.dal.repository;
 import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
+import com.kvlahov.model.PaymentMethod;
 import com.kvlahov.model.Receipt;
 import com.kvlahov.model.ReceiptItem;
 import com.kvlahov.model.Service;
@@ -104,6 +105,8 @@ public interface IRepository {
     public List<ReceiptItem> getReceiptItems(int receiptId);
     public void updateReceiptItem(ReceiptItem item);
     public void deleteReceiptItem(int itemId);
+    
+    public List<PaymentMethod> getAllPaymentMethods();
     
     //Service CRUD
     public void insertService(Service service);

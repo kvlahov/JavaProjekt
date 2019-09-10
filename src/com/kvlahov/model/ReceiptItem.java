@@ -18,6 +18,7 @@ public class ReceiptItem {
     private int quantity;
     private double totalPrice;
     private double discount;
+    private Service service;
 
     public int getId() {
         return id;
@@ -62,7 +63,7 @@ public class ReceiptItem {
     public double getTotalPrice() {
         return totalPrice;
     }
-
+    
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
@@ -73,6 +74,18 @@ public class ReceiptItem {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+    
+    public void calculateTotalPrice() {
+        totalPrice = (1 - discount) * quantity * pricePerItem;
     }
 
 }

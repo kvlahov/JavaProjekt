@@ -8,16 +8,16 @@ package com.kvlahov.model;
 import com.kvlahov.utils.Validatable;
 import com.kvlahov.utils.Validations;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  *
  * @author lordo
  */
-public class Receipt implements Validatable{
+public class Receipt implements Validatable {
 
     private int id;
     private String receiptNumber;
@@ -25,7 +25,10 @@ public class Receipt implements Validatable{
     private String comment;
     private int patientId;
     private int paymentMethodId;
-    
+
+    private PaymentMethod paymentMethod;
+    private double total;
+
     private List<ReceiptItem> items = new ArrayList<>();
 
     public List<ReceiptItem> getItems() {
@@ -83,16 +86,41 @@ public class Receipt implements Validatable{
     public void setPaymentMethodId(int paymentMethodId) {
         this.paymentMethodId = paymentMethodId;
     }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void calculateTotal() {
+        this.total
+                = items.stream()
+                .mapToDouble(item -> item.getTotalPrice())
+                .sum();
+
+    }
     
+    public void generateReceiptNumber() {
+        this.receiptNumber = date.format(DateTimeFormatter.ISO_DATE)
+                .concat("-" + patientId + "-")
+                .concat(String.valueOf(hashCode()));
+    }
+
     @Override
     public boolean isValid() {
-        List<Boolean> validations = Arrays.asList
-        (
-            Validations.notNullOrEmpty(receiptNumber),
-            Validations.isPositive(patientId),
-            Validations.isPositive(paymentMethodId)
+        List<Boolean> validations = Arrays.asList(
+                Validations.notNullOrEmpty(receiptNumber),
+                Validations.isPositive(patientId),
+                Validations.isPositive(paymentMethodId)
         );
-        
+
         return Validations.validate(validations);
     }
 

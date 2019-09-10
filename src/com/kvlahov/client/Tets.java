@@ -7,12 +7,20 @@ package com.kvlahov.client;
 
 import com.kvlahov.client.components.AppointmentsPane;
 import com.kvlahov.client.components.Calendar;
+import com.kvlahov.client.components.TableComponent;
+import com.kvlahov.client.components.ReceiptComponent;
+import com.kvlahov.client.events.TableEvent;
+import com.kvlahov.client.tableModels.PatientTableModel;
 import com.kvlahov.controller.AppointmentsController;
 import com.kvlahov.controller.DoctorController;
 import com.kvlahov.controller.PatientController;
+import com.kvlahov.controller.ReceiptController;
 import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
+import com.kvlahov.model.PaymentMethod;
+import com.kvlahov.model.Receipt;
+import com.kvlahov.model.patientInfo.ContactInfo;
 import java.awt.BorderLayout;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,7 +39,9 @@ public class Tets extends javax.swing.JFrame {
         initComponents();
 //        initCalendar();
 //        registerEvents();
-        initAppointmentPane();
+//        initAppointmentPane();
+//        initReceiptPane();
+        initPatientListComponent();
     }
 
     /**
@@ -130,5 +140,28 @@ public class Tets extends javax.swing.JFrame {
 
         add(appointmentsPane, BorderLayout.NORTH);
         add(calendar, BorderLayout.CENTER);
+    }
+
+    private void initReceiptPane() {
+        Appointment appointment = AppointmentsController.getScheduledAppointments(4).get(0);
+        Receipt receipt = ReceiptController.generateReceipt(appointment);
+        Patient patient = PatientController.getPatient(appointment.getPatientId());
+        ContactInfo patientContactInfo = PatientController.getPatientContactInfo(appointment.getPatientId());
+        List<PaymentMethod> allPaymentMethods = ReceiptController.getAllPaymentMethods();
+        receipt.setPaymentMethod(allPaymentMethods.get(0));
+        ReceiptComponent receiptComponent = new ReceiptComponent(receipt, patient, appointment.getDate(), patientContactInfo);
+        receiptComponent.setEditMode(allPaymentMethods);
+        add(receiptComponent, BorderLayout.CENTER);
+    }
+    
+    private void initPatientListComponent() {
+        List<Patient> patients = PatientController.getPatients();
+        
+        TableComponent<Patient> plc = new TableComponent<>(new PatientTableModel(patients));
+        plc.getTableModel().setFilterPredicate((p) -> p.getName().toLowerCase().equals(plc.getSearchExpression().toLowerCase()));
+        plc.setTableListener((TableEvent<Patient> e) -> {
+            System.out.println(e.getModel().toString());
+        });
+        add(plc, BorderLayout.CENTER);
     }
 }

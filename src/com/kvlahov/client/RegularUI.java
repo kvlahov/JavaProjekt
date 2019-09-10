@@ -31,23 +31,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-
-import javax.swing.UIManager;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.decorator.ColorHighlighter;
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.decorator.Highlighter;
-import org.jdesktop.swingx.decorator.HighlighterFactory;
-import org.jdesktop.swingx.decorator.PatternPredicate;
-import org.jdesktop.swingx.decorator.ShadingColorHighlighter;
-
 /**
  *
  * @author lordo
@@ -60,7 +43,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     public RegularUI() {
         initComponents();
         initContent();
-        initTable();
     }
 
     /**
@@ -74,16 +56,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        PatientsTable = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        tfSearch = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
-        btnClear = new javax.swing.JButton();
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 0), new java.awt.Dimension(50, 32767));
-        btnView = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblPatients = new org.jdesktop.swingx.JXTable();
         patientViewPane = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         personalInfo = new javax.swing.JPanel();
@@ -183,79 +155,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         jPanel4.add(jLabel9);
 
         getContentPane().add(jPanel4, "card3");
-
-        jScrollPane3.setMaximumSize(new java.awt.Dimension(800, 32767));
-        jScrollPane3.setMinimumSize(new java.awt.Dimension(800, 23));
-        jScrollPane3.setPreferredSize(new java.awt.Dimension(800, 464));
-
-        PatientsTable.setLayout(new java.awt.BorderLayout());
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
-
-        tfSearch.setMaximumSize(new java.awt.Dimension(20000, 2147483647));
-        tfSearch.setMinimumSize(new java.awt.Dimension(20000, 40));
-        tfSearch.setPreferredSize(new java.awt.Dimension(350, 55));
-        jPanel1.add(tfSearch);
-
-        btnSearch.setText("Search");
-        btnSearch.setMaximumSize(new java.awt.Dimension(105, 43));
-        btnSearch.setPreferredSize(new java.awt.Dimension(105, 43));
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSearch);
-
-        btnClear.setText("Clear");
-        btnClear.setMaximumSize(new java.awt.Dimension(85, 43));
-        btnClear.setPreferredSize(new java.awt.Dimension(65, 43));
-        btnClear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnClear);
-        jPanel1.add(filler2);
-
-        btnView.setText("View");
-        btnView.setMaximumSize(new java.awt.Dimension(85, 43));
-        btnView.setPreferredSize(new java.awt.Dimension(65, 43));
-        btnView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnView);
-
-        PatientsTable.add(jPanel1, java.awt.BorderLayout.PAGE_START);
-
-        tblPatients.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"2", null, null, null, null},
-                {"3", null, null, null, null},
-                {"4", null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Surname", "Date Of Birth", "Sex"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tblPatients);
-
-        PatientsTable.add(jScrollPane2, java.awt.BorderLayout.CENTER);
-
-        jScrollPane3.setViewportView(PatientsTable);
-
-        getContentPane().add(jScrollPane3, "patientTable");
 
         patientViewPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 10));
         patientViewPane.setLayout(new javax.swing.BoxLayout(patientViewPane, javax.swing.BoxLayout.LINE_AXIS));
@@ -626,30 +525,8 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     }//GEN-LAST:event_miNewActionPerformed
 
     private void miShowPatientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miShowPatientsActionPerformed
-        ((PatientTableModel) tblPatients.getModel()).updateModel();
-//        ((PatientTableModel) tblPatients.getModel()).fireTableDataChanged();
-//        tblPatients.revalidate();
-        tblPatients.repaint();
-        mainCardLayout.show(getContentPane(), "patientTable");
+        
     }//GEN-LAST:event_miShowPatientsActionPerformed
-
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
-        ((PatientTableModel) tblPatients.getModel()).filterPatientsByName(tfSearch.getText().trim());
-        tblPatients.repaint();
-    }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
-        tfSearch.setText("");
-        btnSearchActionPerformed(evt);
-
-    }//GEN-LAST:event_btnClearActionPerformed
-
-    private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed
-        // TODO add your handling code here:
-        viewSelectedPatient(tblPatients);
-    }//GEN-LAST:event_btnViewActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
@@ -698,12 +575,8 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PatientsTable;
     private javax.swing.JPanel appointments;
     private javax.swing.JPanel basicInfoPanel;
-    private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnSearch;
-    private javax.swing.JButton btnView;
     private javax.swing.JLabel currentDoctor;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
@@ -711,7 +584,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.Box.Filler filler12;
     private javax.swing.Box.Filler filler13;
     private javax.swing.Box.Filler filler14;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler3;
     private javax.swing.Box.Filler filler4;
     private javax.swing.Box.Filler filler7;
@@ -755,7 +627,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
@@ -785,8 +656,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
@@ -798,8 +667,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.JPanel patientBasicInfo;
     private javax.swing.JPanel patientViewPane;
     private javax.swing.JPanel personalInfo;
-    private org.jdesktop.swingx.JXTable tblPatients;
-    private javax.swing.JTextField tfSearch;
     // End of variables declaration//GEN-END:variables
     private CardLayout mainCardLayout;
     private Patient selectedPatientModel;
@@ -828,160 +695,15 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         LoginScreen.start();
     }
 
-    private void initTable() {
-        tblPatients.setModel(new PatientTableModel());
-
-        tblPatients.setRowHeight(100);
-        tblPatients.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    JTable target = (JTable) e.getSource();
-                    viewSelectedPatient(target);
-
-                }
-            }
-        });
-
-        tblPatients.removeColumn(tblPatients.getColumn(4));
-        tblPatients.addHighlighter(new ColorHighlighter(HighlightPredicate.ROLLOVER_ROW,
-                null, Color.RED));
-
-        tblPatients.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        Highlighter simpleStriping = HighlighterFactory.createSimpleStriping();
-        tblPatients.addHighlighter(simpleStriping);
-
-    }
-
     @Override
     public void update(Observable o, Object arg) {
-        ((PatientTableModel) tblPatients.getModel()).updateModel();
-        tblPatients.repaint();
+        
     }
 
     private void showViewPatient(Patient p) {
         JOptionPane.showMessageDialog(null, "Patient: " + p.getId() + " " + p.getName());
-//        NewPatientDialog dialog = new NewPatientDialog(this, true, p);
-//        dialog.setVisible(true);
-//        setLabelsForPatient(p);
         selectedPatientModel = p;
         mainCardLayout.show(getContentPane(), "viewPatient");
-    }
-
-    private Patient getPatientForRow(JTable target, int selectedRow) {
-        return ((PatientTableModel) target.getModel()).getPatientForRow(selectedRow);
-    }
-
-    private void viewSelectedPatient(JTable target) {
-        int selected = target.getSelectedRow();
-        if (selected != -1) {
-            int index = target.convertRowIndexToModel(selected);
-            Patient p = getPatientForRow(target, index);
-            showViewPatient(p);
-        } else {
-            JOptionPane.showMessageDialog(null, "No patient selected", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
-
-//    private void setLabelsForPatient(Patient p) {
-//        lblName.setText(p.getName());
-//        lblSurname.setText(p.getSurname());
-//        lblSex.setText(p.getSex().toString());
-//        lblDateOfBirth.setText(p.getFormatedDate("dd/MM/yyyy"));
-//        lblContact.setText("");
-//        lblComplaint.setText("");
-//        
-//        patientViewPane.repaint();
-//        
-//    }
-
-    private static class PatientTableModel extends AbstractTableModel {
-
-        //https://tips4java.wordpress.com/2008/11/21/row-table-model/
-//        List<Patient> patients = PatientController.getPatients();
-        List<Patient> patients = PatientController.getPatients();
-        List<Patient> filteredPatients = patients;
-
-        private String[] columnNames = {
-            "First Name",
-            "Last Name",
-            "Sex",
-            "Date of birth",
-            "Id"
-        };
-
-        @Override
-        public int getRowCount() {
-            return filteredPatients.size();
-        }
-
-        @Override
-        public int getColumnCount() {
-            return columnNames.length;
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            Patient p = filteredPatients.get(rowIndex);
-            switch (columnIndex) {
-                case 0:
-                    return p.getName();
-                case 1:
-                    return p.getSurname();
-                case 2:
-                    return p.getSex().toString();
-                case 3:
-                    return p.getFormatedDate("dd-MM-yyyy");
-                case 4:
-                    return p.getId();
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public String getColumnName(int column) {
-            return columnNames[column];
-        }
-
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false;
-        }
-
-        public Patient getPatientForRow(int row) {
-            int id = (int) getValueAt(row, 4);
-            return patients.stream()
-                    .filter(p -> p.getId() == id)
-                    .findFirst()
-                    .orElse(new Patient(-1, null, null, Sex.MALE, LocalDate.MIN));
-        }
-
-        public void updateModel() {
-            this.patients = PatientController.getPatients();
-            filteredPatients = patients;
-            fireTableDataChanged();
-        }
-
-        public void filterPatientsByName(String filter) {
-            String[] compositeFilter = filter.split(" ");
-            if (compositeFilter.length > 1) {
-                filteredPatients = patients.stream()
-                        .filter(p
-                                -> p.getName().toLowerCase().startsWith(compositeFilter[0].toLowerCase()))
-                        .filter(p -> p.getSurname().toLowerCase().startsWith(compositeFilter[1].toLowerCase()))
-                        .collect(Collectors.toList());
-            } else {
-                filteredPatients = patients.stream()
-                        .filter(p -> p.getName().toLowerCase().startsWith(filter.toLowerCase()))
-                        .collect(Collectors.toList());
-
-            }
-            fireTableDataChanged();
-
-        }
-
     }
 
 }

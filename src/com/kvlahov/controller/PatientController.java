@@ -80,7 +80,7 @@ public class PatientController {
             if(add == null) return;
             if(add.getType() == AddressType.PERMANENT) {
                 patientContact.setPermanentAddress(add);
-            } else if (add.getType() == AddressType.PERMANENT) {
+            } else if (add.getType() == AddressType.PRESENT) {
                 patientContact.setPresentAddress(add);
             }
         });       
@@ -101,6 +101,14 @@ public class PatientController {
 
     public static List<Patient> getPatients() {
         return repo.getPatients();
+    }
+    
+    public static Patient getPatient(int pid) {
+        return repo.getPatient(pid);
+    }
+    
+    public static ContactInfo getPatientContactInfo(int pid) {
+        return repo.getPatientContact(pid);
     }
     
     public static void addObserver(Observer o) {

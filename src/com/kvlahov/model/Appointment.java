@@ -7,6 +7,7 @@ package com.kvlahov.model;
 
 import com.kvlahov.utils.Validatable;
 import com.kvlahov.utils.Validations;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -85,12 +86,16 @@ public class Appointment implements Validatable {
         this.diagnosis = diagnosis;
     }
 
-    public String getDate() {
+    public String getFormattedDate() {
         return startTime.format(dateFormat);
     }
     
-    public String getDuration() {
+    public String getFormattedDuration() {
         return startTime.format(timeFormat) + " - " + endTime.format(timeFormat);
+    }
+    
+    public LocalDate getDate() {
+        return startTime.toLocalDate();
     }
 
     @Override
