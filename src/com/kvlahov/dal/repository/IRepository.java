@@ -93,6 +93,7 @@ public interface IRepository {
     public Appointment getAppointment(int id);
     public void deleteAppointment(int id);
     public void updateAppointment(Appointment appointment);
+    public List<Appointment> getAppointmentsForPatient(int pid);
 
     //Receipt CRUD
     public void insertReceipt(Receipt receipt);

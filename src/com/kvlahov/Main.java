@@ -5,9 +5,13 @@
  */
 package com.kvlahov;
 
+import com.kvlahov.client.Gui;
 import com.kvlahov.client.RegularUI;
 import com.kvlahov.client.Tets;
+import com.kvlahov.client.components.NewPatientDialog;
+import com.kvlahov.controller.PatientController;
 import com.kvlahov.dal.repository.*;
+import com.kvlahov.model.patientInfo.ExtendedPatientInformation;
 import javax.swing.JFrame;
 
 
@@ -39,9 +43,12 @@ public class Main {
 //        DoctorUI.start();
         JFrame f = new RegularUI();
 //        ((Gui) f).start();
-        Tets.main(null);
-        
-
+//        Tets.main(null);
+        ExtendedPatientInformation extendedInfo = PatientController.getExtendedInfo(28);
+        NewPatientDialog dialog = new NewPatientDialog(f, true, null, null);
+        ((Gui) f).start();
+        dialog.setVisible(true);
+        System.out.println(extendedInfo);
         ////////////////////////////////
         //TESTING
     }

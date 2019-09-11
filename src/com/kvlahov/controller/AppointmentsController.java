@@ -45,4 +45,8 @@ public class AppointmentsController {
     public static void deleteAppointment(int appointmentId) {
         repo.deleteAppointment(appointmentId);
     }
+    
+    public static List<Appointment> getAppointmentsForPatient(int pid) {
+        return repo.getAppointmentsForPatient(pid);
+    }
 }

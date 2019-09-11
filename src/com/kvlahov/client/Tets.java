@@ -10,7 +10,9 @@ import com.kvlahov.client.components.Calendar;
 import com.kvlahov.client.components.TableComponent;
 import com.kvlahov.client.components.ReceiptComponent;
 import com.kvlahov.client.events.TableEvent;
+import com.kvlahov.client.tableModels.AppointmentTableModel;
 import com.kvlahov.client.tableModels.PatientTableModel;
+import com.kvlahov.client.tableModels.ReceiptTableModel;
 import com.kvlahov.controller.AppointmentsController;
 import com.kvlahov.controller.DoctorController;
 import com.kvlahov.controller.PatientController;
@@ -41,7 +43,9 @@ public class Tets extends javax.swing.JFrame {
 //        registerEvents();
 //        initAppointmentPane();
 //        initReceiptPane();
-        initPatientListComponent();
+//        initPatientListComponent();
+//        initAppointmentListComponent();
+        initReceiptListComponent();
     }
 
     /**
@@ -120,12 +124,12 @@ public class Tets extends javax.swing.JFrame {
 
         AppointmentsPane appointmentsPane = new AppointmentsPane(p, d, appointment, generalPhysicians);
         appointmentsPane.setBtnAddAppointmentActionListener((e) -> {
-            
+
         });
 
         Calendar calendar = new Calendar();
         calendar.setMinimumDate(LocalDate.now());
-        
+
         appointmentsPane.setCurrentDoctorChangedListener((e) -> {
             Doctor targetDoctor = appointmentsPane.getCurrentDoctor();
             SwingUtilities.invokeLater(() -> {
@@ -153,13 +157,35 @@ public class Tets extends javax.swing.JFrame {
         receiptComponent.setEditMode(allPaymentMethods);
         add(receiptComponent, BorderLayout.CENTER);
     }
-    
+
     private void initPatientListComponent() {
         List<Patient> patients = PatientController.getPatients();
-        
+
         TableComponent<Patient> plc = new TableComponent<>(new PatientTableModel(patients));
         plc.getTableModel().setFilterPredicate((p) -> p.getName().toLowerCase().equals(plc.getSearchExpression().toLowerCase()));
         plc.setTableListener((TableEvent<Patient> e) -> {
+            System.out.println(e.getModel().toString());
+        });
+        add(plc, BorderLayout.CENTER);
+    }
+
+    private void initAppointmentListComponent() {
+        List<Appointment> appointments = AppointmentsController.getScheduledAppointments(4);
+
+        TableComponent<Appointment> plc = new TableComponent<>(new AppointmentTableModel(appointments));
+        plc.getTableModel().setFilterPredicate((p) -> p.getFormattedDate().equals(plc.getSearchExpression()));
+        plc.setTableListener((TableEvent<Appointment> e) -> {
+            System.out.println(e.getModel().toString());
+        });
+        add(plc, BorderLayout.CENTER);
+    }
+
+    private void initReceiptListComponent() {
+        List<Receipt> receipts = ReceiptController.getReceiptsforPatient(2);
+
+        TableComponent<Receipt> plc = new TableComponent<>(new ReceiptTableModel(receipts));
+        plc.getTableModel().setFilterPredicate((p) -> p.getDate().equals(plc.getSearchExpression()));
+        plc.setTableListener((TableEvent<Receipt> e) -> {
             System.out.println(e.getModel().toString());
         });
         add(plc, BorderLayout.CENTER);

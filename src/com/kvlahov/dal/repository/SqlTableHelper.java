@@ -5,6 +5,7 @@
  */
 package com.kvlahov.dal.repository;
 
+import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.PaymentMethod;
 import com.kvlahov.model.Receipt;
@@ -59,5 +60,17 @@ public class SqlTableHelper {
                 resultSet.getString("Name"),
                 resultSet.getString("Surname"),
                 resultSet.getInt("DepartmentID"));
+    }
+    
+    static Appointment getAppointment(final ResultSet resultSet) throws SQLException {
+        Appointment app = new Appointment();
+        app.setId(resultSet.getInt("IDAppointment"));
+        app.setAnamnesis(resultSet.getString("Anamnesis"));
+        app.setDiagnosis(resultSet.getString("Diagnosis"));
+        app.setDoctorId(resultSet.getInt("DoctorID"));
+        app.setEndTime(resultSet.getTimestamp("EndTime").toLocalDateTime());
+        app.setPatientId(resultSet.getInt("PatientID"));
+        app.setStartTime(resultSet.getTimestamp("StartTime").toLocalDateTime());
+        return app;
     }
 }
