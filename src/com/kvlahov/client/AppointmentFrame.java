@@ -66,7 +66,6 @@ public class AppointmentFrame extends javax.swing.JFrame {
 
         servicesForAppointment = ServicesController.getServicesForAppointment(appointment);
         pane.setServicesForAppointment(servicesForAppointment);
-
         pane.setBtnSaveActionListener((e) -> {
             try {
                 AppointmentsController.updateAppointment(pane.getAppointment());
