@@ -19,11 +19,9 @@ import com.kvlahov.model.patientInfo.ContactInfo;
 import com.kvlahov.model.report.StatNewRecurringPatients;
 import com.kvlahov.model.report.StatPatientsTreated;
 import com.kvlahov.model.report.StatServiceSummary;
-import com.sun.jmx.mbeanserver.Util;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  *

@@ -1,4 +1,0 @@
-#comments
-#Mon Jun 24 11:01:49 CEST 2019
-REGULAR=class com.kvlahov.client.RegularUI
-DOCTOR=class com.kvlahov.client.DoctorUI

@@ -84,13 +84,10 @@ public class ContactsComponent extends javax.swing.JPanel {
     private void addBlankContactComponent() {
         // TODO add your handling code here:
         contactListPane.add(new SingleContactComponent(contactTypes));
-        contactTypes.remove(0);
     }
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         int lastComponentIndex = contactListPane.getComponentCount() - 1;
-        SingleContactComponent component = (SingleContactComponent)contactListPane.getComponent(lastComponentIndex);
-        contactTypes.add(component.getContact().getType());
         contactListPane.remove(lastComponentIndex);
     }//GEN-LAST:event_btnRemoveActionPerformed
 

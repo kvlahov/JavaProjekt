@@ -283,7 +283,7 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
         if (c == mainPane.getComponent(0)) {
             setBtnsForFirstCard();
         }
-        else if(c == complaintsComponent) {
+        else if(c == mainPane.getComponent(mainPane.getComponentCount() - 1)) {
             setBtnsForLastCard();
         }
         else {

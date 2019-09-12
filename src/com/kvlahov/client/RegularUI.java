@@ -29,29 +29,17 @@ import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.Receipt;
 import com.kvlahov.model.enums.ReportType;
-import com.kvlahov.model.enums.Sex;
-import com.kvlahov.model.patientInfo.ExtendedPatientInformation;
 import com.kvlahov.utils.Utilities;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
@@ -154,6 +142,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         miNew = new javax.swing.JMenuItem();
         miShowPatients = new javax.swing.JMenuItem();
         miReports = new javax.swing.JMenu();
+        miGenReports = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 650));
@@ -399,6 +388,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         getContentPane().add(patientViewPane, "patientView");
 
+        reportsPane.setBackground(new java.awt.Color(204, 255, 204));
         reportsPane.setLayout(new java.awt.BorderLayout());
         getContentPane().add(reportsPane, "reports");
 
@@ -436,6 +426,15 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
                 miReportsActionPerformed(evt);
             }
         });
+
+        miGenReports.setText("Generate");
+        miGenReports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGenReportsActionPerformed(evt);
+            }
+        });
+        miReports.add(miGenReports);
+
         jMenuBar.add(miReports);
 
         setJMenuBar(jMenuBar);
@@ -472,8 +471,12 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void miReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miReportsActionPerformed
-        mainCardLayout.show(getContentPane(), "reports");
+        
     }//GEN-LAST:event_miReportsActionPerformed
+
+    private void miGenReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGenReportsActionPerformed
+        mainCardLayout.show(getContentPane(), "reports");
+    }//GEN-LAST:event_miGenReportsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -575,6 +578,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenuItem miGenReports;
     private javax.swing.JMenuItem miNew;
     private javax.swing.JMenu miReports;
     private javax.swing.JMenuItem miShowPatients;
@@ -686,6 +690,8 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private void updateComponents() {
         setAppointmentPane.removeAll();
         addAppointmentCalendarComponent();
+        initReceiptTable(ReceiptController.getReceiptsforPatient(currentPatient.getId()));
+
     }
 
     private void addAppointmentCalendarComponent() {

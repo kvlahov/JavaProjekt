@@ -23,14 +23,17 @@ import javax.swing.JPanel;
  *
  * @author lordo
  */
-public class TempAppointmentFrame extends javax.swing.JFrame {
+public class AppointmentFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form TempAppointmentFrame
+     * Creates new form AppointmentFrame
      */
     private List<ServiceAppointment> servicesForAppointment;
+    private Appointment appointment;
 
-    public TempAppointmentFrame() {
+    public AppointmentFrame(Appointment appointment) {
+        this.appointment = appointment;
+        initFrame();
         initComponents();
         initData();
     }
@@ -45,53 +48,16 @@ public class TempAppointmentFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TempAppointmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TempAppointmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TempAppointmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TempAppointmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TempAppointmentFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     private void initData() {
-        Appointment appointment = AppointmentsController.getScheduledAppointments(4).get(0);
         EditAppointmentComponent pane = new EditAppointmentComponent(
                 ServicesController.getTypesOfService(),
                 appointment,
@@ -109,7 +75,7 @@ public class TempAppointmentFrame extends javax.swing.JFrame {
                 ServicesController.addServicesForAppointment(newServicesForAppointment);
                 ServicesController.deleteServicesForAppointment(servicesToDelete(newServicesForAppointment));
             } catch (InvalidModelException ex) {
-                Logger.getLogger(TempAppointmentFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AppointmentFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         });
@@ -127,5 +93,10 @@ public class TempAppointmentFrame extends javax.swing.JFrame {
                 .stream()
                 .filter(sa -> !newServicesForAppointment.contains(sa))
                 .collect(Collectors.toList());
+    }
+
+    private void initFrame() {
+        setLocationRelativeTo(null);
+        setSize(800,600);
     }
 }

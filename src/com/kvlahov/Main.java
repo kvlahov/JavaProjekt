@@ -5,7 +5,10 @@
  */
 package com.kvlahov;
 
+import com.kvlahov.client.AppDefaults;
+import com.kvlahov.client.DoctorUI;
 import com.kvlahov.client.Gui;
+import com.kvlahov.client.LoginScreen;
 import com.kvlahov.client.RegularUI;
 import javax.swing.JFrame;
 
@@ -21,11 +24,14 @@ public class Main {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void main(String[] args) {
-
-//        LoginScreen.start();
-//        DoctorUI.start();
+        AppDefaults.setDefaults();
+        
+        LoginScreen main = new LoginScreen();
+//        main.start();
+        DoctorUI docUi = new DoctorUI();
+        docUi.start();
         JFrame f = new RegularUI();
-        ((Gui) f).start();
+//        ((Gui) f).start();
         
 
     }

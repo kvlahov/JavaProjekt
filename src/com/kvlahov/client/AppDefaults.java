@@ -15,7 +15,7 @@ import javax.swing.UIManager;
  */
 public abstract class AppDefaults {
 
-    private static void setDefaults() {
+    public static void setDefaults() {
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null) {
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));

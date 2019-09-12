@@ -132,6 +132,11 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         add(cbVege, gridBagConstraints);
 
         cbSmokes.setText("Smokes");
+        cbSmokes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSmokesActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -139,6 +144,11 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         add(cbSmokes, gridBagConstraints);
 
         cbAlcohol.setText("Consumes Alcohol");
+        cbAlcohol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAlcoholActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
@@ -181,6 +191,20 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
         add(jLabel46, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbSmokesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSmokesActionPerformed
+        spCigarettesPerDay.setEnabled(cbSmokes.isEnabled());
+        if (cbSmokes.isEnabled() == false) {
+            spCigarettesPerDay.setValue(0);
+        }
+    }//GEN-LAST:event_cbSmokesActionPerformed
+
+    private void cbAlcoholActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlcoholActionPerformed
+        spAlcoholPerDay.setEnabled(cbAlcohol.isEnabled());
+        if (cbAlcohol.isEnabled() == false) {
+            spAlcoholPerDay.setValue(0);
+        }
+    }//GEN-LAST:event_cbAlcoholActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

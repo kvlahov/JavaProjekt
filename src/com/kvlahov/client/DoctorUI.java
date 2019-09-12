@@ -5,12 +5,21 @@
  */
 package com.kvlahov.client;
 
+import com.kvlahov.client.components.TableComponent;
+import com.kvlahov.client.events.TableEvent;
+import com.kvlahov.client.tableModels.AppointmentTableModel;
+import com.kvlahov.controller.AppointmentsController;
+import com.kvlahov.controller.DoctorController;
+import com.kvlahov.model.Appointment;
+import com.kvlahov.model.Doctor;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.List;
 
 /**
  *
@@ -21,8 +30,11 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
     /**
      * Creates new form DoctorInterface
      */
+    private Doctor d;
+    private List<Appointment> appointments;
     public DoctorUI() {
         initComponents();
+        initData();
 
         
     }
@@ -98,4 +110,21 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
+
+    private void initData() {
+        d = DoctorController.getGeneralPhysicians().get(0);
+        appointments = AppointmentsController.getScheduledAppointments(d.getId());
+        
+        initAppointmentsTable();
+    }
+
+    private void initAppointmentsTable() {
+        TableComponent<Appointment> plc = new TableComponent<>(new AppointmentTableModel(appointments));
+        plc.getTableModel().setFilterPredicate((p) -> p.getFormattedDate().equals(plc.getSearchExpression()));
+        plc.setTableListener((TableEvent<Appointment> e) -> {
+            AppointmentFrame frame = new AppointmentFrame(e.getModel());
+            frame.setVisible(true);
+        });
+        add(plc, BorderLayout.CENTER);
+    }
 }
