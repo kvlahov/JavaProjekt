@@ -39,6 +39,8 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -76,7 +78,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         sexBtnGroup = new javax.swing.ButtonGroup();
         newPatientPanel = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabbedPane = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         basicInfoPane = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -116,157 +118,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        extendedInfoPane = new javax.swing.JPanel();
-        formCard1 = new javax.swing.JPanel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jPanel7 = new javax.swing.JPanel();
-        permanentAddressPane = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jTextField18 = new javax.swing.JTextField();
-        jLabel28 = new javax.swing.JLabel();
-        jTextField19 = new javax.swing.JTextField();
-        jLabel29 = new javax.swing.JLabel();
-        jTextField20 = new javax.swing.JTextField();
-        jLabel30 = new javax.swing.JLabel();
-        jTextField21 = new javax.swing.JTextField();
-        jLabel31 = new javax.swing.JLabel();
-        tfPermaZip = new javax.swing.JTextField();
-        presentAddressPane = new javax.swing.JPanel();
-        jLabel32 = new javax.swing.JLabel();
-        jTextField22 = new javax.swing.JTextField();
-        jLabel33 = new javax.swing.JLabel();
-        jTextField23 = new javax.swing.JTextField();
-        jLabel34 = new javax.swing.JLabel();
-        jTextField24 = new javax.swing.JTextField();
-        jLabel35 = new javax.swing.JLabel();
-        jTextField25 = new javax.swing.JTextField();
-        jLabel36 = new javax.swing.JLabel();
-        tfPresentZip = new javax.swing.JTextField();
-        contactInfoPane = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        btnAddContact1 = new javax.swing.JButton();
-        btnRemoveContact1 = new javax.swing.JButton();
-        filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
-        navPane1 = new javax.swing.JPanel();
-        btnNext1 = new javax.swing.JButton();
-        formCard2 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jPanel4 = new javax.swing.JPanel();
-        notAddress = new javax.swing.JPanel();
-        jLabel23 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel24 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jLabel25 = new javax.swing.JLabel();
-        jTextField16 = new javax.swing.JTextField();
-        jLabel26 = new javax.swing.JLabel();
-        jTextField17 = new javax.swing.JTextField();
-        jLabel27 = new javax.swing.JLabel();
-        tfNokZip = new javax.swing.JTextField();
-        nokContact = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        btnAddContact = new javax.swing.JButton();
-        btnRemoveContact = new javax.swing.JButton();
-        filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
-        navPane2 = new javax.swing.JPanel();
-        btnPrevious2 = new javax.swing.JButton();
-        btnNext = new javax.swing.JButton();
-        formCard3 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        personalLifeStyle = new javax.swing.JPanel();
-        jPanel23 = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
-        jPanel16 = new javax.swing.JPanel();
-        jPanel20 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jPanel17 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        filler15 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        chbIsSmoker = new javax.swing.JCheckBox();
-        jPanel21 = new javax.swing.JPanel();
-        jLabel38 = new javax.swing.JLabel();
-        filler16 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        chbConsumesAlcohol = new javax.swing.JCheckBox();
-        jPanel18 = new javax.swing.JPanel();
-        filler17 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
-        jPanel22 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        filler18 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        spinnerCigarettesPerDay = new javax.swing.JSpinner();
-        jPanel24 = new javax.swing.JPanel();
-        jLabel45 = new javax.swing.JLabel();
-        filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        spinnerAlcoholPerDay = new javax.swing.JSpinner();
-        jPanel11 = new javax.swing.JPanel();
-        jLabel39 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        lblBloodType1 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jLabel40 = new javax.swing.JLabel();
-        jSpinner2 = new javax.swing.JSpinner();
-        jLabel41 = new javax.swing.JLabel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
-        navPane3 = new javax.swing.JPanel();
-        btnPrevious = new javax.swing.JButton();
-        btnPrevious1 = new javax.swing.JButton();
-        formCard4 = new javax.swing.JPanel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jPanel12 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        jLabel42 = new javax.swing.JLabel();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        eiStatement = new javax.swing.JTextArea();
-        jLabel43 = new javax.swing.JLabel();
-        jScrollPane11 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
-        jLabel44 = new javax.swing.JLabel();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        jTextArea5 = new javax.swing.JTextArea();
-        filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
-        jPanel15 = new javax.swing.JPanel();
-        jLabel48 = new javax.swing.JLabel();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jLabel49 = new javax.swing.JLabel();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jLabel50 = new javax.swing.JLabel();
-        jScrollPane20 = new javax.swing.JScrollPane();
-        jTextArea13 = new javax.swing.JTextArea();
-        jLabel51 = new javax.swing.JLabel();
-        jScrollPane18 = new javax.swing.JScrollPane();
-        jTextArea11 = new javax.swing.JTextArea();
-        lblBloodType3 = new javax.swing.JLabel();
-        jScrollPane19 = new javax.swing.JScrollPane();
-        jTextArea12 = new javax.swing.JTextArea();
-        jLabel52 = new javax.swing.JLabel();
-        jScrollPane17 = new javax.swing.JScrollPane();
-        jTextArea10 = new javax.swing.JTextArea();
-        jLabel53 = new javax.swing.JLabel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jLabel54 = new javax.swing.JLabel();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        jTextArea6 = new javax.swing.JTextArea();
-        jLabel55 = new javax.swing.JLabel();
-        jScrollPane14 = new javax.swing.JScrollPane();
-        jTextArea7 = new javax.swing.JTextArea();
-        jLabel56 = new javax.swing.JLabel();
-        jScrollPane15 = new javax.swing.JScrollPane();
-        jTextArea8 = new javax.swing.JTextArea();
-        jLabel57 = new javax.swing.JLabel();
-        jScrollPane16 = new javax.swing.JScrollPane();
-        jTextArea9 = new javax.swing.JTextArea();
-        filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 10), new java.awt.Dimension(0, 10), new java.awt.Dimension(32767, 10));
-        navPane4 = new javax.swing.JPanel();
-        btnPrevious3 = new javax.swing.JButton();
-        filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 0), new java.awt.Dimension(20, 32767));
-        jPanel14 = new javax.swing.JPanel();
-        btnExtendedSave = new javax.swing.JButton();
-        btnCancelExt = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(700, 550));
@@ -276,9 +127,9 @@ public class NewPatientDialog extends javax.swing.JDialog {
         newPatientPanel.setPreferredSize(new java.awt.Dimension(405, 228));
         newPatientPanel.setLayout(new java.awt.CardLayout());
 
-        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+        tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jTabbedPane1StateChanged(evt);
+                tabbedPaneStateChanged(evt);
             }
         });
 
@@ -456,648 +307,9 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         jScrollPane1.setViewportView(basicInfoPane);
 
-        jTabbedPane1.addTab("Basic Info", jScrollPane1);
+        tabbedPane.addTab("Basic Info", jScrollPane1);
 
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 100));
-
-        extendedInfoPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 10, 5, 10));
-        extendedInfoPane.setLayout(new java.awt.CardLayout());
-
-        formCard1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 80, 10, 80));
-        formCard1.setLayout(new javax.swing.BoxLayout(formCard1, javax.swing.BoxLayout.Y_AXIS));
-
-        jScrollPane6.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jScrollPane6.setPreferredSize(new java.awt.Dimension(400, 100));
-
-        jPanel7.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
-
-        permanentAddressPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Permanent Address"));
-        permanentAddressPane.setLayout(new java.awt.GridLayout(0, 2, 10, 10));
-
-        jLabel11.setText("Street");
-        permanentAddressPane.add(jLabel11);
-
-        jTextField18.setName("permanentAddStreet"); // NOI18N
-        permanentAddressPane.add(jTextField18);
-
-        jLabel28.setText("Area");
-        permanentAddressPane.add(jLabel28);
-
-        jTextField19.setName("permanentAddArea"); // NOI18N
-        permanentAddressPane.add(jTextField19);
-
-        jLabel29.setText("City");
-        permanentAddressPane.add(jLabel29);
-
-        jTextField20.setName("permanentAddCity"); // NOI18N
-        permanentAddressPane.add(jTextField20);
-
-        jLabel30.setText("State");
-        permanentAddressPane.add(jLabel30);
-
-        jTextField21.setName("permanentAddState"); // NOI18N
-        permanentAddressPane.add(jTextField21);
-
-        jLabel31.setText("Zip code");
-        permanentAddressPane.add(jLabel31);
-
-        tfPermaZip.setName("permanentAddZip"); // NOI18N
-        permanentAddressPane.add(tfPermaZip);
-
-        jPanel7.add(permanentAddressPane);
-
-        presentAddressPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Present Address"));
-        presentAddressPane.setLayout(new java.awt.GridLayout(0, 2, 10, 10));
-
-        jLabel32.setText("Street");
-        presentAddressPane.add(jLabel32);
-
-        jTextField22.setName("presentAddStreet"); // NOI18N
-        presentAddressPane.add(jTextField22);
-
-        jLabel33.setText("Area");
-        presentAddressPane.add(jLabel33);
-
-        jTextField23.setName("presentAddArea"); // NOI18N
-        presentAddressPane.add(jTextField23);
-
-        jLabel34.setText("City");
-        presentAddressPane.add(jLabel34);
-
-        jTextField24.setName("presentAddCity"); // NOI18N
-        presentAddressPane.add(jTextField24);
-
-        jLabel35.setText("State");
-        presentAddressPane.add(jLabel35);
-
-        jTextField25.setName("presentAddState"); // NOI18N
-        presentAddressPane.add(jTextField25);
-
-        jLabel36.setText("Zip code");
-        presentAddressPane.add(jLabel36);
-
-        tfPresentZip.setName("presentAddZip"); // NOI18N
-        presentAddressPane.add(tfPresentZip);
-
-        jPanel7.add(presentAddressPane);
-
-        contactInfoPane.setBorder(javax.swing.BorderFactory.createTitledBorder("Contact Information"));
-        contactInfoPane.setName("patientContactInfo"); // NOI18N
-        contactInfoPane.setLayout(new javax.swing.BoxLayout(contactInfoPane, javax.swing.BoxLayout.PAGE_AXIS));
-
-        jPanel8.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 1, 10, 1));
-        jPanel8.setMaximumSize(new java.awt.Dimension(900, 50));
-        jPanel8.setPreferredSize(new java.awt.Dimension(443, 50));
-        jPanel8.setLayout(new java.awt.GridLayout(0, 6, 5, 0));
-
-        btnAddContact1.setText("Add");
-        btnAddContact1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddContact1ActionPerformed(evt);
-            }
-        });
-        jPanel8.add(btnAddContact1);
-
-        btnRemoveContact1.setText("Remove");
-        btnRemoveContact1.setEnabled(false);
-        btnRemoveContact1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveContact1ActionPerformed(evt);
-            }
-        });
-        jPanel8.add(btnRemoveContact1);
-
-        contactInfoPane.add(jPanel8);
-
-        jPanel7.add(contactInfoPane);
-
-        jScrollPane6.setViewportView(jPanel7);
-
-        formCard1.add(jScrollPane6);
-        formCard1.add(filler7);
-
-        navPane1.setMaximumSize(new java.awt.Dimension(400, 250));
-        navPane1.setMinimumSize(new java.awt.Dimension(139, 39));
-        navPane1.setName("navPane"); // NOI18N
-        navPane1.setPreferredSize(new java.awt.Dimension(171, 39));
-        navPane1.setLayout(new java.awt.GridBagLayout());
-
-        btnNext1.setText("Next");
-        btnNext1.setPreferredSize(new java.awt.Dimension(80, 33));
-        btnNext1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextActionPerformed(evt);
-            }
-        });
-        navPane1.add(btnNext1, new java.awt.GridBagConstraints());
-
-        formCard1.add(navPane1);
-
-        extendedInfoPane.add(formCard1, "card2");
-
-        formCard2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(5, 80, 10, 80), "Next of Kin"));
-        formCard2.setLayout(new javax.swing.BoxLayout(formCard2, javax.swing.BoxLayout.Y_AXIS));
-
-        jScrollPane4.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jScrollPane4.setPreferredSize(new java.awt.Dimension(400, 100));
-
-        jPanel4.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
-
-        notAddress.setBorder(javax.swing.BorderFactory.createTitledBorder("Address"));
-        notAddress.setLayout(new java.awt.GridLayout(0, 2, 10, 10));
-
-        jLabel23.setText("Street");
-        notAddress.add(jLabel23);
-
-        jTextField3.setName("nokAddStreet"); // NOI18N
-        notAddress.add(jTextField3);
-
-        jLabel24.setText("Area");
-        notAddress.add(jLabel24);
-
-        jTextField8.setName("nokAddArea"); // NOI18N
-        notAddress.add(jTextField8);
-
-        jLabel25.setText("City");
-        notAddress.add(jLabel25);
-
-        jTextField16.setName("nokAddCity"); // NOI18N
-        notAddress.add(jTextField16);
-
-        jLabel26.setText("State");
-        notAddress.add(jLabel26);
-
-        jTextField17.setName("nokAddState"); // NOI18N
-        notAddress.add(jTextField17);
-
-        jLabel27.setText("Zip code");
-        notAddress.add(jLabel27);
-
-        tfNokZip.setName("nokAddZip"); // NOI18N
-        notAddress.add(tfNokZip);
-
-        jPanel4.add(notAddress);
-
-        nokContact.setBorder(javax.swing.BorderFactory.createTitledBorder("Contact Information"));
-        nokContact.setName("nokContactInfo"); // NOI18N
-        nokContact.setLayout(new javax.swing.BoxLayout(nokContact, javax.swing.BoxLayout.PAGE_AXIS));
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 1, 10, 1));
-        jPanel6.setMaximumSize(new java.awt.Dimension(900, 50));
-        jPanel6.setPreferredSize(new java.awt.Dimension(443, 50));
-        jPanel6.setLayout(new java.awt.GridLayout(0, 6, 5, 0));
-
-        btnAddContact.setText("Add");
-        btnAddContact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddContactActionPerformed(evt);
-            }
-        });
-        jPanel6.add(btnAddContact);
-
-        btnRemoveContact.setText("Remove");
-        btnRemoveContact.setEnabled(false);
-        btnRemoveContact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveContactActionPerformed(evt);
-            }
-        });
-        jPanel6.add(btnRemoveContact);
-
-        nokContact.add(jPanel6);
-
-        jPanel4.add(nokContact);
-
-        jScrollPane4.setViewportView(jPanel4);
-
-        formCard2.add(jScrollPane4);
-        formCard2.add(filler5);
-
-        navPane2.setMaximumSize(new java.awt.Dimension(400, 250));
-        navPane2.setMinimumSize(new java.awt.Dimension(139, 39));
-        navPane2.setName("navPane"); // NOI18N
-        navPane2.setPreferredSize(new java.awt.Dimension(171, 39));
-        navPane2.setLayout(new java.awt.GridBagLayout());
-
-        btnPrevious2.setText("Previous");
-        btnPrevious2.setPreferredSize(new java.awt.Dimension(80, 33));
-        btnPrevious2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPreviousActionPerformed(evt);
-            }
-        });
-        navPane2.add(btnPrevious2, new java.awt.GridBagConstraints());
-
-        btnNext.setText("Next");
-        btnNext.setPreferredSize(new java.awt.Dimension(80, 33));
-        btnNext.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextActionPerformed(evt);
-            }
-        });
-        navPane2.add(btnNext, new java.awt.GridBagConstraints());
-
-        formCard2.add(navPane2);
-
-        extendedInfoPane.add(formCard2, "card2");
-
-        formCard3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 20, 10, 20));
-        formCard3.setLayout(new javax.swing.BoxLayout(formCard3, javax.swing.BoxLayout.Y_AXIS));
-
-        jScrollPane5.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jScrollPane5.setPreferredSize(new java.awt.Dimension(400, 500));
-
-        personalLifeStyle.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 60, 5, 60));
-        personalLifeStyle.setMaximumSize(new java.awt.Dimension(500, 32767));
-        personalLifeStyle.setMinimumSize(new java.awt.Dimension(465, 509));
-        personalLifeStyle.setPreferredSize(new java.awt.Dimension(465, 1205));
-        personalLifeStyle.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
-
-        jPanel23.setLayout(new javax.swing.BoxLayout(jPanel23, javax.swing.BoxLayout.Y_AXIS));
-
-        jPanel19.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 1, 25, 1));
-        jPanel19.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
-
-        jPanel16.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 1, 1));
-        jPanel16.setLayout(new java.awt.GridLayout(0, 1));
-
-        jPanel20.setLayout(new javax.swing.BoxLayout(jPanel20, javax.swing.BoxLayout.LINE_AXIS));
-
-        jLabel9.setText("Vegetarian");
-        jPanel20.add(jLabel9);
-        jPanel20.add(filler14);
-
-        jCheckBox1.setName("isVege"); // NOI18N
-        jPanel20.add(jCheckBox1);
-
-        jPanel16.add(jPanel20);
-
-        jPanel17.setLayout(new javax.swing.BoxLayout(jPanel17, javax.swing.BoxLayout.LINE_AXIS));
-
-        jLabel14.setText("Smoker");
-        jPanel17.add(jLabel14);
-        jPanel17.add(filler15);
-
-        chbIsSmoker.setName("isSmoker"); // NOI18N
-        chbIsSmoker.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                chbIsSmokerItemStateChanged(evt);
-            }
-        });
-        jPanel17.add(chbIsSmoker);
-
-        jPanel16.add(jPanel17);
-
-        jPanel21.setLayout(new javax.swing.BoxLayout(jPanel21, javax.swing.BoxLayout.LINE_AXIS));
-
-        jLabel38.setText("Consumes alcohol");
-        jPanel21.add(jLabel38);
-        jPanel21.add(filler16);
-
-        chbConsumesAlcohol.setName("consumesAlcohol"); // NOI18N
-        chbConsumesAlcohol.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                chbConsumesAlcoholItemStateChanged(evt);
-            }
-        });
-        jPanel21.add(chbConsumesAlcohol);
-
-        jPanel16.add(jPanel21);
-
-        jPanel19.add(jPanel16);
-
-        jPanel18.setLayout(new java.awt.GridLayout(0, 1));
-        jPanel18.add(filler17);
-
-        jPanel22.setLayout(new javax.swing.BoxLayout(jPanel22, javax.swing.BoxLayout.LINE_AXIS));
-
-        jLabel15.setText("No of cigarettes per day");
-        jLabel15.setMaximumSize(new java.awt.Dimension(163, 14));
-        jLabel15.setMinimumSize(new java.awt.Dimension(163, 14));
-        jLabel15.setPreferredSize(new java.awt.Dimension(163, 14));
-        jPanel22.add(jLabel15);
-        jPanel22.add(filler18);
-
-        spinnerCigarettesPerDay.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-        spinnerCigarettesPerDay.setEnabled(false);
-        spinnerCigarettesPerDay.setName("spinnerCigsPerDay"); // NOI18N
-        jPanel22.add(spinnerCigarettesPerDay);
-
-        jPanel18.add(jPanel22);
-
-        jPanel24.setLayout(new javax.swing.BoxLayout(jPanel24, javax.swing.BoxLayout.LINE_AXIS));
-
-        jLabel45.setText("No of alcoholic beverages per day");
-        jPanel24.add(jLabel45);
-        jPanel24.add(filler19);
-
-        spinnerAlcoholPerDay.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-        spinnerAlcoholPerDay.setEnabled(false);
-        spinnerAlcoholPerDay.setName("spinnerAlcoholPerDay"); // NOI18N
-        jPanel24.add(spinnerAlcoholPerDay);
-
-        jPanel18.add(jPanel24);
-
-        jPanel19.add(jPanel18);
-
-        jPanel23.add(jPanel19);
-
-        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder("Life Style Details"));
-        jPanel11.setLayout(new java.awt.GridLayout(0, 2, 10, 10));
-
-        jLabel39.setText("Uses Stimulants");
-        jPanel11.add(jLabel39);
-
-        jTextField1.setName("stimulants"); // NOI18N
-        jPanel11.add(jTextField1);
-
-        lblBloodType1.setText("Consumption of caffeine drinks per day");
-        jPanel11.add(lblBloodType1);
-
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-        jSpinner1.setName("spinCaffeinePerDay"); // NOI18N
-        jPanel11.add(jSpinner1);
-
-        jLabel40.setText("Consumption of soft drinks per day");
-        jPanel11.add(jLabel40);
-
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-        jSpinner2.setName("spinSoftPerDay"); // NOI18N
-        jPanel11.add(jSpinner2);
-
-        jLabel41.setText("Eating Habits");
-        jPanel11.add(jLabel41);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Segoe UI Light", 0, 13)); // NOI18N
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setToolTipText("Has regular meals, prefered food type");
-        jTextArea1.setName("eatingHabits"); // NOI18N
-        jScrollPane7.setViewportView(jTextArea1);
-
-        jPanel11.add(jScrollPane7);
-
-        jPanel23.add(jPanel11);
-
-        personalLifeStyle.add(jPanel23);
-
-        jScrollPane5.setViewportView(personalLifeStyle);
-
-        formCard3.add(jScrollPane5);
-        formCard3.add(filler6);
-
-        navPane3.setMaximumSize(new java.awt.Dimension(400, 250));
-        navPane3.setMinimumSize(new java.awt.Dimension(139, 39));
-        navPane3.setName("navPane"); // NOI18N
-        navPane3.setPreferredSize(new java.awt.Dimension(171, 39));
-        navPane3.setLayout(new java.awt.GridBagLayout());
-
-        btnPrevious.setText("Previous");
-        btnPrevious.setPreferredSize(new java.awt.Dimension(80, 33));
-        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPreviousActionPerformed(evt);
-            }
-        });
-        navPane3.add(btnPrevious, new java.awt.GridBagConstraints());
-
-        btnPrevious1.setText("Next");
-        btnPrevious1.setPreferredSize(new java.awt.Dimension(80, 33));
-        btnPrevious1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextActionPerformed(evt);
-            }
-        });
-        navPane3.add(btnPrevious1, new java.awt.GridBagConstraints());
-
-        formCard3.add(navPane3);
-
-        extendedInfoPane.add(formCard3, "card2");
-
-        formCard4.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 20, 10, 20));
-        formCard4.setLayout(new javax.swing.BoxLayout(formCard4, javax.swing.BoxLayout.Y_AXIS));
-
-        jScrollPane8.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jScrollPane8.setPreferredSize(new java.awt.Dimension(400, 100));
-
-        jPanel12.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
-
-        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("Basic Complaints"));
-        jPanel13.setLayout(new java.awt.GridLayout(0, 2, 10, 10));
-
-        jLabel42.setText("Statement of Complaint");
-        jPanel13.add(jLabel42);
-
-        eiStatement.setColumns(20);
-        eiStatement.setRows(5);
-        eiStatement.setName("statementOfComplaint"); // NOI18N
-        jScrollPane10.setViewportView(eiStatement);
-
-        jPanel13.add(jScrollPane10);
-
-        jLabel43.setText("History of Previous Treatment");
-        jPanel13.add(jLabel43);
-
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jTextArea4.setName("treatmentHistory"); // NOI18N
-        jScrollPane11.setViewportView(jTextArea4);
-
-        jPanel13.add(jScrollPane11);
-
-        jLabel44.setText("Physician/Hospital Treated");
-        jPanel13.add(jLabel44);
-
-        jTextArea5.setColumns(20);
-        jTextArea5.setRows(5);
-        jTextArea5.setName("hospitalTreated"); // NOI18N
-        jScrollPane12.setViewportView(jTextArea5);
-
-        jPanel13.add(jScrollPane12);
-        jPanel13.add(filler10);
-
-        jPanel12.add(jPanel13);
-
-        jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder("Medical Complaints"));
-        jPanel15.setLayout(new java.awt.GridLayout(0, 2, 10, 10));
-
-        jLabel48.setText("Diabetic");
-        jPanel15.add(jLabel48);
-
-        jCheckBox4.setName("isDiabetic"); // NOI18N
-        jPanel15.add(jCheckBox4);
-
-        jLabel49.setText("Hypertensive");
-        jPanel15.add(jLabel49);
-
-        jCheckBox5.setName("isHypertensive"); // NOI18N
-        jPanel15.add(jCheckBox5);
-
-        jLabel50.setText(" Cardiac Condition");
-        jPanel15.add(jLabel50);
-
-        jTextArea13.setColumns(20);
-        jTextArea13.setRows(5);
-        jTextArea13.setName("cardiacCondition"); // NOI18N
-        jScrollPane20.setViewportView(jTextArea13);
-
-        jPanel15.add(jScrollPane20);
-
-        jLabel51.setText("Respiratory Condition");
-        jPanel15.add(jLabel51);
-
-        jTextArea11.setColumns(20);
-        jTextArea11.setRows(5);
-        jTextArea11.setName("respitoryCondition"); // NOI18N
-        jScrollPane18.setViewportView(jTextArea11);
-
-        jPanel15.add(jScrollPane18);
-
-        lblBloodType3.setText("Digestive Condition");
-        jPanel15.add(lblBloodType3);
-
-        jTextArea12.setColumns(20);
-        jTextArea12.setRows(5);
-        jTextArea12.setName("digestiveCondition"); // NOI18N
-        jScrollPane19.setViewportView(jTextArea12);
-
-        jPanel15.add(jScrollPane19);
-
-        jLabel52.setText("Orthopedic Condition");
-        jPanel15.add(jLabel52);
-
-        jTextArea10.setColumns(20);
-        jTextArea10.setFont(new java.awt.Font("Segoe UI Light", 0, 13)); // NOI18N
-        jTextArea10.setLineWrap(true);
-        jTextArea10.setRows(5);
-        jTextArea10.setToolTipText("Has regular meals, prefered food type");
-        jTextArea10.setName("orthopedicCondition"); // NOI18N
-        jScrollPane17.setViewportView(jTextArea10);
-
-        jPanel15.add(jScrollPane17);
-
-        jLabel53.setText("Muscular Condition");
-        jPanel15.add(jLabel53);
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Segoe UI Light", 0, 13)); // NOI18N
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(5);
-        jTextArea2.setToolTipText("Has regular meals, prefered food type");
-        jTextArea2.setName("muscularCondition"); // NOI18N
-        jScrollPane9.setViewportView(jTextArea2);
-
-        jPanel15.add(jScrollPane9);
-
-        jLabel54.setText("Neurological Condition");
-        jPanel15.add(jLabel54);
-
-        jTextArea6.setColumns(20);
-        jTextArea6.setFont(new java.awt.Font("Segoe UI Light", 0, 13)); // NOI18N
-        jTextArea6.setLineWrap(true);
-        jTextArea6.setRows(5);
-        jTextArea6.setToolTipText("Has regular meals, prefered food type");
-        jTextArea6.setName("neurologicalCondition"); // NOI18N
-        jScrollPane13.setViewportView(jTextArea6);
-
-        jPanel15.add(jScrollPane13);
-
-        jLabel55.setText("Known Allergies");
-        jPanel15.add(jLabel55);
-
-        jTextArea7.setColumns(20);
-        jTextArea7.setFont(new java.awt.Font("Segoe UI Light", 0, 13)); // NOI18N
-        jTextArea7.setLineWrap(true);
-        jTextArea7.setRows(5);
-        jTextArea7.setToolTipText("Has regular meals, prefered food type");
-        jTextArea7.setName("knownAllergies"); // NOI18N
-        jScrollPane14.setViewportView(jTextArea7);
-
-        jPanel15.add(jScrollPane14);
-
-        jLabel56.setText("Known Adverse Reaction to Specific Drugs");
-        jPanel15.add(jLabel56);
-
-        jTextArea8.setColumns(20);
-        jTextArea8.setFont(new java.awt.Font("Segoe UI Light", 0, 13)); // NOI18N
-        jTextArea8.setLineWrap(true);
-        jTextArea8.setRows(5);
-        jTextArea8.setToolTipText("Has regular meals, prefered food type");
-        jTextArea8.setName("reactionToDrugs"); // NOI18N
-        jScrollPane15.setViewportView(jTextArea8);
-
-        jPanel15.add(jScrollPane15);
-
-        jLabel57.setText("Major Surgeries (History)");
-        jPanel15.add(jLabel57);
-
-        jTextArea9.setColumns(20);
-        jTextArea9.setFont(new java.awt.Font("Segoe UI Light", 0, 13)); // NOI18N
-        jTextArea9.setLineWrap(true);
-        jTextArea9.setRows(5);
-        jTextArea9.setToolTipText("Has regular meals, prefered food type");
-        jTextArea9.setName("surgeryHistory"); // NOI18N
-        jScrollPane16.setViewportView(jTextArea9);
-
-        jPanel15.add(jScrollPane16);
-
-        jPanel12.add(jPanel15);
-
-        jScrollPane8.setViewportView(jPanel12);
-
-        formCard4.add(jScrollPane8);
-        formCard4.add(filler9);
-
-        navPane4.setMaximumSize(new java.awt.Dimension(400, 250));
-        navPane4.setMinimumSize(new java.awt.Dimension(139, 39));
-        navPane4.setName("navPane"); // NOI18N
-        navPane4.setPreferredSize(new java.awt.Dimension(171, 39));
-        navPane4.setLayout(new java.awt.GridBagLayout());
-
-        btnPrevious3.setText("Previous");
-        btnPrevious3.setPreferredSize(new java.awt.Dimension(80, 33));
-        btnPrevious3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPreviousActionPerformed(evt);
-            }
-        });
-        navPane4.add(btnPrevious3, new java.awt.GridBagConstraints());
-        navPane4.add(filler11, new java.awt.GridBagConstraints());
-
-        jPanel14.setMaximumSize(new java.awt.Dimension(171, 39));
-        jPanel14.setPreferredSize(new java.awt.Dimension(171, 39));
-        jPanel14.setLayout(new java.awt.GridBagLayout());
-
-        btnExtendedSave.setText("Save");
-        btnExtendedSave.setPreferredSize(new java.awt.Dimension(80, 33));
-        btnExtendedSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExtendedSaveActionPerformed(evt);
-            }
-        });
-        jPanel14.add(btnExtendedSave, new java.awt.GridBagConstraints());
-
-        btnCancelExt.setText("Cancel");
-        btnCancelExt.setPreferredSize(new java.awt.Dimension(80, 33));
-        btnCancelExt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
-            }
-        });
-        jPanel14.add(btnCancelExt, new java.awt.GridBagConstraints());
-
-        navPane4.add(jPanel14, new java.awt.GridBagConstraints());
-
-        formCard4.add(navPane4);
-
-        extendedInfoPane.add(formCard4, "card2");
-
-        jScrollPane2.setViewportView(extendedInfoPane);
-
-        jTabbedPane1.addTab("Extended Info", jScrollPane2);
-
-        newPatientPanel.add(jTabbedPane1, "card2");
+        newPatientPanel.add(tabbedPane, "card2");
 
         getContentPane().add(newPatientPanel, "card5");
 
@@ -1112,14 +324,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
-        List<Class> validClasses = new ArrayList<>();
-        validClasses.add(JTextField.class);
-        validClasses.add(JRadioButton.class);
-        validClasses.add(JCheckBox.class);
-
-        List<Component> components = Utilities.getFlattenedListOfComponents(formElementsContainer.getComponents(), validClasses);
-
-        Patient p = bindBasicInfoToPatient(components);
+        Patient p = bindBasicInfoToPatient();
 
         if (p == null) {
             JOptionPane.showMessageDialog(null, "Every field is required", "Warning", JOptionPane.ERROR_MESSAGE);
@@ -1134,97 +339,26 @@ public class NewPatientDialog extends javax.swing.JDialog {
 //            int pid = 1;
             p.setId(pid);
             JOptionPane.showMessageDialog(null, "Patient " + pid + " succesfuly saved", "Success", JOptionPane.INFORMATION_MESSAGE);
-            jTabbedPane1.setEnabledAt(0, false);
+            tabbedPane.setEnabledAt(0, false);
         }
         patientModel = p;
 
-        jTabbedPane1.setEnabledAt(1, true);
-        jTabbedPane1.setSelectedIndex(1);
+        tabbedPane.setEnabledAt(1, true);
+        tabbedPane.setSelectedIndex(1);
     }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
         // TODO add your handling code here:
-        mainCardLayout.next(extendedInfoPane);
-    }//GEN-LAST:event_btnNextActionPerformed
-
-    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
-        // TODO add your handling code here:
-        mainCardLayout.previous(extendedInfoPane);
-    }//GEN-LAST:event_btnPreviousActionPerformed
-
-    private void btnAddContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddContactActionPerformed
-        // TODO add your handling code here:
-        addContactForm(nokContact);
-
-        if (!btnRemoveContact.isEnabled()) {
-            btnRemoveContact.setEnabled(true);
-        }
-
-        revalidate();
-        repaint();
-    }//GEN-LAST:event_btnAddContactActionPerformed
-
-    private void btnRemoveContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveContactActionPerformed
-        // TODO add your handling code here:
-        btnRemoveContact(evt);
-    }//GEN-LAST:event_btnRemoveContactActionPerformed
-
-    private void btnAddContact1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddContact1ActionPerformed
-        // TODO add your handling code here:
-        btnAddContact(evt);
-
-    }//GEN-LAST:event_btnAddContact1ActionPerformed
-
-    private void btnRemoveContact1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveContact1ActionPerformed
-        // TODO add your handling code here:
-        btnRemoveContact(evt);
-    }//GEN-LAST:event_btnRemoveContact1ActionPerformed
-
-    private void btnExtendedSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExtendedSaveActionPerformed
-
-        List<Component> formElements = getEIComponents();
-
-        Map<String, Object> values = initValueMap(formElements);
-
-//        values.keySet().stream().sorted().collect(Collectors.toList()).forEach(System.out::println);
-//        values.forEach((k, v) -> System.out.println(k + " " + v));
-        ExtendedPatientInformation info = bindExtendedInformationToPatient(values);
-
-        extendedInfoModel = info;
-        PatientController.insertExtendedInformation(patientModel, extendedInfoModel);
-        dispose();
-    }//GEN-LAST:event_btnExtendedSaveActionPerformed
-
-    private void chbIsSmokerItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chbIsSmokerItemStateChanged
-        // TODO add your handling code here:
-        if (((JCheckBox) evt.getSource()).isSelected()) {
-            spinnerCigarettesPerDay.setEnabled(true);
-        } else {
-            spinnerCigarettesPerDay.setEnabled(false);
-        }
-    }//GEN-LAST:event_chbIsSmokerItemStateChanged
-
-    private void chbConsumesAlcoholItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chbConsumesAlcoholItemStateChanged
-        // TODO add your handling code here:
-        if (((JCheckBox) evt.getSource()).isSelected()) {
-            spinnerAlcoholPerDay.setEnabled(true);
-        } else {
-            spinnerAlcoholPerDay.setEnabled(false);
-        }
-    }//GEN-LAST:event_chbConsumesAlcoholItemStateChanged
-
-    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        // TODO add your handling code here:
-        JTabbedPane tp = (JTabbedPane) evt.getSource();
-        int selected = tp.getSelectedIndex();
-        if (tp.getTitleAt(selected).equalsIgnoreCase("extended info")) {
-            addContactForm(nokContact, tfNokContact.getText());
-            addContactForm(contactInfoPane, tfContact.getText());
-            eiStatement.setText(tfComplaint.getText().trim());
-
-//            PatientBinder.bindPatientToComponents();
-        }
-    }//GEN-LAST:event_jTabbedPane1StateChanged
+//        JTabbedPane tp = (JTabbedPane) evt.getSource();
+//        int selected = tp.getSelectedIndex();
+//        if (tp.getTitleAt(selected).equalsIgnoreCase("extended info")) {
+//            addContactForm(nokContact, tfNokContact.getText());
+//            addContactForm(contactInfoPane, tfContact.getText());
+//            eiStatement.setText(tfComplaint.getText().trim());
+//
+////            PatientBinder.bindPatientToComponents();
+//        }
+    }//GEN-LAST:event_tabbedPaneStateChanged
 
     /**
      * @param args the command line arguments
@@ -1262,186 +396,38 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel basicInfoPane;
-    private javax.swing.JButton btnAddContact;
-    private javax.swing.JButton btnAddContact1;
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnCancelExt;
-    private javax.swing.JButton btnExtendedSave;
-    private javax.swing.JButton btnNext;
-    private javax.swing.JButton btnNext1;
-    private javax.swing.JButton btnPrevious;
-    private javax.swing.JButton btnPrevious1;
-    private javax.swing.JButton btnPrevious2;
-    private javax.swing.JButton btnPrevious3;
-    private javax.swing.JButton btnRemoveContact;
-    private javax.swing.JButton btnRemoveContact1;
     private javax.swing.JButton btnSave;
-    private javax.swing.JCheckBox chbConsumesAlcohol;
-    private javax.swing.JCheckBox chbIsSmoker;
-    private javax.swing.JPanel contactInfoPane;
-    private javax.swing.JTextArea eiStatement;
-    private javax.swing.JPanel extendedInfoPane;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler10;
-    private javax.swing.Box.Filler filler11;
-    private javax.swing.Box.Filler filler14;
-    private javax.swing.Box.Filler filler15;
-    private javax.swing.Box.Filler filler16;
-    private javax.swing.Box.Filler filler17;
-    private javax.swing.Box.Filler filler18;
-    private javax.swing.Box.Filler filler19;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler20;
     private javax.swing.Box.Filler filler21;
     private javax.swing.Box.Filler filler22;
     private javax.swing.Box.Filler filler23;
-    private javax.swing.Box.Filler filler5;
-    private javax.swing.Box.Filler filler6;
-    private javax.swing.Box.Filler filler7;
-    private javax.swing.Box.Filler filler9;
-    private javax.swing.JPanel formCard1;
-    private javax.swing.JPanel formCard2;
-    private javax.swing.JPanel formCard3;
-    private javax.swing.JPanel formCard4;
     private javax.swing.JPanel formElementsContainer;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
-    private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
-    private javax.swing.JLabel jLabel55;
-    private javax.swing.JLabel jLabel56;
-    private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane11;
-    private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
-    private javax.swing.JScrollPane jScrollPane14;
-    private javax.swing.JScrollPane jScrollPane15;
-    private javax.swing.JScrollPane jScrollPane16;
-    private javax.swing.JScrollPane jScrollPane17;
-    private javax.swing.JScrollPane jScrollPane18;
-    private javax.swing.JScrollPane jScrollPane19;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane20;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea10;
-    private javax.swing.JTextArea jTextArea11;
-    private javax.swing.JTextArea jTextArea12;
-    private javax.swing.JTextArea jTextArea13;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JTextArea jTextArea5;
-    private javax.swing.JTextArea jTextArea6;
-    private javax.swing.JTextArea jTextArea7;
-    private javax.swing.JTextArea jTextArea8;
-    private javax.swing.JTextArea jTextArea9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField25;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JLabel lblBloodType1;
-    private javax.swing.JLabel lblBloodType3;
-    private javax.swing.JPanel navPane1;
-    private javax.swing.JPanel navPane2;
-    private javax.swing.JPanel navPane3;
-    private javax.swing.JPanel navPane4;
     private javax.swing.JPanel newPatientPanel;
-    private javax.swing.JPanel nokContact;
-    private javax.swing.JPanel notAddress;
-    private javax.swing.JPanel permanentAddressPane;
-    private javax.swing.JPanel personalLifeStyle;
-    private javax.swing.JPanel presentAddressPane;
     private javax.swing.JRadioButton rbFemale;
     private javax.swing.JRadioButton rbMale;
     private javax.swing.ButtonGroup sexBtnGroup;
-    private javax.swing.JSpinner spinnerAlcoholPerDay;
-    private javax.swing.JSpinner spinnerCigarettesPerDay;
+    private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JTextField tfComplaint;
     private javax.swing.JTextField tfContact;
     private javax.swing.JFormattedTextField tfDateOfBirth;
@@ -1451,9 +437,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JTextField tfNokName;
     private javax.swing.JTextField tfNokRelationship;
     private javax.swing.JTextField tfNokSurname;
-    private javax.swing.JTextField tfNokZip;
-    private javax.swing.JTextField tfPermaZip;
-    private javax.swing.JTextField tfPresentZip;
     // End of variables declaration//GEN-END:variables
     private CardLayout mainCardLayout;
 
@@ -1474,21 +457,18 @@ public class NewPatientDialog extends javax.swing.JDialog {
     }
 
     private void initContent() {
-        jTabbedPane1.setEnabledAt(1, false);
+        ExtendedInfoComponent eiComponent = new ExtendedInfoComponent();
+        JScrollPane scrollPane = new JScrollPane(eiComponent);
+        tabbedPane.addTab("Extended Information", scrollPane);
+        
+//        tabbedPane.setEnabledAt(1, false);
         sexBtnGroup.add(rbMale);
         sexBtnGroup.add(rbFemale);
 
-        mainCardLayout = (CardLayout) extendedInfoPane.getLayout();
-
         jScrollPane3.getVerticalScrollBar().setUnitIncrement(16);
-        jScrollPane6.getVerticalScrollBar().setUnitIncrement(16);
-        jScrollPane4.getVerticalScrollBar().setUnitIncrement(16);
-        jScrollPane5.getVerticalScrollBar().setUnitIncrement(16);
-        jScrollPane8.getVerticalScrollBar().setUnitIncrement(16);
 
         if (patientModel != null) {
             bindPatientToBIForm();
-            fillExtendedInfo();
 
         }
 
@@ -1611,58 +591,8 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
     }
 
-    private void btnAddContact(ActionEvent evt) {
-        JButton button = (JButton) evt.getSource();
-        Container grandparent = button.getParent().getParent();
-        Container parent = button.getParent();
-
-        JButton btnRemove = (JButton) parent.getComponent(1);
-
-        addContactForm(grandparent);
-
-        if (!btnRemove.isEnabled()) {
-            btnRemove.setEnabled(true);
-        }
-
-        revalidate();
-        repaint();
-    }
-
-    private void btnRemoveContact(ActionEvent evt) {
-        JButton button = (JButton) evt.getSource();
-        Container parent = button.getParent().getParent();
-
-        Component[] components = parent.getComponents();
-        if (components.length <= 3) {
-
-            button.setEnabled(false);
-        }
-
-        for (int i = components.length - 1; i > 0; i--) {
-            if (components[i] instanceof JPanel) {
-                parent.remove(i);
-                break;
-            }
-        }
-
-        validate();
-        repaint();
-    }
-
-    private Patient bindBasicInfoToPatient(List<Component> components) {
+    private Patient bindBasicInfoToPatient() {
         Patient p = new Patient(null, null, Sex.MALE, LocalDate.MIN);
-
-        boolean emptyIsPresent = components.stream()
-                .filter(x -> x instanceof JTextField)
-                .map(x -> ((JTextField) x).getText().trim())
-                .filter(x -> x.isEmpty())
-                .findAny()
-                .isPresent();
-
-        if (emptyIsPresent) {
-            return null;
-        }
-
         p.setName(tfFirstName.getText().trim());
         p.setSurname(tfLastName.getText().trim());
         p.setDateOfBirth(Utilities.toLocalDate((Date) tfDateOfBirth.getValue()));
@@ -1676,7 +606,9 @@ public class NewPatientDialog extends javax.swing.JDialog {
                 tfNokRelationship.getText().trim());
 
         ContactInfo contact = new ContactInfo();
-        contact.addPhoneNumber(ContactType.MOBILE, tfNokContact.getText().trim());
+        List<Contact> contacts = new ArrayList<>();
+        contacts.add(new Contact(ContactType.MOBILE, tfNokContact.getText().trim()));
+        contact.setContacts(contacts);
         nok.setContactInformation(contact);
         nok.setRelationshipToPatient(tfNokRelationship.getText().trim());
 
@@ -1687,236 +619,11 @@ public class NewPatientDialog extends javax.swing.JDialog {
         return p;
     }
 
-    private Map<String, Object> initValueMap(List<Component> formElements) {
-        Map<String, Object> values = new HashMap<>();
-
-        for (Component c : formElements) {
-            String name = c.getName();
-
-            if (name == null || "Spinner.formattedTextField".equals(name)) {
-                continue;
-            }
-
-            String content = getComponentContent(c);
-            if (!values.containsKey(name)) {
-                values.put(name, content);
-            } else if (!content.isEmpty()) {
-                if (values.get(name) instanceof List) {
-                    ((List) values.get(name)).add(content);
-                } else {
-                    values.put(name, new LinkedHashSet<>());
-                    ((Set) values.get(name)).add(content);
-                }
-            }
-        }
-
-        return values;
-    }
-
-    private String getComponentContent(Component c) {
-        if (c instanceof JTextField) {
-            return ((JTextField) c).getText().trim();
-        } else if (c instanceof JTextArea) {
-            return ((JTextArea) c).getText().trim();
-        } else if (c instanceof JCheckBox) {
-            return String.valueOf(((JCheckBox) c).isSelected());
-        } else if (c instanceof JSpinner) {
-            return ((JSpinner) c).getValue().toString();
-        } else if (c instanceof JComboBox) {
-            Object selectedItem = ((JComboBox) c).getSelectedItem();
-            if (selectedItem instanceof ContactType) {
-                return "";
-            }
-            return selectedItem.toString();
-        } else {
-            return "";
-        }
-    }
-
-    private void setComponentContent(Component c, String value) {
-        if (c instanceof JTextField) {
-            ((JTextField) c).setText(value);
-        } else if (c instanceof JTextArea) {
-            ((JTextArea) c).setText(value);
-        } else if (c instanceof JCheckBox) {
-            ((JCheckBox) c).setSelected(Boolean.valueOf(value));
-        } else if (c instanceof JSpinner) {
-            ((JSpinner) c).setValue(value);
-        } else if (c instanceof JComboBox) {
-            Object selectedItem = ((JComboBox) c).getSelectedItem();
-            if (selectedItem instanceof ContactType) {
-                ((JComboBox) c).setSelectedItem(ContactType.valueOf(value.toUpperCase()));
-            }
-
-        }
-    }
-
-    private ExtendedPatientInformation bindExtendedInformationToPatient(Map<String, Object> values) {
-        final String path = ".\\src\\com\\kvlahov\\properties\\";
-        ExtendedPatientInformation info = new ExtendedPatientInformation();
-
-        Map<String, String> componentValues = getStringMap(values);
-
-        ContactInfo.Address permaAddress = new ContactInfo.Address();
-        Utilities.invokeSetters(permaAddress,
-                (Map) Utilities.readProperties(path + "permanentAddress" + "Props.txt"),
-                componentValues);
-        permaAddress.setZipCode(tfPermaZip.getText().trim());
-
-        ContactInfo.Address presentAddress = new ContactInfo.Address();
-        Utilities.invokeSetters(presentAddress,
-                (Map) Utilities.readProperties(path + "presentAddress" + "Props.txt"),
-                componentValues);
-        presentAddress.setZipCode(tfPresentZip.getText().trim());
-
-        ContactInfo contactInfo = new ContactInfo();
-        contactInfo.setPermanentAddress(permaAddress);
-        contactInfo.setPresentAddress(presentAddress);
-        contactInfo.setEmail(null);
-
-        setPhoneNumbers(contactInfo, values, "patientContactInfo");
-
-        ComplaintsInfo complaints = new ComplaintsInfo();
-        Utilities.invokeSetters(complaints,
-                (Map) Utilities.readProperties(path + "complaints" + "Props.txt"),
-                componentValues);
-
-        LifestyleInfo lifestyle = new LifestyleInfo();
-        Utilities.invokeSetters(lifestyle,
-                (Map) Utilities.readProperties(path + "lifestyle" + "Props.txt"),
-                componentValues);
-
-        ContactInfo.Address nokAddress = new ContactInfo.Address();
-        Utilities.invokeSetters(nokAddress,
-                (Map) Utilities.readProperties(path + "nokAddress" + "Props.txt"),
-                componentValues);
-        nokAddress.setZipCode(tfNokZip.getText().trim());
-
-        ContactInfo nokContacts = new ContactInfo();
-        nokContacts.setPermanentAddress(nokAddress);
-        setPhoneNumbers(nokContacts, values, "nokContactInfo");
-
-        PersonalInfo personalInfo = new PersonalInfo();
-        Utilities.invokeSetters(personalInfo,
-                (Map) Utilities.readProperties(path + "personalInfo" + "Props.txt"),
-                componentValues);
-        personalInfo.setBloodType(cbBloodType.getSelectedItem() + " " + cbBloodRh.getSelectedItem());
-        personalInfo.setAnnualIncome(tfIncome.getText().trim());
-
-        NextOfKin nok = new NextOfKin(
-                tfNokName.getText().trim(),
-                tfNokSurname.getText().trim(),
-                tfNokRelationship.getText().trim());
-
-        nok.setContactInformation(nokContacts);
-
-        info.setNextOfKin(nok);
-        info.setComplaints(complaints);
-        info.setLifestyle(lifestyle);
-        info.setPersonalInfo(personalInfo);
-        info.setContactInfo(contactInfo);
-
-        return info;
-    }
-
-    private ExtendedPatientInformation bindEIToPatientOld(Map<String, Object> values) {
-        ExtendedPatientInformation info = new ExtendedPatientInformation();
-
-        ContactInfo.Address permaAddress = new ContactInfo.Address();
-        ContactInfo.Address presentAddress = new ContactInfo.Address();
-
-        ContactInfo contactInfo = new ContactInfo();
-        contactInfo.setPermanentAddress(permaAddress);
-        contactInfo.setPresentAddress(presentAddress);
-        contactInfo.setEmail(null);
-
-        setPhoneNumbers(contactInfo, values, "patientContactInfo");
-
-        info.setContactInfo(contactInfo);
-
-        ComplaintsInfo complaints = new ComplaintsInfo();
-
-        LifestyleInfo lifestyle = new LifestyleInfo();
-
-        ContactInfo.Address nokAddress = new ContactInfo.Address();
-
-        ContactInfo nokContacts = new ContactInfo();
-        nokContacts.setPermanentAddress(nokAddress);
-        setPhoneNumbers(nokContacts, values, "nokContactInfo");
-
-        PersonalInfo personalInfo = new PersonalInfo();
-
-//        permaAddress.setArea(values.get("permanentAddArea").stream().findFirst().orElse(null));
-//        permaAddress.setState(values.get("permanentAddState").stream().findFirst().orElse(null));
-//        permaAddress.setStreet(values.get("permanentAddStreet").stream().findFirst().orElse(null));
-//        permaAddress.setCity(values.get("permanentAddCity").stream().findFirst().orElse(null));
-//        permaAddress.setZipCode(values.get("permanentAddZip").stream().findFirst().orElse(null));
-//        presentAddress.setArea(values.get("presentAddArea").stream().findFirst().orElse(null));
-//        presentAddress.setState(values.get("presentAddState").stream().findFirst().orElse(null));
-//        presentAddress.setStreet(values.get("presentAddStreet").stream().findFirst().orElse(null));
-//        presentAddress.setCity(values.get("presentAddCity").stream().findFirst().orElse(null));
-//        presentAddress.setZipCode(values.get("presentAddZip").stream().findFirst().orElse(null));
-//        complaints.setCardiacCondition(values.get("cardiacCondition").stream().findFirst().orElse(null));
-//        complaints.setDigestiveCondition(values.get("digestiveCondition").stream().findFirst().orElse(null));
-//        complaints.setHospitalTreated(values.get("hospitalTreated").stream().findFirst().orElse(null));
-//        complaints.setIsDiabetic(Boolean.valueOf(values.get("isDiabetic").stream().findFirst().orElse(null)));
-//        complaints.setIsHypertensive(Boolean.valueOf(values.get("isHypertensive").stream().findFirst().orElse(null)));
-//        complaints.setKnownAllergies(values.get("knownAllergies").stream().findFirst().orElse(null));
-//        complaints.setMajorSurgeries(values.get("surgeryHistory").stream().findFirst().orElse(null));
-//        complaints.setMuscularCondition(values.get("muscularCondition").stream().findFirst().orElse(null));
-//        complaints.setNeurologicalCondition(values.get("neurologicalCondition").stream().findFirst().orElse(null));
-//        complaints.setOrthopedicCondition(values.get("orthopedicCondition").stream().findFirst().orElse(null));
-//        complaints.setPreviousTreatments(values.get("treatmentHistory").stream().findFirst().orElse(null));
-//        complaints.setReactionDrugs(values.get("reactionToDrugs").stream().findFirst().orElse(null));
-//        complaints.setRespiratoryCondition(values.get("respitoryCondition").stream().findFirst().orElse(null));
-//        complaints.setStatementComplaint(values.get("statementOfComplaint").stream().findFirst().orElse(null));
-//        lifestyle.setAverageCigarettesPerDay(values.get("spinnerCigsPerDay").stream().findFirst().orElse(null));
-//        lifestyle.setAverageDrinksPerDay(values.get("spinnerAlcoholPerDay").stream().findFirst().orElse(null));
-//        lifestyle.setCoffeineDrinkPerDay(values.get("spinCaffeinePerDay").stream().findFirst().orElse(null));
-//        lifestyle.setConsumesAlcohol(Boolean.valueOf(values.get("consumesAlcohol").stream().findFirst().orElse(null)));
-//        lifestyle.setEatingHabits(values.get("eatingHabits").stream().findFirst().orElse(null));
-//        lifestyle.setIsSmoker(Boolean.valueOf(values.get("isSmoker").stream().findFirst().orElse(null)));
-//        lifestyle.setIsVegetarian(Boolean.valueOf(values.get("isVege").stream().findFirst().orElse(null)));
-//        lifestyle.setSoftDrinkPerDay(values.get("spinSoftPerDay").stream().findFirst().orElse(null));
-//        lifestyle.setUsesStimulants(values.get("stimulants").stream().findFirst().orElse(null));
-//        pi.setAnnualIncome(values.get("grossIncome").stream().findFirst().orElse(null));
-//        pi.setBloodType(values.get("bloodType").stream().findFirst().orElse(null) + values.get("bloodRh").stream().findFirst().orElse(null));
-//        pi.setHeight(Float.valueOf(values.get("height").stream().findFirst().orElse("-1")));
-//        pi.setMaritalStatus(values.get("maritalStatus").stream().findFirst().orElse(null));
-//        pi.setNoOFDependents(Integer.valueOf(values.get("noOfDependents").stream().findFirst().orElse("-1")));
-//        pi.setOccupation(values.get("occupation").stream().findFirst().orElse(null));
-//        pi.setWeight(Float.valueOf(values.get("weight").stream().findFirst().orElse("-1")));
-//        nokAddress.setArea(values.get("nokAddArea").stream().findFirst().orElse(null));
-//        nokAddress.setCity(values.get("nokAddCity").stream().findFirst().orElse(null));
-//        nokAddress.setState(values.get("nokAddState").stream().findFirst().orElse(null));
-//        nokAddress.setStreet(values.get("nokAddStreet").stream().findFirst().orElse(null));
-//        nokAddress.setZipCode(values.get("nokAddZip").stream().findFirst().orElse(null));
-        NextOfKin nok = new NextOfKin(
-                tfNokName.getText().trim(),
-                tfNokSurname.getText().trim(),
-                tfNokRelationship.getText().trim());
-        nok.setContactInformation(nokContacts);
-
-        info.setNextOfKin(nok);
-        info.setComplaints(complaints);
-        info.setLifestyle(lifestyle);
-        info.setPersonalInfo(personalInfo);
-
-        return info;
-
-    }
-
-    private void setPhoneNumbers(ContactInfo contactInfo, Map<String, Object> values, String prefix) {
-        
-    }
-
-    private Map<String, String> getStringMap(Map<String, Object> values) {
-        return values.entrySet().stream()
-                .filter(x -> x.getValue() instanceof String)
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> (String) e.getValue()));
-    }
-
     private void bindPatientToBIForm() {
+        if (patientModel == null) {
+            return;
+        }
+
         tfFirstName.setText(patientModel.getName());
         tfLastName.setText(patientModel.getSurname());
         tfDateOfBirth.setValue(Utilities.toDate(patientModel.getDateOfBirth().atStartOfDay()));
@@ -1926,62 +633,20 @@ public class NewPatientDialog extends javax.swing.JDialog {
             rbFemale.setSelected(true);
         }
         tfComplaint.setText(extendedInfoModel.getComplaints().getStatementComplaint());
-        String contact = extendedInfoModel.getContactInfo().getFirstContactForType(ContactType.MOBILE);
+        String contact = extendedInfoModel.getContactInfo().getContacts().get(0).getContact();
 
         tfContact.setText(contact);
         NextOfKin nok = extendedInfoModel.getNextOfKin();
         tfNokContact.setText(nok
                 .getContactInformation()
                 .getContacts()
-                .get(ContactType.MOBILE)
-                .stream().findFirst().orElse(""));
+                .get(0)
+                .getContact());
 
         tfNokName.setText(nok.getName());
         tfNokRelationship.setText(nok.getRelationshipToPatient());
         tfNokSurname.setText(nok.getSurname());
 
-    }
-
-    private void fillExtendedInfo() {
-        final String path = ".\\src\\com\\kvlahov\\properties\\";
-        List<Component> formElements = getEIComponents();
-        
-        Map<String, String> values = new HashMap<>();
-        
-        formElements.forEach(s -> values.put(s.getName(), ""));
-        
-        Utilities.invokeGetters(extendedInfoModel.getComplaints(),
-                (Map) Utilities.readProperties(path + "complaints" + "Props.txt"), 
-                values);
-        
-        Utilities.invokeGetters(extendedInfoModel.getLifestyle(),
-                (Map) Utilities.readProperties(path + "lifestyle" + "Props.txt"), 
-                values);
-        Utilities.invokeGetters(extendedInfoModel.getPersonalInfo(),
-                (Map) Utilities.readProperties(path + "personalInfo" + "Props.txt"), 
-                values);
-        Utilities.invokeGetters(extendedInfoModel.getNextOfKin().getContactInformation().getPermanentAddress(),
-                (Map) Utilities.readProperties(path + "nokAddress" + "Props.txt"), 
-                values);
-        Utilities.invokeGetters(extendedInfoModel.getContactInfo().getPermanentAddress(),
-                (Map) Utilities.readProperties(path + "permanentAddress" + "Props.txt"), 
-                values);
-        Utilities.invokeGetters(extendedInfoModel.getContactInfo().getPresentAddress(),
-                (Map) Utilities.readProperties(path + "presentAddress" + "Props.txt"), 
-                values);
-        
-        values.forEach((k,v) -> System.out.println(k + ": " + v));
-    }
-
-    private List<Component> getEIComponents() {
-        List<Class> validClasses = new ArrayList<>();
-        validClasses.add(JTextField.class);
-        validClasses.add(JCheckBox.class);
-//        validClasses.add(JComboBox.class);
-        validClasses.add(JTextArea.class);
-        validClasses.add(JSpinner.class);
-
-        return Utilities.getFlattenedListOfComponents(extendedInfoPane.getComponents(), validClasses);
     }
 
     static class IsNumberVerifier extends InputVerifier {

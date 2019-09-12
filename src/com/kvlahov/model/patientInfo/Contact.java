@@ -16,6 +16,14 @@ public class Contact {
     private ContactType type;
     private String contact;
 
+    public Contact() {
+    }
+
+    public Contact(ContactType type, String contact) {
+        this.type = type;
+        this.contact = contact;
+    }
+
     public ContactType getType() {
         return type;
     }

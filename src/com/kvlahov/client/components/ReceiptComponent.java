@@ -41,7 +41,6 @@ public class ReceiptComponent extends javax.swing.JPanel {
         this.receipt = receipt;
         this.patient = patient;
         this.appointmentDate = appointmentDate;
-        this.viewMode = viewMode;
 
         initComponents();
         initUI();
