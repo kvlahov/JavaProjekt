@@ -30,7 +30,6 @@ public class ReceiptComponent extends javax.swing.JPanel {
 
     private Receipt receipt;
     private Patient patient;
-    private ContactInfo patientContact;
     private LocalDate appointmentDate;
 
     private List<PaymentMethod> paymentMethods = new ArrayList<>();
@@ -38,11 +37,10 @@ public class ReceiptComponent extends javax.swing.JPanel {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private ComponentMode viewMode = ComponentMode.DISPLAY;
 
-    public ReceiptComponent(Receipt receipt, Patient patient, LocalDate appointmentDate, ContactInfo patientContact) {
+    public ReceiptComponent(Receipt receipt, Patient patient, LocalDate appointmentDate) {
         this.receipt = receipt;
         this.patient = patient;
         this.appointmentDate = appointmentDate;
-        this.patientContact = patientContact;
         this.viewMode = viewMode;
 
         initComponents();
@@ -291,8 +289,8 @@ public class ReceiptComponent extends javax.swing.JPanel {
     private JComboBox ddlPaymentMethod;
 
     private void initUI() {
-        if (patient != null && patientContact != null) {
-            updatePatientUI(patient, patientContact);
+        if (patient != null) {
+            updatePatientUI(patient);
         }
 
         if (receipt != null) {
@@ -316,7 +314,7 @@ public class ReceiptComponent extends javax.swing.JPanel {
         }
     }
 
-    private void updatePatientUI(Patient patient, ContactInfo patientContact) {
+    private void updatePatientUI(Patient patient) {
         StringBuilder sb = new StringBuilder();
         sb.append(patient.toString());
 
@@ -344,13 +342,6 @@ public class ReceiptComponent extends javax.swing.JPanel {
     }
 
     private void addPaymentMethod() {
-//        GridBagConstraints gbc = new GridBagConstraints();
-//        gbc.gridx = 1;
-//        gbc.gridy = 8;
-//        gbc.fill = GridBagConstraints.VERTICAL;
-//        gbc.anchor = GridBagConstraints.BASELINE_LEADING;
-//        gbc.insets = new Insets(4, 0, 4, 10);
-
         switch (viewMode) {
             case EDIT:
                 paymentMethodComponent = ddlPaymentMethod;

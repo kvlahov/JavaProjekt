@@ -25,6 +25,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void main(String[] args) {
         // TODO code application logic here
 
@@ -51,7 +52,7 @@ public class Main {
         LocalDate startOfMonth = LocalDate.of(date.getYear(), date.getMonth(), 1);
         LocalDate endOfMonth = startOfMonth.plusDays(date.getMonth().length(date.isLeapYear()));
         
-        System.out.println(endOfMonth);
+        System.out.println("AB+".substring(2));
         ////////////////////////////////
         //TESTING
     }

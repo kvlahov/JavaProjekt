@@ -13,9 +13,9 @@ import com.kvlahov.model.TypeOfService;
 import com.kvlahov.model.User;
 import com.kvlahov.model.enums.AddressType;
 import com.kvlahov.model.enums.ContactType;
-import com.kvlahov.model.enums.Sex;
 import com.kvlahov.model.enums.UserRole;
 import com.kvlahov.model.patientInfo.ComplaintsInfo;
+import com.kvlahov.model.patientInfo.Contact;
 import com.kvlahov.model.patientInfo.ContactInfo;
 import com.kvlahov.model.patientInfo.LifestyleInfo;
 import com.kvlahov.model.patientInfo.NextOfKin;
@@ -23,10 +23,8 @@ import com.kvlahov.model.patientInfo.PersonalInfo;
 import com.kvlahov.model.report.StatNewRecurringPatients;
 import com.kvlahov.model.report.StatPatientsTreated;
 import com.kvlahov.model.report.StatServiceSummary;
-import com.kvlahov.utils.Utilities;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -38,125 +36,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 class SqlRepository implements IRepository {
-    //    @Override
-//    public int insertDoctor(Doctor doctor) {
-//        final String INSERT_DOCTOR = "{ CALL insertDoctor (?,?,?,?) }";
-//        try(Connection con = dataSource.getConnection();
-//                CallableStatement stmt = con.prepareCall(INSERT_DOCTOR)) {
-//            stmt.setString(1, doctor.getName());
-//            stmt.setString(2, doctor.getSurname());
-//            stmt.setString(3, doctor.getTitle());
-//            stmt.registerOutParameter(4, Types.INTEGER);
-//            
-//            stmt.executeUpdate();
-//            return stmt.getInt(4);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return -1;
-//    }
-//
-//    @Override
-//    public void updateDoctor(Doctor dummy, int idDoctor) {
-//        final String UPDATE_DOCTOR = "{ CALL updateDoctor (?,?,?,?) }";
-//        
-//        try(Connection con = dataSource.getConnection();
-//                CallableStatement stmt = con.prepareCall(UPDATE_DOCTOR)) {
-//            stmt.setString(1, dummy.getName());
-//            stmt.setString(2, dummy.getSurname());
-//            stmt.setString(3, dummy.getTitle());
-//            stmt.setInt(4, idDoctor);
-//            stmt.executeUpdate();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }        
-//    }
-//
-//    
-//    @Override
-//    public void deleteDoctor(int idDoctor) {
-//        final String DELETE_DOCTOR = "{ CALL deleteDoctor (?) }";
-//        
-//        try(Connection con = dataSource.getConnection();
-//                CallableStatement stmt = con.prepareCall(DELETE_DOCTOR)) {
-//            stmt.setInt(1, idDoctor);
-//            stmt.executeUpdate();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }        
-//    }
-//
-//    @Override
-//    public Doctor getDoctor(int idDoctor) {
-//        final String GET_DOCTOR = "{ CALL getDoctor (?) }";
-//        
-//        try (Connection con = dataSource.getConnection();
-//                CallableStatement stmt = con.prepareCall(GET_DOCTOR)){
-//                stmt.setInt(1, idDoctor);
-//            try(ResultSet resultSet = stmt.executeQuery()) {
-//                if (resultSet.next()) {
-//                    return new Doctor(
-//                                resultSet.getInt("IDDoctor"), 
-//                                resultSet.getString("Name"), 
-//                                resultSet.getString("Surname"),
-//                                resultSet.getString("Title"));
-//                }
-//            }   
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public List<Doctor> getDoctors() {
-//        List<Doctor> doctors = new ArrayList<>();
-//        final String GET_DOCTORS = "{ CALL getDoctors }";
-//        
-//        try (Connection con = dataSource.getConnection();
-//                CallableStatement stmt = con.prepareCall(GET_DOCTORS);
-//                ResultSet resultSet = stmt.executeQuery()){
-//                    while (resultSet.next()) {
-//                        doctors.add(
-//                                new Doctor(
-//                                    resultSet.getInt("IDDoctor"), 
-//                                    resultSet.getString("Name"), 
-//                                    resultSet.getString("Surname"),
-//                                    resultSet.getString("Title")));
-//                    }
-//            return doctors;
-//            
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return doctors;
-//    }
-//
-//    @Override
-//    public List<Patient> getPatientsForDoctor(int idDoctor) {
-//        List<Patient> patients = new ArrayList<>();
-//        final String GET_PATIENTS_FOR_DOCTOR = "{ CALL getPatientsForDoctor (?) }";
-//        
-//        try(Connection con = dataSource.getConnection();
-//                CallableStatement stmt = con.prepareCall(GET_PATIENTS_FOR_DOCTOR)) {
-//            stmt.setInt(1, idDoctor);
-//           try(ResultSet resultSet = stmt.executeQuery()) {
-//                while (resultSet.next()) {
-//                    patients.add(
-//                            new Patient(
-//                                resultSet.getInt("IDPatient"), 
-//                                resultSet.getString("Name"), 
-//                                resultSet.getString("Surname"),
-//                                resultSet.getString("Diagnosis")));
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }        
-//        return patients;
-//    }
-
-//    String connectionUrl = "jdbc:sqlserver://localhost:1433; databaseName=JavaProjekt;integratedSecurity=true"; 
     DataSource dataSource = DataSourceSingleton.getInstance();
 
     @Override
@@ -633,17 +512,10 @@ class SqlRepository implements IRepository {
                 CallableStatement stmt = con.prepareCall(GET_NOK)) {
             stmt.setInt(1, nok);
             try (ResultSet resultSet = stmt.executeQuery()) {
-                ContactInfo.Address add = new ContactInfo.Address();
+
                 while (resultSet.next()) {
-
-                    add.setArea(resultSet.getString("Area"));
-                    add.setCity(resultSet.getString("City"));
-                    add.setState(resultSet.getString("State"));
-                    add.setStreet(resultSet.getString("Street"));
-                    add.setZipCode(resultSet.getString("ZipCode"));
-
+                    return SqlTableHelper.getAddres(resultSet);
                 }
-                return add;
             }
 
         } catch (Exception e) {
@@ -654,20 +526,18 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public ContactInfo getNextOfKinContact(int nok) {
+    public List<Contact> getNextOfKinContact(int nok) {
         final String GET_NOKCONTACT = "{ CALL getContactsForNok (?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(GET_NOKCONTACT)) {
             stmt.setInt(1, nok);
             try (ResultSet resultSet = stmt.executeQuery()) {
-                ContactInfo contact = new ContactInfo();
-                while (resultSet.next()) {
-                    contact.addPhoneNumber(
-                            ContactType.valueOf(resultSet.getString("Type").toUpperCase()),
-                            resultSet.getString("ContactNumber"));
+                List<Contact> contacts = new ArrayList<>();
+                while (resultSet.next()) {                    
+                    contacts.add(SqlTableHelper.getContact(resultSet));
 
                 }
-                return contact;
+                return contacts;
             }
 
         } catch (Exception e) {
@@ -684,20 +554,12 @@ class SqlRepository implements IRepository {
                 CallableStatement stmt = con.prepareCall(GET_PADDRESS)) {
             stmt.setInt(1, pid);
             try (ResultSet resultSet = stmt.executeQuery()) {
-                List<ContactInfo.Address> addList = new ArrayList<>();
+                List<ContactInfo.Address> addresses = new ArrayList<>();
                 while (resultSet.next()) {
-                    ContactInfo.Address addr = new ContactInfo.Address();
-
-                    addr.setArea(resultSet.getString("Area"));
-                    addr.setCity(resultSet.getString("City"));
-                    addr.setState(resultSet.getString("State"));
-                    addr.setStreet(resultSet.getString("Street"));
-                    addr.setZipCode(resultSet.getString("ZipCode"));
-                    addr.setType(AddressType.valueOf(resultSet.getString("Type").toUpperCase()));
-
+                    addresses.add(SqlTableHelper.getAddres(resultSet));
                 }
 
-                return addList;
+                return addresses;
             }
 
         } catch (Exception e) {
@@ -708,20 +570,18 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public ContactInfo getPatientContact(int pid) {
+    public List<Contact> getPatientContact(int pid) {
         final String GET_PCONTACT = "{ CALL getContactsForPatient (?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(GET_PCONTACT)) {
             stmt.setInt(1, pid);
             try (ResultSet resultSet = stmt.executeQuery()) {
-                ContactInfo contact = new ContactInfo();
-                while (resultSet.next()) {
-                    contact.addPhoneNumber(
-                            ContactType.valueOf(resultSet.getString("Type").toUpperCase()),
-                            resultSet.getString("ContactNumber"));
+                List<Contact> contacts = new ArrayList<>();
+                while (resultSet.next()) {                    
+                    contacts.add(SqlTableHelper.getContact(resultSet));
 
                 }
-                return contact;
+                return contacts;
             }
 
         } catch (Exception e) {
@@ -730,6 +590,8 @@ class SqlRepository implements IRepository {
 
         return null;
     }
+
+    
 
     @Override
     public PersonalInfo getPersonalInfo(int pid) {

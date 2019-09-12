@@ -23,7 +23,7 @@ public class ContactInfo {
     private Address presentAddress;
     private Address permanentAddress;
     private String email;
-    private HashMap<ContactType, Set<String>> contacts = initPhoneNumbers();
+    private List<Contact> contacts;
 
     private HashMap<ContactType, Set<String>> initPhoneNumbers() {
         HashMap<ContactType, Set<String>> initContacts = new HashMap<>();
@@ -62,27 +62,13 @@ public class ContactInfo {
         this.email = email;
     }
 
-    public HashMap<ContactType, Set<String>> getContacts() {
+    public List<Contact> getContacts() {
         return contacts;
     }
-    
-    public String getFirstContactForType(ContactType type) {
 
-        return contacts.keySet().stream()
-                .filter(k -> k == type)
-                .flatMap(k -> contacts.get(k).stream())
-                .findFirst()
-                .orElse("");
-                
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
-
-    public void addPhoneNumber(ContactType type, String number) {
-        this.contacts.get(type).add(number);
-    }  
-    
-    public void setPhoneNumber(ContactType type, Set<String> number) {
-        this.contacts.put(type, number);
-    }  
 
     public static class Address {
         private String street;

@@ -165,10 +165,10 @@ public class Tets extends javax.swing.JFrame {
         Appointment appointment = AppointmentsController.getScheduledAppointments(4).get(0);
         Receipt receipt = ReceiptController.generateReceipt(appointment);
         Patient patient = PatientController.getPatient(appointment.getPatientId());
-        ContactInfo patientContactInfo = PatientController.getPatientContactInfo(appointment.getPatientId());
+        
         List<PaymentMethod> allPaymentMethods = ReceiptController.getAllPaymentMethods();
         receipt.setPaymentMethod(allPaymentMethods.get(0));
-        ReceiptComponent receiptComponent = new ReceiptComponent(receipt, patient, appointment.getDate(), patientContactInfo);
+        ReceiptComponent receiptComponent = new ReceiptComponent(receipt, patient, appointment.getDate());
         receiptComponent.setEditMode(allPaymentMethods);
         add(receiptComponent, BorderLayout.CENTER);
     }

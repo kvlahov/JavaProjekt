@@ -18,10 +18,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.DateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,14 +30,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.Box;
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -180,23 +175,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
         formCard3 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         personalLifeStyle = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
-        lblBloodType = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        cbBloodType = new javax.swing.JComboBox();
-        cbBloodRh = new javax.swing.JComboBox();
-        jLabel21 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
-        tfIncome = new javax.swing.JTextField();
         jPanel23 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -240,8 +218,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jScrollPane8 = new javax.swing.JScrollPane();
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
-        filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
-        filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         jLabel42 = new javax.swing.JLabel();
         jScrollPane10 = new javax.swing.JScrollPane();
         eiStatement = new javax.swing.JTextArea();
@@ -737,69 +713,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
         personalLifeStyle.setPreferredSize(new java.awt.Dimension(465, 1205));
         personalLifeStyle.setLayout(new java.awt.GridLayout(0, 1, 10, 10));
 
-        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Personal Details"));
-        jPanel10.setLayout(new java.awt.GridLayout(0, 2, 10, 10));
-
-        jLabel16.setText("Marital Status");
-        jPanel10.add(jLabel16);
-
-        jTextField9.setName("maritalStatus"); // NOI18N
-        jPanel10.add(jTextField9);
-
-        jLabel17.setText("Number of Dependents");
-        jPanel10.add(jLabel17);
-
-        jTextField10.setText("0");
-        jTextField10.setInputVerifier(new IsNumberVerifier());
-        jTextField10.setName("noOfDependents"); // NOI18N
-        jPanel10.add(jTextField10);
-
-        jLabel18.setText("Height (cm)");
-        jPanel10.add(jLabel18);
-
-        jTextField11.setText("0");
-        jTextField11.setInputVerifier(new IsFloatVerifier());
-        jTextField11.setName("height"); // NOI18N
-        jPanel10.add(jTextField11);
-
-        jLabel19.setText("Weight (kg)");
-        jPanel10.add(jLabel19);
-
-        jTextField12.setText("0");
-        jTextField12.setInputVerifier(new IsFloatVerifier());
-        jTextField12.setName("weight"); // NOI18N
-        jPanel10.add(jTextField12);
-
-        lblBloodType.setText("Blood Type");
-        jPanel10.add(lblBloodType);
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 0, 15, 100));
-        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
-
-        cbBloodType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "A", "B", "AB" }));
-        cbBloodType.setName("bloodType"); // NOI18N
-        jPanel5.add(cbBloodType);
-
-        cbBloodRh.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "+" }));
-        cbBloodRh.setName("bloodRh"); // NOI18N
-        jPanel5.add(cbBloodRh);
-
-        jPanel10.add(jPanel5);
-
-        jLabel21.setText("Occupation");
-        jPanel10.add(jLabel21);
-
-        jTextField14.setName("occupation"); // NOI18N
-        jPanel10.add(jTextField14);
-
-        jLabel22.setText("Gross Annual Income");
-        jPanel10.add(jLabel22);
-
-        tfIncome.setName("grossIncome"); // NOI18N
-        jPanel10.add(tfIncome);
-
-        personalLifeStyle.add(jPanel10);
-
         jPanel23.setLayout(new javax.swing.BoxLayout(jPanel23, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel19.setBorder(javax.swing.BorderFactory.createEmptyBorder(25, 1, 25, 1));
@@ -865,7 +778,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jPanel22.add(jLabel15);
         jPanel22.add(filler18);
 
-        spinnerCigarettesPerDay.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spinnerCigarettesPerDay.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerCigarettesPerDay.setEnabled(false);
         spinnerCigarettesPerDay.setName("spinnerCigsPerDay"); // NOI18N
         jPanel22.add(spinnerCigarettesPerDay);
@@ -878,7 +791,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jPanel24.add(jLabel45);
         jPanel24.add(filler19);
 
-        spinnerAlcoholPerDay.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spinnerAlcoholPerDay.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerAlcoholPerDay.setEnabled(false);
         spinnerAlcoholPerDay.setName("spinnerAlcoholPerDay"); // NOI18N
         jPanel24.add(spinnerAlcoholPerDay);
@@ -901,14 +814,14 @@ public class NewPatientDialog extends javax.swing.JDialog {
         lblBloodType1.setText("Consumption of caffeine drinks per day");
         jPanel11.add(lblBloodType1);
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         jSpinner1.setName("spinCaffeinePerDay"); // NOI18N
         jPanel11.add(jSpinner1);
 
         jLabel40.setText("Consumption of soft drinks per day");
         jPanel11.add(jLabel40);
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         jSpinner2.setName("spinSoftPerDay"); // NOI18N
         jPanel11.add(jSpinner2);
 
@@ -972,8 +885,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("Basic Complaints"));
         jPanel13.setLayout(new java.awt.GridLayout(0, 2, 10, 10));
-        jPanel13.add(filler12);
-        jPanel13.add(filler13);
 
         jLabel42.setText("Statement of Complaint");
         jPanel13.add(jLabel42);
@@ -1365,8 +1276,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnRemoveContact;
     private javax.swing.JButton btnRemoveContact1;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox cbBloodRh;
-    private javax.swing.JComboBox cbBloodType;
     private javax.swing.JCheckBox chbConsumesAlcohol;
     private javax.swing.JCheckBox chbIsSmoker;
     private javax.swing.JPanel contactInfoPane;
@@ -1375,8 +1284,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler11;
-    private javax.swing.Box.Filler filler12;
-    private javax.swing.Box.Filler filler13;
     private javax.swing.Box.Filler filler14;
     private javax.swing.Box.Filler filler15;
     private javax.swing.Box.Filler filler16;
@@ -1405,13 +1312,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -1454,7 +1355,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
@@ -1474,7 +1374,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -1514,10 +1413,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JTextArea jTextArea8;
     private javax.swing.JTextArea jTextArea9;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
@@ -1530,8 +1425,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
-    private javax.swing.JLabel lblBloodType;
     private javax.swing.JLabel lblBloodType1;
     private javax.swing.JLabel lblBloodType3;
     private javax.swing.JPanel navPane1;
@@ -1553,7 +1446,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JTextField tfContact;
     private javax.swing.JFormattedTextField tfDateOfBirth;
     private javax.swing.JTextField tfFirstName;
-    private javax.swing.JTextField tfIncome;
     private javax.swing.JTextField tfLastName;
     private javax.swing.JTextField tfNokContact;
     private javax.swing.JTextField tfNokName;
@@ -2015,11 +1907,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
     }
 
     private void setPhoneNumbers(ContactInfo contactInfo, Map<String, Object> values, String prefix) {
-        values.keySet().stream()
-                .filter(s -> s.startsWith(prefix))
-                .forEach(s -> contactInfo
-                        .setPhoneNumber(ContactType.valueOf(s.substring(prefix.length()).toUpperCase()),
-                                (Set) values.get(s)));
+        
     }
 
     private Map<String, String> getStringMap(Map<String, Object> values) {

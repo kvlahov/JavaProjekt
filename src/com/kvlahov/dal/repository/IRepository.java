@@ -18,6 +18,7 @@ import com.kvlahov.model.User;
 import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.enums.UserRole;
 import com.kvlahov.model.patientInfo.ComplaintsInfo;
+import com.kvlahov.model.patientInfo.Contact;
 import com.kvlahov.model.patientInfo.ContactInfo;
 import com.kvlahov.model.patientInfo.LifestyleInfo;
 import com.kvlahov.model.patientInfo.NextOfKin;
@@ -57,10 +58,10 @@ public interface IRepository {
     LifestyleInfo getLifestyle(int pid);
     NextOfKin getNextOfKin(int pid);
     ContactInfo.Address getNextOfKinAdd(int nok);
-    ContactInfo getNextOfKinContact(int nok);
+    List<Contact> getNextOfKinContact(int nok);
     
     List<ContactInfo.Address> getPatientAddress(int pid);
-    ContactInfo getPatientContact(int pid);
+    List<Contact> getPatientContact(int pid);
     PersonalInfo getPersonalInfo(int pid);
     int getContactTypeId(ContactType type);
     

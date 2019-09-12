@@ -11,7 +11,11 @@ import com.kvlahov.model.Patient;
 import com.kvlahov.model.PaymentMethod;
 import com.kvlahov.model.Receipt;
 import com.kvlahov.model.Service;
+import com.kvlahov.model.enums.AddressType;
+import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.enums.Sex;
+import com.kvlahov.model.patientInfo.Contact;
+import com.kvlahov.model.patientInfo.ContactInfo;
 import com.kvlahov.model.report.StatNewRecurringPatients;
 import com.kvlahov.model.report.StatPatientsTreated;
 import com.kvlahov.model.report.StatServiceSummary;
@@ -113,14 +117,35 @@ public class SqlTableHelper {
 
     static StatServiceSummary getServiceSummary(ResultSet resultSet) throws SQLException {
         StatServiceSummary service = new StatServiceSummary();
-        
+
         service.setPatient(getPatient(resultSet));
         service.setPrice(resultSet.getDouble("Price"));
         service.setDescription(resultSet.getString("Description"));
         service.setService(resultSet.getString("Type"));
         service.setTypeOfService(resultSet.getString("TypeOfService"));
         service.setQuantity(resultSet.getInt("Quantity"));
-        
+
         return service;
+    }
+
+    static Contact getContact(final ResultSet resultSet) throws SQLException {
+        Contact contact = new Contact();
+        contact.setType(ContactType.valueOf(resultSet.getString("Type").toUpperCase()));
+        contact.setContact(resultSet.getString("ContactNumber"));
+        contact.setId(resultSet.getInt("ContactTypeID"));
+        return contact;
+    }
+
+    static ContactInfo.Address getAddres(final ResultSet resultSet) throws SQLException {
+        ContactInfo.Address addr = new ContactInfo.Address();
+
+        addr.setArea(resultSet.getString("Area"));
+        addr.setCity(resultSet.getString("City"));
+        addr.setState(resultSet.getString("State"));
+        addr.setStreet(resultSet.getString("Street"));
+        addr.setZipCode(resultSet.getString("ZipCode"));
+        addr.setType(AddressType.valueOf(resultSet.getString("Type").toUpperCase()));
+        
+        return addr;
     }
 }
