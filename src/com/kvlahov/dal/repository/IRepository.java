@@ -22,6 +22,11 @@ import com.kvlahov.model.patientInfo.ContactInfo;
 import com.kvlahov.model.patientInfo.LifestyleInfo;
 import com.kvlahov.model.patientInfo.NextOfKin;
 import com.kvlahov.model.patientInfo.PersonalInfo;
+import com.kvlahov.model.report.DailyReport;
+import com.kvlahov.model.report.StatNewRecurringPatients;
+import com.kvlahov.model.report.StatPatientsTreated;
+import com.kvlahov.model.report.StatServiceSummary;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -122,5 +127,13 @@ public interface IRepository {
     public void deleteServiceForAppointment(int id);
 
     public List<TypeOfService> getTypesOfService();
+    
+    //Stats
+    
+    public StatNewRecurringPatients getNewRecurringPatients(LocalDate date);
+    public List<StatNewRecurringPatients> getNewRecurringPatients(LocalDate startDate, LocalDate endDate);
+    
+    public List<StatPatientsTreated> getNoOfPatientsTreated(LocalDate startDate, LocalDate endDate);
+    public List<StatServiceSummary> getServicesSummary(LocalDate date);
     
 }

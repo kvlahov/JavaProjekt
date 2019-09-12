@@ -40,7 +40,7 @@ import javax.swing.border.MatteBorder;
  *
  * @author lordo
  */
-public class Calendar extends javax.swing.JPanel {
+public class CalendarComponent extends javax.swing.JPanel {
 
     private List<Appointment> scheduledAppointments;
     private LocalDate startOfWeek;
@@ -121,7 +121,7 @@ public class Calendar extends javax.swing.JPanel {
     /**
      * Creates new form Calendar
      */
-    public Calendar() {
+    public CalendarComponent() {
         initComponents();
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         add(scrollPane, BorderLayout.CENTER);
@@ -138,7 +138,6 @@ public class Calendar extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();

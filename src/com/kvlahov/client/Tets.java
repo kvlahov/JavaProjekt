@@ -6,9 +6,12 @@
 package com.kvlahov.client;
 
 import com.kvlahov.client.components.AppointmentsPane;
-import com.kvlahov.client.components.Calendar;
+import com.kvlahov.client.components.CalendarComponent;
 import com.kvlahov.client.components.TableComponent;
 import com.kvlahov.client.components.ReceiptComponent;
+import com.kvlahov.client.components.GenerateReportComponent;
+import com.kvlahov.client.components.DailyReportComponent;
+import com.kvlahov.client.components.GeneralReportComponent;
 import com.kvlahov.client.events.TableEvent;
 import com.kvlahov.client.tableModels.AppointmentTableModel;
 import com.kvlahov.client.tableModels.PatientTableModel;
@@ -17,6 +20,8 @@ import com.kvlahov.controller.AppointmentsController;
 import com.kvlahov.controller.DoctorController;
 import com.kvlahov.controller.PatientController;
 import com.kvlahov.controller.ReceiptController;
+import com.kvlahov.controller.ReportsController;
+import com.kvlahov.exceptions.InvalidModelException;
 import com.kvlahov.model.Appointment;
 import com.kvlahov.model.Doctor;
 import com.kvlahov.model.Patient;
@@ -26,6 +31,8 @@ import com.kvlahov.model.patientInfo.ContactInfo;
 import java.awt.BorderLayout;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 /**
@@ -45,7 +52,8 @@ public class Tets extends javax.swing.JFrame {
 //        initReceiptPane();
 //        initPatientListComponent();
 //        initAppointmentListComponent();
-        initReceiptListComponent();
+//        initReceiptListComponent();
+        initReport();
     }
 
     /**
@@ -124,11 +132,18 @@ public class Tets extends javax.swing.JFrame {
 
         AppointmentsPane appointmentsPane = new AppointmentsPane(p, d, appointment, generalPhysicians);
         appointmentsPane.setBtnAddAppointmentActionListener((e) -> {
-
+            Appointment a = appointmentsPane.getAppointment();
+            System.out.println(a);
+            try {
+                AppointmentsController.setAppointment(a);
+            } catch (InvalidModelException ex) {
+                Logger.getLogger(Tets.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
-        Calendar calendar = new Calendar();
-        calendar.setMinimumDate(LocalDate.now());
+        CalendarComponent calendar = new CalendarComponent();
+        calendar.setScheduledAppointments(AppointmentsController.getScheduledAppointments(d.getId()));
+//        calendar.setMinimumDate(LocalDate.now());
 
         appointmentsPane.setCurrentDoctorChangedListener((e) -> {
             Doctor targetDoctor = appointmentsPane.getCurrentDoctor();
@@ -189,5 +204,12 @@ public class Tets extends javax.swing.JFrame {
             System.out.println(e.getModel().toString());
         });
         add(plc, BorderLayout.CENTER);
+    }
+    
+    private void initReport() {
+//        DailyReportComponent rc = new DailyReportComponent(ReportsController.generateDailyReport(LocalDate.of(2019,9,5)));
+//        GeneralReportComponent rc = new GeneralReportComponent(ReportsController.generateWeeklyReport(LocalDate.now()));
+        GeneralReportComponent rc = new GeneralReportComponent(ReportsController.generateMonthlyReport(LocalDate.now()));
+        add(rc, BorderLayout.CENTER);
     }
 }

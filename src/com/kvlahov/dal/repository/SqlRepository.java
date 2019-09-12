@@ -20,6 +20,9 @@ import com.kvlahov.model.patientInfo.ContactInfo;
 import com.kvlahov.model.patientInfo.LifestyleInfo;
 import com.kvlahov.model.patientInfo.NextOfKin;
 import com.kvlahov.model.patientInfo.PersonalInfo;
+import com.kvlahov.model.report.StatNewRecurringPatients;
+import com.kvlahov.model.report.StatPatientsTreated;
+import com.kvlahov.model.report.StatServiceSummary;
 import com.kvlahov.utils.Utilities;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -242,14 +245,7 @@ class SqlRepository implements IRepository {
             try (ResultSet resultSet = stmt.executeQuery()) {
                 List<Patient> patients = new ArrayList<>();
                 while (resultSet.next()) {
-                    Patient p = new Patient(
-                            resultSet.getInt("IDPatient"),
-                            resultSet.getString("Name"),
-                            resultSet.getString("Surname"),
-                            Sex.getValueForId(resultSet.getInt("SexID")),
-                            resultSet.getDate("DateOfBirth").toLocalDate()
-                    );
-                    patients.add(p);
+                    patients.add(SqlTableHelper.getPatient(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -337,13 +333,7 @@ class SqlRepository implements IRepository {
 
             try (ResultSet resultSet = stmt.executeQuery()) {
                 if (resultSet.next()) {
-                    return new Patient(
-                            resultSet.getInt("IDPatient"),
-                            resultSet.getString("Name"),
-                            resultSet.getString("Surname"),
-                            Sex.getValueForId(resultSet.getInt("SexID")),
-                            resultSet.getDate("DateOfBirth").toLocalDate()
-                    );
+                    return SqlTableHelper.getPatient(resultSet);
 
                 }
             }
@@ -365,15 +355,7 @@ class SqlRepository implements IRepository {
 
             try (ResultSet resultSet = stmt.executeQuery()) {
                 while (resultSet.next()) {
-                    Patient temp = new Patient(
-                            resultSet.getInt("IDPatient"),
-                            resultSet.getString("Name"),
-                            resultSet.getString("Surname"),
-                            Sex.getValueForId(resultSet.getInt("SexID")),
-                            resultSet.getDate("DateOfBirth").toLocalDate()
-                    );
-
-                    patients.add(temp);
+                    patients.add(SqlTableHelper.getPatient(resultSet));
                 }
                 return patients;
             }
@@ -1484,6 +1466,93 @@ class SqlRepository implements IRepository {
                     appointments.add(SqlTableHelper.getAppointment(resultSet));
                 }
                 return appointments;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public StatNewRecurringPatients getNewRecurringPatients(LocalDate date) {
+        final String GET_NEW_REC_PATIENTS = "{ CALL getNewAndRecurringPatients (?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_NEW_REC_PATIENTS)) {
+            stmt.setString(1, date.toString());
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                List<Appointment> appointments = new ArrayList<>();
+                if (resultSet.next()) {
+                    return SqlTableHelper.getNewRecurringPatient(resultSet);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<StatNewRecurringPatients> getNewRecurringPatients(LocalDate startDate, LocalDate endDate) {
+        final String GET_NEW_REC_PATIENTS = "{ CALL getNewAndRecurringPatientsForPeriod (?, ?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_NEW_REC_PATIENTS)) {
+            stmt.setString(1, startDate.toString());
+            stmt.setString(2, endDate.toString());
+            
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                
+                List<StatNewRecurringPatients> newRecurringPatients = new ArrayList<>();
+                while (resultSet.next()) {
+                    newRecurringPatients.add(SqlTableHelper.getNewRecurringPatient(resultSet));
+                }
+                return newRecurringPatients;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<StatPatientsTreated> getNoOfPatientsTreated(LocalDate startDate, LocalDate endDate) {
+        final String GET_PATIENTS_TREATED = "{ CALL getAveragePatientsTreated (?, ?)}";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_PATIENTS_TREATED)) {
+            stmt.setString(1, startDate.toString());
+            stmt.setString(2, endDate.toString());
+            
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                
+                List<StatPatientsTreated> patientsTreated = new ArrayList<>();
+                while (resultSet.next()) {
+                    patientsTreated.add(SqlTableHelper.getPatientsTreated(resultSet));
+                }
+                return patientsTreated;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<StatServiceSummary> getServicesSummary(LocalDate date) {
+        final String GET_SERVICES_SUMMARY = "{ CALL getDailyServicesForAppointments (?) }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_SERVICES_SUMMARY)) {
+            stmt.setString(1, date.toString());
+            
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                
+                List<StatServiceSummary> services = new ArrayList<>();
+                while (resultSet.next()) {
+                    services.add(SqlTableHelper.getServiceSummary(resultSet));
+                }
+                return services;
             }
 
         } catch (Exception e) {

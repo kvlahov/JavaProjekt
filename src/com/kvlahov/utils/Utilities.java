@@ -8,7 +8,6 @@ package com.kvlahov.utils;
 import com.kvlahov.client.DoctorUI;
 import com.kvlahov.client.RegularUI;
 import com.kvlahov.model.enums.Sex;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import com.sun.xml.internal.ws.util.StringUtils;
 import java.awt.Component;
 import java.awt.Container;
@@ -27,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -336,4 +336,19 @@ public class Utilities {
         int daysToSubtract = date.getDayOfWeek().getValue() - 1;
         return date.minusDays(daysToSubtract);
     }
+    
+    public static LocalDate calendarToLocalDate(Calendar calendar) {
+        return LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+    }
+
+    public static LocalDate getEndOfMonth(LocalDate date) {
+        
+        return getStartOfMonth(date).plusDays(date.getMonth().length(date.isLeapYear()) - 1);
+    }
+    
+    public static LocalDate getStartOfMonth(LocalDate date) {
+        
+        return LocalDate.of(date.getYear(), date.getMonth(), 1);
+    }
+    
 }

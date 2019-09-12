@@ -12,6 +12,7 @@ import com.kvlahov.client.components.NewPatientDialog;
 import com.kvlahov.controller.PatientController;
 import com.kvlahov.dal.repository.*;
 import com.kvlahov.model.patientInfo.ExtendedPatientInformation;
+import java.time.LocalDate;
 import javax.swing.JFrame;
 
 
@@ -43,12 +44,14 @@ public class Main {
 //        DoctorUI.start();
         JFrame f = new RegularUI();
 //        ((Gui) f).start();
-//        Tets.main(null);
-        ExtendedPatientInformation extendedInfo = PatientController.getExtendedInfo(28);
-        NewPatientDialog dialog = new NewPatientDialog(f, true, null, null);
-        ((Gui) f).start();
-        dialog.setVisible(true);
-        System.out.println(extendedInfo);
+        Tets.main(null);
+        
+        LocalDate date = LocalDate.now();
+        
+        LocalDate startOfMonth = LocalDate.of(date.getYear(), date.getMonth(), 1);
+        LocalDate endOfMonth = startOfMonth.plusDays(date.getMonth().length(date.isLeapYear()));
+        
+        System.out.println(endOfMonth);
         ////////////////////////////////
         //TESTING
     }

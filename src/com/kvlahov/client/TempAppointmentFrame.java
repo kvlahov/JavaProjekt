@@ -5,7 +5,7 @@
  */
 package com.kvlahov.client;
 
-import com.kvlahov.client.components.Calendar;
+import com.kvlahov.client.components.CalendarComponent;
 import com.kvlahov.client.components.EditAppointmentComponent;
 import com.kvlahov.controller.AppointmentsController;
 import com.kvlahov.controller.DoctorController;
