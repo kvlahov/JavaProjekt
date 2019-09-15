@@ -6,6 +6,7 @@
 package com.kvlahov.model;
 
 import com.kvlahov.utils.Validatable;
+import com.kvlahov.utils.ValidationResult;
 import com.kvlahov.utils.Validations;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,6 +30,8 @@ public class Appointment implements Validatable {
 
     private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+
+    private String validationErrors = "";
 
     public int getId() {
         return id;
@@ -89,28 +92,34 @@ public class Appointment implements Validatable {
     public String getFormattedDate() {
         return startTime.format(dateFormat);
     }
-    
+
     public String getFormattedDuration() {
         return startTime.format(timeFormat) + " - " + endTime.format(timeFormat);
     }
-    
+
     public LocalDate getDate() {
         return startTime.toLocalDate();
     }
 
     @Override
     public boolean isValid() {
-        List<Boolean> validations = Arrays.asList(
-                Validations.dateBeforeOther(startTime, endTime)
-//                Validations.isAfterOrEqualNow(startTime)
+        List<ValidationResult> validations = Arrays.asList(
+//                Validations.dateBeforeOther(startTime, endTime)
+        //                Validations.isAfterOrEqualNow(startTime)
         );
-
-        return Validations.validate(validations);
+        ValidationResult validationResult = Validations.validate(validations);
+        validationErrors = validationResult.getErrors();
+        return validationResult.isValid();
     }
 
     @Override
     public String toString() {
         return "Appointment{" + "id=" + id + ", startTime=" + startTime + ", endTime=" + endTime + ", patientId=" + patientId + ", doctorId=" + doctorId + '}';
+    }
+
+    @Override
+    public String getValidationErrors() {
+        return validationErrors;
     }
 
 }

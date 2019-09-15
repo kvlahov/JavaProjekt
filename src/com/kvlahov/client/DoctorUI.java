@@ -20,6 +20,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -32,11 +33,11 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
      */
     private Doctor d;
     private List<Appointment> appointments;
+
     public DoctorUI() {
         initComponents();
         initData();
 
-        
     }
 
     /**
@@ -101,7 +102,10 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DoctorUI().setVisible(true);
+                DoctorUI doctorUI = new DoctorUI();
+                doctorUI.setPreferredSize(new Dimension(1000, 600));
+                doctorUI.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                doctorUI.setVisible(true);
             }
         });
     }
@@ -115,7 +119,7 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
     private void initData() {
         d = DoctorController.getGeneralPhysicians().get(0);
         appointments = AppointmentsController.getScheduledAppointments(d.getId());
-        
+
         initAppointmentsTable();
     }
 
@@ -123,8 +127,11 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
         TableComponent<Appointment> plc = new TableComponent<>(new AppointmentTableModel(appointments));
         plc.getTableModel().setFilterPredicate((p) -> p.getFormattedDate().equals(plc.getSearchExpression()));
         plc.setTableListener((TableEvent<Appointment> e) -> {
-            AppointmentFrame frame = new AppointmentFrame(e.getModel());
-            frame.setVisible(true);
+            SwingUtilities.invokeLater(() -> {
+                AppointmentFrame frame = new AppointmentFrame(e.getModel());
+                frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                frame.setVisible(true);
+            });
         });
         add(plc, BorderLayout.CENTER);
     }

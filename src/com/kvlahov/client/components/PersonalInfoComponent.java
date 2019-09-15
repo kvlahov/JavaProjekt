@@ -58,6 +58,8 @@ public class PersonalInfoComponent extends javax.swing.JPanel {
         spHeight = new javax.swing.JSpinner();
         spWeight = new javax.swing.JSpinner();
 
+        setMaximumSize(new java.awt.Dimension(2147483647, 300));
+        setMinimumSize(new java.awt.Dimension(208, 300));
         setLayout(new java.awt.GridBagLayout());
 
         jLabel16.setText("Marital Status");
@@ -162,7 +164,7 @@ public class PersonalInfoComponent extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         add(tfGrossIncome, gridBagConstraints);
 
-        spNoOFDependents.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spNoOFDependents.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -170,7 +172,7 @@ public class PersonalInfoComponent extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         add(spNoOFDependents, gridBagConstraints);
 
-        spHeight.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spHeight.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -178,7 +180,7 @@ public class PersonalInfoComponent extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         add(spHeight, gridBagConstraints);
 
-        spWeight.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spWeight.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;

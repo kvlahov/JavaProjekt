@@ -15,35 +15,22 @@ import com.kvlahov.utils.Utilities;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.InputVerifier;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -52,9 +39,6 @@ import javax.swing.JTextField;
  */
 public class NewPatientDialog extends javax.swing.JDialog {
 
-    /**
-     * Creates new form NewPatientDialog
-     */
     public NewPatientDialog(java.awt.Frame parent, boolean modal, Patient p, ExtendedPatientInformation ei) {
         super(parent, modal);
 
@@ -316,10 +300,22 @@ public class NewPatientDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
+        // TODO add your handling code here:
+        //        JTabbedPane tp = (JTabbedPane) evt.getSource();
+        //        int selected = tp.getSelectedIndex();
+        //        if (tp.getTitleAt(selected).equalsIgnoreCase("extended info")) {
+            //            addContactForm(nokContact, tfNokContact.getText());
+            //            addContactForm(contactInfoPane, tfContact.getText());
+            //            eiStatement.setText(tfComplaint.getText().trim());
+            //
+            ////            PatientBinder.bindPatientToComponents();
+            //        }
+    }//GEN-LAST:event_tabbedPaneStateChanged
+
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         windowClosingHandler();
-
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -336,7 +332,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Patient " + p.getId() + " succesfuly updated", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
             int pid = PatientController.insertBasicInformation(p);
-//            int pid = 1;
+            //            int pid = 1;
             p.setId(pid);
             JOptionPane.showMessageDialog(null, "Patient " + pid + " succesfuly saved", "Success", JOptionPane.INFORMATION_MESSAGE);
             tabbedPane.setEnabledAt(0, false);
@@ -346,19 +342,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
         tabbedPane.setEnabledAt(1, true);
         tabbedPane.setSelectedIndex(1);
     }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedPaneStateChanged
-        // TODO add your handling code here:
-//        JTabbedPane tp = (JTabbedPane) evt.getSource();
-//        int selected = tp.getSelectedIndex();
-//        if (tp.getTitleAt(selected).equalsIgnoreCase("extended info")) {
-//            addContactForm(nokContact, tfNokContact.getText());
-//            addContactForm(contactInfoPane, tfContact.getText());
-//            eiStatement.setText(tfComplaint.getText().trim());
-//
-////            PatientBinder.bindPatientToComponents();
-//        }
-    }//GEN-LAST:event_tabbedPaneStateChanged
 
     /**
      * @param args the command line arguments
@@ -460,7 +443,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
         ExtendedInfoComponent eiComponent = new ExtendedInfoComponent();
         JScrollPane scrollPane = new JScrollPane(eiComponent);
         tabbedPane.addTab("Extended Information", scrollPane);
-        
+
 //        tabbedPane.setEnabledAt(1, false);
         sexBtnGroup.add(rbMale);
         sexBtnGroup.add(rbFemale);
@@ -613,10 +596,14 @@ public class NewPatientDialog extends javax.swing.JDialog {
         nok.setRelationshipToPatient(tfNokRelationship.getText().trim());
 
 //        p.setNextOfKin(nok);
-        p.setContact(tfContact.getText().trim());
+        p.setContact(new Contact(ContactType.MOBILE, tfContact.getText().trim()));
 //        p.setStmtOfComplaint(tfComplaint.getText().trim());
+        if (validateBasicInfo(p)) {
+            return p;
+        } else {
+            return null;
+        }
 
-        return p;
     }
 
     private void bindPatientToBIForm() {
@@ -647,6 +634,35 @@ public class NewPatientDialog extends javax.swing.JDialog {
         tfNokRelationship.setText(nok.getRelationshipToPatient());
         tfNokSurname.setText(nok.getSurname());
 
+    }
+
+    private boolean validateBasicInfo(Patient p) {
+        if("".equals(p.getName())) {
+            return false;
+        }
+        if(p.getSurname().equals("")) {
+            return false;
+        }
+        if(p.getDateOfBirth() == null) {
+            return false;
+        }
+        if(p.getStmtOfComplaint().equals("")) {
+            return false;
+        }
+        if(p.getContact().equals("")) {
+            return false;
+        }
+        if(p.getNextOfKin().getName().equals(""))  {
+            return false;
+        }
+        if(p.getNextOfKin().getSurname().equals("")) {
+            return false;
+        }
+        if(p.getNextOfKin().getContactInformation().getContacts().get(0).getContact().equals("")) {
+            return false;
+        }
+        
+        return true;
     }
 
     static class IsNumberVerifier extends InputVerifier {

@@ -58,6 +58,8 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         spAlcoholPerDay = new javax.swing.JSpinner();
         jLabel46 = new javax.swing.JLabel();
 
+        setMaximumSize(new java.awt.Dimension(2147483647, 220));
+        setMinimumSize(new java.awt.Dimension(213, 220));
         setLayout(new java.awt.GridBagLayout());
 
         jLabel39.setText("Uses Stimulants");
@@ -94,7 +96,6 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weighty = 0.1;
         add(tfStimulatns, gridBagConstraints);
 
         tfEatingHabits.setColumns(20);
@@ -103,25 +104,22 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weighty = 0.1;
         add(tfEatingHabits, gridBagConstraints);
 
-        spCaffeine.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spCaffeine.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weighty = 0.1;
         add(spCaffeine, gridBagConstraints);
 
-        spSoftDrinks.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spSoftDrinks.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.RELATIVE;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weighty = 0.1;
         add(spSoftDrinks, gridBagConstraints);
 
         cbVege.setText("Vegetarian");
@@ -162,7 +160,6 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weighty = 0.1;
         add(spCigarettesPerDay, gridBagConstraints);
 
         jLabel45.setText("No of cigarettes per day");
@@ -180,7 +177,6 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weighty = 0.1;
         add(spAlcoholPerDay, gridBagConstraints);
 
         jLabel46.setText("No of alcoholic beverages per day");

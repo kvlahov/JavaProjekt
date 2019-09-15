@@ -62,6 +62,8 @@ public class AddressComponent extends javax.swing.JPanel {
         jLabel31 = new javax.swing.JLabel();
         tfZipCode = new javax.swing.JTextField();
 
+        setMaximumSize(new java.awt.Dimension(2147483647, 145));
+        setPreferredSize(new java.awt.Dimension(214, 145));
         setLayout(new java.awt.GridBagLayout());
 
         jLabel11.setText("Street");

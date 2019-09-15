@@ -51,6 +51,8 @@ public class SingleContactComponent extends javax.swing.JPanel {
         ddlContactType = new javax.swing.JComboBox();
         tfContact = new javax.swing.JTextField();
 
+        setMaximumSize(new java.awt.Dimension(2147483647, 50));
+        setPreferredSize(new java.awt.Dimension(237, 50));
         setLayout(new java.awt.GridBagLayout());
 
         ddlContactType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -63,6 +65,7 @@ public class SingleContactComponent extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         add(tfContact, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents

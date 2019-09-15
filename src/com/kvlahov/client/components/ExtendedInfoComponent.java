@@ -11,6 +11,7 @@ import com.kvlahov.model.patientInfo.ContactInfo;
 import com.kvlahov.model.patientInfo.ExtendedPatientInformation;
 import com.kvlahov.model.patientInfo.NextOfKin;
 import com.kvlahov.model.patientInfo.PersonalInfo;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionListener;
@@ -72,7 +73,6 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         btnPrevious = new javax.swing.JButton();
@@ -81,8 +81,19 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
         btnCancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         mainPane = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
         patientContactPane = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
         nokContactPane = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        personalInfoPane = new javax.swing.JPanel();
+        personalInfoComponent1 = new com.kvlahov.client.components.PersonalInfoComponent();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        lifestylePane = new javax.swing.JPanel();
+        lifeStyleComponent1 = new com.kvlahov.client.components.LifeStyleComponent();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        complaintsPane = new javax.swing.JPanel();
+        complaintsComponent1 = new com.kvlahov.client.components.ComplaintsComponent();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -123,15 +134,41 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
         mainPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 50, 1, 50));
         mainPane.setLayout(new java.awt.CardLayout());
 
-        patientContactPane.setLayout(new java.awt.GridLayout(0, 1));
-        mainPane.add(patientContactPane, "card2");
+        patientContactPane.setLayout(new javax.swing.BoxLayout(patientContactPane, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane3.setViewportView(patientContactPane);
 
-        nokContactPane.setLayout(new java.awt.GridLayout(0, 1));
-        mainPane.add(nokContactPane, "card2");
+        mainPane.add(jScrollPane3, "card7");
+
+        nokContactPane.setLayout(new javax.swing.BoxLayout(nokContactPane, javax.swing.BoxLayout.Y_AXIS));
+        jScrollPane4.setViewportView(nokContactPane);
+
+        mainPane.add(jScrollPane4, "card8");
+
+        personalInfoPane.setLayout(new java.awt.BorderLayout());
+        personalInfoPane.add(personalInfoComponent1, java.awt.BorderLayout.CENTER);
+
+        jScrollPane5.setViewportView(personalInfoPane);
+
+        mainPane.add(jScrollPane5, "card9");
+
+        lifestylePane.setLayout(new java.awt.BorderLayout());
+        lifestylePane.add(lifeStyleComponent1, java.awt.BorderLayout.CENTER);
+
+        jScrollPane6.setViewportView(lifestylePane);
+
+        mainPane.add(jScrollPane6, "card10");
+
+        complaintsPane.setName("complaintsPane"); // NOI18N
+        complaintsPane.setLayout(new java.awt.BorderLayout());
+        complaintsPane.add(complaintsComponent1, java.awt.BorderLayout.CENTER);
+
+        jScrollPane2.setViewportView(complaintsPane);
+
+        mainPane.add(jScrollPane2, "card7");
 
         jScrollPane1.setViewportView(mainPane);
 
-        add(jScrollPane1, java.awt.BorderLayout.PAGE_START);
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
@@ -162,11 +199,22 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnSave;
+    private com.kvlahov.client.components.ComplaintsComponent complaintsComponent1;
+    private javax.swing.JPanel complaintsPane;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private com.kvlahov.client.components.LifeStyleComponent lifeStyleComponent1;
+    private javax.swing.JPanel lifestylePane;
     private javax.swing.JPanel mainPane;
     private javax.swing.JPanel nokContactPane;
     private javax.swing.JPanel patientContactPane;
+    private com.kvlahov.client.components.PersonalInfoComponent personalInfoComponent1;
+    private javax.swing.JPanel personalInfoPane;
     // End of variables declaration//GEN-END:variables
     private ComplaintsComponent complaintsComponent;
     private LifeStyleComponent lifestyleComponent;
@@ -186,9 +234,9 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
         cardLayout = (CardLayout) mainPane.getLayout();
         initPatientContactPane();
         initNokContactPane();
-        mainPane.add(new PersonalInfoComponent());
-        mainPane.add(new LifeStyleComponent());
-        mainPane.add(new ComplaintsComponent());
+        personalInfoPane.add(new PersonalInfoComponent(), BorderLayout.CENTER);
+        lifestylePane.add(new LifeStyleComponent(), BorderLayout.CENTER);
+        complaintsPane.add(new ComplaintsComponent(), BorderLayout.CENTER);
 
         setBtnsForFirstCard();
 
@@ -283,7 +331,7 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
         if (c == mainPane.getComponent(0)) {
             setBtnsForFirstCard();
         }
-        else if(c == mainPane.getComponent(mainPane.getComponentCount() - 1)) {
+        else if(c.getName().equals("complaintsPane")) {
             setBtnsForLastCard();
         }
         else {

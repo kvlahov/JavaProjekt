@@ -8,15 +8,11 @@ package com.kvlahov.model;
 
 import com.kvlahov.model.enums.Sex;
 import com.kvlahov.model.Person;
-import com.kvlahov.model.patientInfo.ExtendedPatientInformation;
+import com.kvlahov.model.patientInfo.Contact;
 import com.kvlahov.model.patientInfo.NextOfKin;
 import com.kvlahov.utils.Validatable;
-import com.kvlahov.utils.Validations;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -26,7 +22,7 @@ public class Patient extends Person implements Validatable {
 
     private NextOfKin nextOfKin;
     private String stmtOfComplaint;
-    private String contact;
+    private Contact contact;
     private Sex sex;
     private LocalDate dateOfBirth;
 
@@ -42,11 +38,11 @@ public class Patient extends Person implements Validatable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getContact() {
+    public Contact getContact() {
         return contact;
     }
 
-    public void setContact(String contact) {
+    public void setContact(Contact contact) {
         this.contact = contact;
     }
 

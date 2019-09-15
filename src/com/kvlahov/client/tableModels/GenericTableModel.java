@@ -114,6 +114,12 @@ public abstract class GenericTableModel<T> extends AbstractTableModel {
 
     }
 
+    public void resetFilteredList() {
+        filteredCollection = modelCollection;
+        fireTableDataChanged();
+
+    }
+
     public abstract Object cellValueForColumnIndex(T model, int columnIndex);
 
 }

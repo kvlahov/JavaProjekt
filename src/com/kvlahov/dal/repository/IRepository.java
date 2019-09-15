@@ -102,9 +102,9 @@ public interface IRepository {
     public List<Appointment> getAppointmentsForPatient(int pid);
 
     //Receipt CRUD
-    public void insertReceipt(Receipt receipt);
+    public int insertReceipt(Receipt receipt);
     public Receipt getReceipt(int id);
-    public List<Receipt> getReceiptsforPatient(int pid);
+    public List<Receipt> getReceiptsForPatient(int pid);
     public void updateReceipt(Receipt receipt);
     public void deleteReceipt(int receiptId);
     

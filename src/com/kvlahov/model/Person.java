@@ -6,6 +6,7 @@
 package com.kvlahov.model;
 
 import com.kvlahov.utils.Validatable;
+import com.kvlahov.utils.ValidationResult;
 import com.kvlahov.utils.Validations;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +19,8 @@ public abstract class Person implements Validatable {
     private int id = -1;
     private String name;
     private String surname;
+    
+    private String validationErrors = "";
 
     public Person(int id, String name, String surname) {
         this.id = id;
@@ -81,16 +84,22 @@ public abstract class Person implements Validatable {
     public boolean hasIdSet() {
         return id != -1;
     }
+
+    public String getValidationErrors() {
+        return validationErrors;
+    }
     
     @Override
     public boolean isValid() {
-        List<Boolean> validations = Arrays.asList
+        List<ValidationResult> validations = Arrays.asList
         (
-            Validations.notNullOrEmpty(this.name),
-            Validations.notNullOrEmpty(this.surname)
+            Validations.notNullOrEmpty(this.name, "Name"),
+            Validations.notNullOrEmpty(this.surname, "Surname")
                 
         );
-        return Validations.validate(validations);
+        ValidationResult validationResult = Validations.validate(validations);
+        validationErrors = validationResult.getErrors();
+        return validationResult.isValid();
     }
 
 }

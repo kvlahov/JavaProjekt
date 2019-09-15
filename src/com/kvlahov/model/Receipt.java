@@ -6,6 +6,7 @@
 package com.kvlahov.model;
 
 import com.kvlahov.utils.Validatable;
+import com.kvlahov.utils.ValidationResult;
 import com.kvlahov.utils.Validations;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +31,7 @@ public class Receipt implements Validatable {
     private double total;
 
     private List<ReceiptItem> items = new ArrayList<>();
+    private String validationErrors = "";
 
     public List<ReceiptItem> getItems() {
         return items;
@@ -102,26 +104,31 @@ public class Receipt implements Validatable {
     public void calculateTotal() {
         this.total
                 = items.stream()
-                .mapToDouble(item -> item.getTotalPrice())
-                .sum();
+                        .mapToDouble(item -> item.getTotalPrice())
+                        .sum();
 
     }
-    
+
     public void generateReceiptNumber() {
         this.receiptNumber = date.format(DateTimeFormatter.ISO_DATE)
                 .concat("-" + patientId + "-")
                 .concat(String.valueOf(hashCode()));
     }
 
+    public String getValidationErrors() {
+        return validationErrors;
+    }
+
     @Override
     public boolean isValid() {
-        List<Boolean> validations = Arrays.asList(
-                Validations.notNullOrEmpty(receiptNumber),
-                Validations.isPositive(patientId),
-                Validations.isPositive(paymentMethodId)
+        List<ValidationResult> validations = Arrays.asList(
+                Validations.notNullOrEmpty(receiptNumber, "Receipt number"),
+                Validations.isPositive(patientId, "PatientId"),
+                Validations.isPositive(paymentMethod.getId(), "PaymentMethodID")
         );
-
-        return Validations.validate(validations);
+        ValidationResult validationResult = Validations.validate(validations);
+        validationErrors = validationResult.getErrors();
+        return validationResult.isValid();
     }
 
 }

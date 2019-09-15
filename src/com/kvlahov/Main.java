@@ -10,6 +10,7 @@ import com.kvlahov.client.DoctorUI;
 import com.kvlahov.client.Gui;
 import com.kvlahov.client.LoginScreen;
 import com.kvlahov.client.RegularUI;
+import com.kvlahov.client.Tets;
 import javax.swing.JFrame;
 
 
@@ -26,12 +27,14 @@ public class Main {
     public static void main(String[] args) {
         AppDefaults.setDefaults();
         
-        LoginScreen main = new LoginScreen();
+//        LoginScreen main = new LoginScreen();
 //        main.start();
-        DoctorUI docUi = new DoctorUI();
-        docUi.start();
+//        DoctorUI docUi = new DoctorUI();
+//        docUi.start();
         JFrame f = new RegularUI();
-//        ((Gui) f).start();
+        ((Gui) f).start();
+
+//        Tets.main(null);
         
 
     }

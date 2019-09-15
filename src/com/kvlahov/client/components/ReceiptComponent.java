@@ -27,61 +27,62 @@ import javax.swing.JLabel;
  * @author lordo
  */
 public class ReceiptComponent extends javax.swing.JPanel {
-
+    
     private Receipt receipt;
     private Patient patient;
     private LocalDate appointmentDate;
-
+    
     private List<PaymentMethod> paymentMethods = new ArrayList<>();
-
+    
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private ComponentMode viewMode = ComponentMode.DISPLAY;
-
+    
     public ReceiptComponent(Receipt receipt, Patient patient, LocalDate appointmentDate) {
         this.receipt = receipt;
         this.patient = patient;
         this.appointmentDate = appointmentDate;
-
+        
         initComponents();
         initUI();
-
+        
     }
-
+    
     public Receipt getReceipt() {
+        receipt.setPaymentMethod((PaymentMethod) ddlPaymentMethod.getSelectedItem());
         return receipt;
     }
-
+    
     public void setReceipt(Receipt receipt) {
         this.receipt = receipt;
     }
-
+    
     public Patient getPatient() {
         return patient;
     }
-
+    
     public void setPatient(Patient patient) {
         this.patient = patient;
     }
-
+    
     public LocalDate getAppointmentDate() {
         return appointmentDate;
     }
-
+    
     public void setAppointmentDate(LocalDate appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
-
+    
     public void setEditMode(List<PaymentMethod> paymentMethods) {
         this.viewMode = ComponentMode.EDIT;
         this.paymentMethods = paymentMethods;
-
+        
         updatePaymentMethodComponent();
     }
-
+    
     public List<PaymentMethod> getPaymentMethods() {
         return paymentMethods;
     }
-
+    
     public void setPaymentMethods(List<PaymentMethod> paymentMethods) {
         this.paymentMethods = paymentMethods;
     }
@@ -286,16 +287,16 @@ public class ReceiptComponent extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     private Component paymentMethodComponent;
     private JComboBox ddlPaymentMethod;
-
+    
     private void initUI() {
         if (patient != null) {
             updatePatientUI(patient);
         }
-
+        
         if (receipt != null) {
             updateReceiptUI(receipt);
         }
-
+        
         List<ReceiptItem> receiptItems = receipt.getItems();
         if (receiptItems != null) {
             updateReceiptItemsUI(receiptItems);
@@ -306,53 +307,56 @@ public class ReceiptComponent extends javax.swing.JPanel {
         if (paymentMethods != null) {
             ddlPaymentMethod = new JComboBox(new DefaultComboBoxModel(paymentMethods.toArray()));
             ddlPaymentMethod.setSelectedItem(receipt.getPaymentMethod());
-
+            
             ddlPaymentMethod.addItemListener((e) -> {
                 receipt.setPaymentMethod((PaymentMethod) ddlPaymentMethod.getSelectedItem());
             });
         }
     }
-
+    
     private void updatePatientUI(Patient patient) {
         StringBuilder sb = new StringBuilder();
         sb.append(patient.toString());
-
+        
         lblPatientInfo.setText(sb.toString());
-
+        
     }
-
+    
     private void updateReceiptUI(Receipt receipt) {
         lblReceiptNumber.setText(receipt.getReceiptNumber());
         lblReceiptDate.setText(receipt.getDate().format(DATE_FORMAT));
         addPaymentMethod();
         lblTotal.setText(String.valueOf(receipt.getTotal()));
     }
-
+    
     private void updateReceiptItemsUI(List<ReceiptItem> receiptItems) {
         receiptItemsPane.removeAll();
         ReceiptItemListComponent items = new ReceiptItemListComponent();
         items.setReceiptItems(receiptItems);
-
+        
         receiptItemsPane.add(items);
     }
-
+    
     private void updateAppointmentUI(LocalDate appointmentDate) {
         lblAppointmentDate.setText(appointmentDate.format(DATE_FORMAT));
     }
-
+    
     private void addPaymentMethod() {
+        paymentMethodComponent = new JLabel("N/A");
         switch (viewMode) {
             case EDIT:
                 paymentMethodComponent = ddlPaymentMethod;
                 break;
             default:
-                paymentMethodComponent = new JLabel(receipt.getPaymentMethod().toString());
+                if (receipt.getPaymentMethod() != null) {
+                    paymentMethodComponent = new JLabel(receipt.getPaymentMethod().toString());
+                }
                 break;
         }
-
+        
         paymentPane.add(paymentMethodComponent);
     }
-
+    
     private void updatePaymentMethodComponent() {
         switch (viewMode) {
             case EDIT:
@@ -363,10 +367,10 @@ public class ReceiptComponent extends javax.swing.JPanel {
                 paymentMethodComponent = new JLabel(receipt.getPaymentMethod().toString());
                 break;
         }
-
+        
         paymentPane.removeAll();
         paymentPane.add(paymentMethodComponent);
-
+        
     }
-
+    
 }

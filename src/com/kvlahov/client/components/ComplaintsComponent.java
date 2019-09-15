@@ -42,6 +42,8 @@ public class ComplaintsComponent extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jScrollPane13 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
         jLabel44 = new javax.swing.JLabel();
@@ -81,13 +83,15 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         jScrollPane12 = new javax.swing.JScrollPane();
         taMajorSurgeries = new javax.swing.JTextArea();
 
-        setLayout(new java.awt.GridBagLayout());
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel42.setText("Statement of Complaint");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel42, gridBagConstraints);
+        jPanel1.add(jLabel42, gridBagConstraints);
 
         jLabel43.setText("History of Previous Treatment");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -95,7 +99,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel43, gridBagConstraints);
+        jPanel1.add(jLabel43, gridBagConstraints);
 
         jLabel44.setText("Physician/Hospital Treated");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -103,7 +107,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel44, gridBagConstraints);
+        jPanel1.add(jLabel44, gridBagConstraints);
 
         cbDiabetic.setText("Diabetic");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -112,7 +116,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(cbDiabetic, gridBagConstraints);
+        jPanel1.add(cbDiabetic, gridBagConstraints);
 
         cbHypertensive.setText("Hypertensive");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -121,7 +125,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(cbHypertensive, gridBagConstraints);
+        jPanel1.add(cbHypertensive, gridBagConstraints);
 
         jLabel50.setText(" Cardiac Condition");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -129,7 +133,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel50, gridBagConstraints);
+        jPanel1.add(jLabel50, gridBagConstraints);
 
         jLabel51.setText("Respiratory Condition");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -137,7 +141,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel51, gridBagConstraints);
+        jPanel1.add(jLabel51, gridBagConstraints);
 
         lblBloodType3.setText("Digestive Condition");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -145,7 +149,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(lblBloodType3, gridBagConstraints);
+        jPanel1.add(lblBloodType3, gridBagConstraints);
 
         jLabel52.setText("Orthopedic Condition");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -153,7 +157,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel52, gridBagConstraints);
+        jPanel1.add(jLabel52, gridBagConstraints);
 
         jLabel53.setText("Muscular Condition");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -161,7 +165,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel53, gridBagConstraints);
+        jPanel1.add(jLabel53, gridBagConstraints);
 
         jLabel54.setText("Neurological Condition");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -169,7 +173,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel54, gridBagConstraints);
+        jPanel1.add(jLabel54, gridBagConstraints);
 
         jLabel55.setText("Known Allergies");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -177,7 +181,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel55, gridBagConstraints);
+        jPanel1.add(jLabel55, gridBagConstraints);
 
         jLabel56.setText("Known Adverse Reaction to Specific Drugs");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -185,7 +189,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel56, gridBagConstraints);
+        jPanel1.add(jLabel56, gridBagConstraints);
 
         jLabel57.setText("Major Surgeries (History)");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -193,7 +197,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 13;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        add(jLabel57, gridBagConstraints);
+        jPanel1.add(jLabel57, gridBagConstraints);
 
         taBriefStatement.setColumns(20);
         taBriefStatement.setRows(5);
@@ -203,7 +207,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane1, gridBagConstraints);
+        jPanel1.add(jScrollPane1, gridBagConstraints);
 
         taTreatmentHistory.setColumns(20);
         taTreatmentHistory.setRows(5);
@@ -215,7 +219,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane2, gridBagConstraints);
+        jPanel1.add(jScrollPane2, gridBagConstraints);
 
         taHospitalTreated.setColumns(20);
         taHospitalTreated.setRows(5);
@@ -227,7 +231,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane3, gridBagConstraints);
+        jPanel1.add(jScrollPane3, gridBagConstraints);
 
         taCardiac.setColumns(20);
         taCardiac.setRows(5);
@@ -239,7 +243,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane4, gridBagConstraints);
+        jPanel1.add(jScrollPane4, gridBagConstraints);
 
         taRespitory.setColumns(20);
         taRespitory.setRows(5);
@@ -251,7 +255,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane5, gridBagConstraints);
+        jPanel1.add(jScrollPane5, gridBagConstraints);
 
         taDigestive.setColumns(20);
         taDigestive.setRows(5);
@@ -263,7 +267,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane6, gridBagConstraints);
+        jPanel1.add(jScrollPane6, gridBagConstraints);
 
         taOrthopedic.setColumns(20);
         taOrthopedic.setRows(5);
@@ -275,7 +279,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane7, gridBagConstraints);
+        jPanel1.add(jScrollPane7, gridBagConstraints);
 
         taMuscular.setColumns(20);
         taMuscular.setRows(5);
@@ -287,7 +291,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane8, gridBagConstraints);
+        jPanel1.add(jScrollPane8, gridBagConstraints);
 
         taAllergies.setColumns(20);
         taAllergies.setRows(5);
@@ -299,7 +303,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane9, gridBagConstraints);
+        jPanel1.add(jScrollPane9, gridBagConstraints);
 
         taReactionToDrugs.setColumns(20);
         taReactionToDrugs.setRows(5);
@@ -311,7 +315,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane10, gridBagConstraints);
+        jPanel1.add(jScrollPane10, gridBagConstraints);
 
         taNeurological.setColumns(20);
         taNeurological.setRows(5);
@@ -322,7 +326,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane11, gridBagConstraints);
+        jPanel1.add(jScrollPane11, gridBagConstraints);
 
         taMajorSurgeries.setColumns(20);
         taMajorSurgeries.setRows(5);
@@ -333,7 +337,11 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.4;
-        add(jScrollPane12, gridBagConstraints);
+        jPanel1.add(jScrollPane12, gridBagConstraints);
+
+        jScrollPane13.setViewportView(jPanel1);
+
+        add(jScrollPane13, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -351,10 +359,12 @@ public class ComplaintsComponent extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;

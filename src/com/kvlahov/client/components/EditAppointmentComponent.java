@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 
 
 /**
@@ -103,6 +104,7 @@ public class EditAppointmentComponent extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         tfDescription = new javax.swing.JTextField();
         servicesPanel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblPatientName = new javax.swing.JLabel();
@@ -218,7 +220,7 @@ public class EditAppointmentComponent extends javax.swing.JPanel {
         jLabel7.setText("Quantity:");
         addServicePane.add(jLabel7);
 
-        spQuantity.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spQuantity.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         addServicePane.add(spQuantity);
 
         jLabel9.setText("Description");
@@ -237,6 +239,10 @@ public class EditAppointmentComponent extends javax.swing.JPanel {
         mainPanel.add(addServicePane, gridBagConstraints);
 
         servicesPanel.setLayout(new javax.swing.BoxLayout(servicesPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        jButton1.setText("jButton1");
+        servicesPanel.add(jButton1);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -250,7 +256,7 @@ public class EditAppointmentComponent extends javax.swing.JPanel {
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        jPanel1.setLayout(new java.awt.FlowLayout(0));
 
         jLabel1.setText("Patient:");
         jPanel1.add(jLabel1);
@@ -289,19 +295,25 @@ public class EditAppointmentComponent extends javax.swing.JPanel {
         newServiceAppointment.setDescription(tfDescription.getText().trim());
         newServiceAppointment.setService((Service) ddlServices.getSelectedItem());
         
-        Optional<ServiceAppointment> optionalSA = Stream.of(servicesPanel.getComponents())
+        Optional<ServiceAppointmentComponent> optionalSA = Stream.of(servicesPanel.getComponents())
                 .filter(c -> c instanceof ServiceAppointmentComponent)
-                .map(c -> ((ServiceAppointmentComponent) c).getServiceForAppointment())
-                .filter(s -> s.getService().equals(newServiceAppointment.getService()))
+                .map(c -> (ServiceAppointmentComponent) c)
+                .filter(s -> s.getServiceForAppointment().getService().equals(newServiceAppointment.getService()))
                 .findFirst();
         if(optionalSA.isPresent()) {
-            optionalSA.get().setQuantity(newServiceAppointment.getQuantity());
+            optionalSA.get().setServiceForAppointment(newServiceAppointment);
         }
         else {
             addServiceComponent(newServiceAppointment, filterServicesByType());
         }
         
-        updateServicesForAppointment();
+        Stream.of(servicesPanel.getComponents())
+                .filter(c -> c instanceof ServiceAppointmentComponent)
+                .map(c -> ((ServiceAppointmentComponent) c).getServiceForAppointment())
+                .forEach(c -> System.out.println(c.getQuantity()));
+        
+        servicesPanel.revalidate();
+        servicesPanel.repaint();
 
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -342,6 +354,7 @@ public class EditAppointmentComponent extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox ddlServices;
     private javax.swing.JComboBox ddlTypeOfService;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -380,7 +393,7 @@ public class EditAppointmentComponent extends javax.swing.JPanel {
             tbDiagnosis.setText(appointment.getDiagnosis());
         }
 
-        updateServicesForAppointment();
+//        updateServicesForAppointment();
     }
 
     private void updateServicesForAppointment() {

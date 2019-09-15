@@ -8,13 +8,10 @@ package com.kvlahov.controller;
 import com.kvlahov.model.Patient;
 import com.kvlahov.dal.repository.*;
 import com.kvlahov.model.enums.AddressType;
-import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.patientInfo.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 
 /**
  *

@@ -11,4 +11,6 @@ package com.kvlahov.utils;
  */
 public interface Validatable {
     boolean isValid();
+    String getValidationErrors();
+    
 }

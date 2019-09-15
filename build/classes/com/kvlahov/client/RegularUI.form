@@ -173,7 +173,7 @@
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                            <TitledBorder title="Basic info"/>
+                            <TitledBorder title="Basic information"/>
                           </Border>
                         </Property>
                       </Properties>
@@ -234,7 +234,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel2">
+                                    <Component class="javax.swing.JLabel" name="lblFirstName">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
                                       </Properties>
@@ -266,7 +266,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel4">
+                                    <Component class="javax.swing.JLabel" name="lblLastName">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
                                       </Properties>
@@ -299,7 +299,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel6">
+                                    <Component class="javax.swing.JLabel" name="lblSex">
                                       <Properties>
                                         <Property name="horizontalAlignment" type="int" value="2"/>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
@@ -332,7 +332,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel8">
+                                    <Component class="javax.swing.JLabel" name="lblDateOfBirth">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
                                       </Properties>
@@ -364,7 +364,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel11">
+                                    <Component class="javax.swing.JLabel" name="lblComplaint">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
                                       </Properties>
@@ -396,7 +396,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel13">
+                                    <Component class="javax.swing.JLabel" name="lblContact">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
                                       </Properties>
@@ -454,7 +454,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel15">
+                                    <Component class="javax.swing.JLabel" name="lblNokFirstName">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
                                       </Properties>
@@ -486,7 +486,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel17">
+                                    <Component class="javax.swing.JLabel" name="lblNokLastName">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
                                       </Properties>
@@ -519,7 +519,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel19">
+                                    <Component class="javax.swing.JLabel" name="lblNokContact">
                                       <Properties>
                                         <Property name="horizontalAlignment" type="int" value="2"/>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
@@ -552,7 +552,7 @@
                                         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.HorizontalGlue"/>
                                       </AuxValues>
                                     </Component>
-                                    <Component class="javax.swing.JLabel" name="jLabel21">
+                                    <Component class="javax.swing.JLabel" name="lblRelationship">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="jLabel2"/>
                                       </Properties>
@@ -605,7 +605,7 @@
                                     <Property name="text" type="java.lang.String" value="Extended information added:"/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel23">
+                                <Component class="javax.swing.JLabel" name="lblEIAdded">
                                   <Properties>
                                     <Property name="text" type="java.lang.String" value="jLabel23"/>
                                   </Properties>

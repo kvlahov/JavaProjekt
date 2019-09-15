@@ -46,6 +46,7 @@ public class ServiceAppointmentComponent extends javax.swing.JPanel {
 
     public void setServiceForAppointment(ServiceAppointment service) {
         this.serviceForAppointment = service;
+        updateDetailsPane();
     }
 
     public void addBtnRemoveActionListener(ActionListener action) {

@@ -904,21 +904,24 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public void insertReceipt(Receipt receipt) {
-        final String INSERT_RECEIPT = "{ CALL insertReceipt (?,?,?,?,?) }";
+    public int insertReceipt(Receipt receipt) {
+        final String INSERT_RECEIPT = "{ ? = CALL insertReceipt (?,?,?,?,?) }";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_RECEIPT)) {
-            stmt.setString(1, receipt.getReceiptNumber());
-            stmt.setString(2, receipt.getDate().toString());
-            stmt.setInt(3, receipt.getPaymentMethodId());
-            stmt.setString(4, receipt.getComment());
-            stmt.setInt(5, receipt.getPatientId());
+            stmt.registerOutParameter(1, Types.INTEGER);
+            stmt.setString(2, receipt.getReceiptNumber());
+            stmt.setString(3, receipt.getDate().toString());
+            stmt.setInt(4, receipt.getPaymentMethod().getId());
+            stmt.setString(5, receipt.getComment());
+            stmt.setInt(6, receipt.getPatientId());
 
             stmt.executeUpdate();
+            return stmt.getInt(1);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return -1;
     }
 
     @Override
@@ -942,7 +945,7 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public List<Receipt> getReceiptsforPatient(int pid) {
+    public List<Receipt> getReceiptsForPatient(int pid) {
         final String GET_RECEIPTS = "{ CALL getReceiptsForPatient (?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(GET_RECEIPTS)) {

@@ -53,7 +53,7 @@ public class TableComponent<T> extends javax.swing.JPanel {
     public String getSearchExpression() {
         return searchExpression;
     }
-    
+
     public GenericTableModel<T> getTableModel() {
         return this.tableModel;
     }
@@ -125,13 +125,19 @@ public class TableComponent<T> extends javax.swing.JPanel {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         searchExpression = tfSearch.getText().trim();
-        ((GenericTableModel) mainTable.getModel()).filterModelCollection();
+        if (!"".equals(searchExpression)) {
+            ((GenericTableModel) mainTable.getModel()).filterModelCollection();
+        } else {
+            btnClearActionPerformed(evt);
+        }
         mainTable.repaint();
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         tfSearch.setText("");
-        btnSearchActionPerformed(evt);
+        ((GenericTableModel) mainTable.getModel()).resetFilteredList();
+        mainTable.repaint();
+
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewActionPerformed

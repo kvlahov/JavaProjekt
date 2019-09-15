@@ -13,6 +13,7 @@ import com.kvlahov.controller.ServicesController;
 import com.kvlahov.exceptions.InvalidModelException;
 import com.kvlahov.model.Appointment;
 import com.kvlahov.model.ServiceAppointment;
+import java.awt.Dimension;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +30,7 @@ public class AppointmentFrame extends javax.swing.JFrame {
      * Creates new form AppointmentFrame
      */
     private List<ServiceAppointment> servicesForAppointment;
-    private Appointment appointment;
+    private final Appointment appointment;
 
     public AppointmentFrame(Appointment appointment) {
         this.appointment = appointment;
@@ -48,11 +49,21 @@ public class AppointmentFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.CardLayout());
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        System.out.println("Window closing");
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -95,7 +106,8 @@ public class AppointmentFrame extends javax.swing.JFrame {
     }
 
     private void initFrame() {
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
-        setSize(800,600);
+        setPreferredSize(new Dimension(400,500));
     }
 }

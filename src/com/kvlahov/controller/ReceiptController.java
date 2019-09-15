@@ -41,23 +41,31 @@ public class ReceiptController {
 
     public static void insertReceipt(Receipt receipt) throws InvalidModelException {
         if (!receipt.isValid()) {
-            throw new InvalidModelException("Receipt model is invalid");
+            throw new InvalidModelException(receipt.getValidationErrors());
         }
 
-        repo.insertReceipt(receipt);
+        int receiptId = repo.insertReceipt(receipt);
+        receipt.getItems().forEach(i -> i.setReceiptId(receiptId));
+        receipt.getItems().forEach(i -> repo.insertReceiptItem(i));
     }
 
     public static Receipt getReceipt(int id) {
-        return repo.getReceipt(id);
+        Receipt receipt = repo.getReceipt(id);
+        receipt.setItems(getReceiptItems(id));
+        receipt.calculateTotal();
+        
+        return receipt;
     }
 
     public static List<Receipt> getReceiptsforPatient(int pid) {
-        return repo.getReceiptsforPatient(pid);
+        List<Receipt> receiptsForPatient = repo.getReceiptsForPatient(pid);
+        receiptsForPatient.forEach(r -> r.calculateTotal());
+        return receiptsForPatient;
     }
 
     public static void updateReceipt(Receipt receipt) throws InvalidModelException {
         if (!receipt.isValid()) {
-            throw new InvalidModelException("Receipt model is invalid");
+            throw new InvalidModelException(receipt.getValidationErrors());
         }
 
         repo.updateReceipt(receipt);
@@ -75,6 +83,7 @@ public class ReceiptController {
             item.setPricePerItem(service.getService().getPrice());
             item.setQuantity(service.getQuantity());
             item.setService(service.getService());
+            item.setReceiptId(0);
             
             item.calculateTotalPrice();
             
@@ -86,6 +95,12 @@ public class ReceiptController {
     
     public static List<PaymentMethod> getAllPaymentMethods() {
         return repo.getAllPaymentMethods();
+    }
+    
+    private static List<ReceiptItem> getReceiptItems(int receiptId) {
+        List<ReceiptItem> receiptItems = repo.getReceiptItems(receiptId);
+        receiptItems.forEach(ri -> ri.setService(repo.getService(ri.getServiceId())));
+        return receiptItems;
     }
 
 }
