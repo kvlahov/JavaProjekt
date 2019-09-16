@@ -25,6 +25,10 @@ public class AddressComponent extends javax.swing.JPanel {
         initComponents();
     }
 
+    public AddressComponent() {
+        initComponents();
+    }
+
     public ContactInfo.Address getAddress() {
         address.setArea(tfArea.getText().trim());
         address.setCity(tfCity.getText().trim());
@@ -32,7 +36,7 @@ public class AddressComponent extends javax.swing.JPanel {
         address.setStreet(tfStreet.getText().trim());
         address.setZipCode(tfZipCode.getText().trim());
         address.setType(addressType);
-        
+
         return address;
     }
 
@@ -51,6 +55,7 @@ public class AddressComponent extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         tfStreet = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
@@ -62,16 +67,19 @@ public class AddressComponent extends javax.swing.JPanel {
         jLabel31 = new javax.swing.JLabel();
         tfZipCode = new javax.swing.JTextField();
 
-        setMaximumSize(new java.awt.Dimension(2147483647, 145));
-        setPreferredSize(new java.awt.Dimension(214, 145));
-        setLayout(new java.awt.GridBagLayout());
+        setMaximumSize(new java.awt.Dimension(2147483647, 500));
+        setPreferredSize(new java.awt.Dimension(214, 400));
+        setVerifyInputWhenFocusTarget(false);
+        setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jLabel11.setText("Street");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 10);
-        add(jLabel11, gridBagConstraints);
+        jPanel1.add(jLabel11, gridBagConstraints);
 
         tfStreet.setColumns(20);
         tfStreet.setName("permanentAddStreet"); // NOI18N
@@ -79,7 +87,7 @@ public class AddressComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
-        add(tfStreet, gridBagConstraints);
+        jPanel1.add(tfStreet, gridBagConstraints);
 
         jLabel28.setText("Area");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -87,7 +95,7 @@ public class AddressComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 10);
-        add(jLabel28, gridBagConstraints);
+        jPanel1.add(jLabel28, gridBagConstraints);
 
         tfArea.setColumns(20);
         tfArea.setName("permanentAddArea"); // NOI18N
@@ -96,7 +104,7 @@ public class AddressComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
-        add(tfArea, gridBagConstraints);
+        jPanel1.add(tfArea, gridBagConstraints);
 
         jLabel29.setText("City");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -104,7 +112,7 @@ public class AddressComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 10);
-        add(jLabel29, gridBagConstraints);
+        jPanel1.add(jLabel29, gridBagConstraints);
 
         tfCity.setColumns(20);
         tfCity.setName("permanentAddCity"); // NOI18N
@@ -113,7 +121,7 @@ public class AddressComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
-        add(tfCity, gridBagConstraints);
+        jPanel1.add(tfCity, gridBagConstraints);
 
         jLabel30.setText("State");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -121,7 +129,7 @@ public class AddressComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 10);
-        add(jLabel30, gridBagConstraints);
+        jPanel1.add(jLabel30, gridBagConstraints);
 
         tfState.setColumns(20);
         tfState.setName("permanentAddState"); // NOI18N
@@ -130,7 +138,7 @@ public class AddressComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
-        add(tfState, gridBagConstraints);
+        jPanel1.add(tfState, gridBagConstraints);
 
         jLabel31.setText("Zip code");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -138,7 +146,7 @@ public class AddressComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 10);
-        add(jLabel31, gridBagConstraints);
+        jPanel1.add(jLabel31, gridBagConstraints);
 
         tfZipCode.setColumns(20);
         tfZipCode.setName("permanentAddZip"); // NOI18N
@@ -147,7 +155,9 @@ public class AddressComponent extends javax.swing.JPanel {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 7, 0);
-        add(tfZipCode, gridBagConstraints);
+        jPanel1.add(tfZipCode, gridBagConstraints);
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -157,6 +167,7 @@ public class AddressComponent extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField tfArea;
     private javax.swing.JTextField tfCity;
     private javax.swing.JTextField tfState;

@@ -7,6 +7,10 @@ package com.kvlahov.utils;
 
 import com.kvlahov.client.DoctorUI;
 import com.kvlahov.client.RegularUI;
+import com.kvlahov.model.enums.AddressType;
+import com.kvlahov.model.enums.AddressTypeEnum;
+import com.kvlahov.model.enums.ContactType;
+import com.kvlahov.model.enums.ContactTypeEnum;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
@@ -184,5 +188,20 @@ public class Utilities {
         
         return LocalDate.of(date.getYear(), date.getMonth(), 1);
     }
+    
+    public static AddressType getAddressType(AddressTypeEnum addressType, List<AddressType> addressTypes) {
+        return addressTypes.stream()
+                .filter(t -> t.getType().toUpperCase().equals(addressType.name()))
+                .findFirst()
+                .get();
+    }
+    
+    public static ContactType getContactType(ContactTypeEnum contactType, List<ContactType> contactTypes) {
+        return contactTypes.stream()
+                .filter(t -> t.getType().toUpperCase().equals(contactType.name()))
+                .findFirst()
+                .get();
+    }
+    
     
 }

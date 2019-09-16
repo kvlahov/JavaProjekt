@@ -6,12 +6,14 @@
 package com.kvlahov.model.patientInfo;
 
 import com.kvlahov.model.Person;
+import java.util.List;
 
 /**
  *
  * @author lordo
  */
-public class NextOfKin extends Person{
+public class NextOfKin extends Person {
+
     private String relationshipToPatient;
     private ContactInfo contactInformation;
 
@@ -22,10 +24,10 @@ public class NextOfKin extends Person{
     public void setContactInformation(ContactInfo contactInformation) {
         this.contactInformation = contactInformation;
     }
-    
+
     public NextOfKin(String name, String surname, String relationshipToPatient) {
         super(name, surname);
-        this.relationshipToPatient  = relationshipToPatient;
+        this.relationshipToPatient = relationshipToPatient;
     }
 
     public String getRelationshipToPatient() {
@@ -36,10 +38,22 @@ public class NextOfKin extends Person{
         this.relationshipToPatient = relationshipToPatient;
     }
 
+    public Contact getContactForBasicInformation() {
+        if (contactInformation != null) {
+            List<Contact> contacts = contactInformation.getContacts();
+            if (contacts != null) {
+                return contacts.stream()
+                        .filter(c -> c.getType().getType().equalsIgnoreCase("Mobile"))
+                        .findFirst()
+                        .get();
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "NextOfKin{" + "\nrelationshipToPatient=" + relationshipToPatient + "\ncontactInformation\n\t" + contactInformation + '}';
     }
-   
-    
+
 }

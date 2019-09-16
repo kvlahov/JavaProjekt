@@ -58,8 +58,9 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         spAlcoholPerDay = new javax.swing.JSpinner();
         jLabel46 = new javax.swing.JLabel();
 
-        setMaximumSize(new java.awt.Dimension(2147483647, 220));
+        setMaximumSize(new java.awt.Dimension(2147483647, 300));
         setMinimumSize(new java.awt.Dimension(213, 220));
+        setPreferredSize(new java.awt.Dimension(364, 300));
         setLayout(new java.awt.GridBagLayout());
 
         jLabel39.setText("Uses Stimulants");
@@ -106,7 +107,7 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         add(tfEatingHabits, gridBagConstraints);
 
-        spCaffeine.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spCaffeine.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -114,7 +115,7 @@ public class LifeStyleComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         add(spCaffeine, gridBagConstraints);
 
-        spSoftDrinks.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spSoftDrinks.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -189,15 +190,15 @@ public class LifeStyleComponent extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbSmokesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSmokesActionPerformed
-        spCigarettesPerDay.setEnabled(cbSmokes.isEnabled());
-        if (cbSmokes.isEnabled() == false) {
+        spCigarettesPerDay.setEnabled(cbSmokes.isSelected());
+        if (cbSmokes.isSelected()== false) {
             spCigarettesPerDay.setValue(0);
         }
     }//GEN-LAST:event_cbSmokesActionPerformed
 
     private void cbAlcoholActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlcoholActionPerformed
-        spAlcoholPerDay.setEnabled(cbAlcohol.isEnabled());
-        if (cbAlcohol.isEnabled() == false) {
+        spAlcoholPerDay.setEnabled(cbAlcohol.isSelected());
+        if (cbAlcohol.isSelected()== false) {
             spAlcoholPerDay.setValue(0);
         }
     }//GEN-LAST:event_cbAlcoholActionPerformed

@@ -329,7 +329,7 @@ class SqlRepository implements IRepository {
             stmt.setString("City", add.getCity());
             stmt.setString("State", add.getState());
             stmt.setString("ZipCode", add.getZipCode());
-            stmt.setInt("AddressTypeID", 1);
+            stmt.setInt("AddressTypeID", add.getType().getId());
 
             stmt.executeUpdate();
 
@@ -339,13 +339,13 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public void insertNextOfKinContact(int nokId, int contactType, String contact) {
+    public void insertNextOfKinContact(int nokId, Contact contact) {
         final String INSERT_NOKCONTACT = "{ CALL insertNokContact (?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_NOKCONTACT)) {
             stmt.setInt(1, nokId);
-            stmt.setInt(2, contactType);
-            stmt.setString(3, contact);
+            stmt.setInt(2, contact.getType().getId());
+            stmt.setString(3, contact.getContact());
 
             stmt.executeUpdate();
 
@@ -355,7 +355,7 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public void insertPatientAddress(int pid, ContactInfo.Address add, int addType) {
+    public void insertPatientAddress(int pid, ContactInfo.Address add) {
         final String INSERT_PADD = "{ CALL insertPatientAddress (?,?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_PADD)) {
@@ -365,7 +365,7 @@ class SqlRepository implements IRepository {
             stmt.setString("City", add.getCity());
             stmt.setString("State", add.getState());
             stmt.setString("ZipCode", add.getZipCode());
-            stmt.setInt("AddressTypeID", addType);
+            stmt.setInt("AddressTypeID", add.getType().getId());
 
             stmt.executeUpdate();
 
@@ -375,13 +375,13 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public void insertPatientContact(int pid, int contactType, String contact) {
+    public void insertPatientContact(int pid, Contact contact) {
         final String INSERT_PCONTACT = "{ CALL insertPatientContact (?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(INSERT_PCONTACT)) {
             stmt.setInt(1, pid);
-            stmt.setInt(2, contactType);
-            stmt.setString(3, contact);
+            stmt.setInt(2, contact.getType().getId());
+            stmt.setString(3, contact.getContact());
 
             stmt.executeUpdate();
 
@@ -622,25 +622,6 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public int getContactTypeId(ContactType type) {
-        final String GET_CTID = "{ CALL getContactTypeId (?)}";
-        try (Connection con = dataSource.getConnection();
-                CallableStatement stmt = con.prepareCall(GET_CTID)) {
-            stmt.setString(1, type.toString());
-            try (ResultSet resultSet = stmt.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getInt("IDContactType");
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
-
-    }
-
-    @Override
     public void updateComplaints(int pid, ComplaintsInfo complaints) {
         final String UPDATE_COMPLAINT = "{ CALL updateComplaint (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
@@ -729,53 +710,17 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public void updateNextOfKinAdd(int nokId, ContactInfo.Address add) {
-        final String UPDATE_NOKADD = "{ CALL updateNokAddress (?,?,?,?,?,?,?)}";
-        try (Connection con = dataSource.getConnection();
-                CallableStatement stmt = con.prepareCall(UPDATE_NOKADD)) {
-            stmt.setInt("NextOfKinID", nokId);
-            stmt.setString("Street", add.getStreet());
-            stmt.setString("Area", add.getArea());
-            stmt.setString("City", add.getCity());
-            stmt.setString("State", add.getState());
-            stmt.setString("ZipCode", add.getZipCode());
-            stmt.setInt("AddressTypeID", 1);
-
-            stmt.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updateNextOfKinContact(int nokId, int contactType, String contact) {
-        final String UPDATE_NOKCONTACT = "{ CALL updateNokContact (?,?,?)}";
-        try (Connection con = dataSource.getConnection();
-                CallableStatement stmt = con.prepareCall(UPDATE_NOKCONTACT)) {
-            stmt.setInt(1, nokId);
-            stmt.setInt(2, contactType);
-            stmt.setString(3, contact);
-
-            stmt.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updatePatientAddress(int pid, ContactInfo.Address add, int addType) {
+    public void updateAddress(ContactInfo.Address add) {
         final String UPDATE_PADD = "{ CALL updatePatientAddress (?,?,?,?,?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(UPDATE_PADD)) {
-            stmt.setInt("PatientID", pid);
+            stmt.setInt(1, add.getId());
             stmt.setString("Street", add.getStreet());
             stmt.setString("Area", add.getArea());
             stmt.setString("City", add.getCity());
             stmt.setString("State", add.getState());
             stmt.setString("ZipCode", add.getZipCode());
-            stmt.setInt("AddressTypeID", addType);
+            stmt.setInt("AddressTypeID", add.getType().getId());
 
             stmt.executeUpdate();
 
@@ -785,13 +730,13 @@ class SqlRepository implements IRepository {
     }
 
     @Override
-    public void updatePatientContact(int pid, int contactType, String contact) {
+    public void updateContact(Contact contact) {
         final String UPDATE_PCONTACT = "{ CALL updatePatientContact (?,?,?)}";
         try (Connection con = dataSource.getConnection();
                 CallableStatement stmt = con.prepareCall(UPDATE_PCONTACT)) {
-            stmt.setInt(1, pid);
-            stmt.setInt(2, contactType);
-            stmt.setString(3, contact);
+            stmt.setInt(1, contact.getId());
+            stmt.setInt(2, contact.getType().getId());
+            stmt.setString(3, contact.getContact());
 
             stmt.executeUpdate();
 
@@ -1418,6 +1363,52 @@ class SqlRepository implements IRepository {
                     services.add(SqlTableHelper.getServiceSummary(resultSet));
                 }
                 return services;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<ContactType> getContactTypes() {
+        final String GET_CONTACT_TYPES = "{ CALL getContactTypes }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_CONTACT_TYPES)) {            
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                
+                List<ContactType> contactTypes = new ArrayList<>();
+                while (resultSet.next()) {
+                    ContactType contactType = new ContactType();
+                    contactType.setId(resultSet.getInt("IDContactType"));
+                    contactType.setType(resultSet.getString("Type"));
+                    contactTypes.add(contactType);
+                }
+                return contactTypes;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @Override
+    public List<AddressType> getAddressTypes() {
+        final String GET_ADDRESS_TYPES = "{ CALL getAddressTypes }";
+        try (Connection con = dataSource.getConnection();
+                CallableStatement stmt = con.prepareCall(GET_ADDRESS_TYPES)) {            
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                
+                List<AddressType> addressTypes = new ArrayList<>();
+                while (resultSet.next()) {
+                    AddressType addressType = new AddressType();
+                    addressType.setId(resultSet.getInt("IDAddressType"));
+                    addressType.setType(resultSet.getString("Type"));
+                    addressTypes.add(addressType);
+                }
+                return addressTypes;
             }
 
         } catch (Exception e) {

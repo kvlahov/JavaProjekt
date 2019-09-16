@@ -5,12 +5,15 @@
  */
 package com.kvlahov.client.components;
 
+import com.kvlahov.controller.PatientController;
 import com.kvlahov.model.enums.AddressType;
+import com.kvlahov.model.enums.AddressTypeEnum;
 import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.patientInfo.ContactInfo;
 import com.kvlahov.model.patientInfo.ExtendedPatientInformation;
 import com.kvlahov.model.patientInfo.NextOfKin;
 import com.kvlahov.model.patientInfo.PersonalInfo;
+import com.kvlahov.utils.Utilities;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -33,7 +36,8 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
     private ActionListener btnSaveActionListener;
     private ActionListener btnCancelActionListener;
 
-    public ExtendedInfoComponent() {
+    public ExtendedInfoComponent(NextOfKin nextOfKin) {
+        this.nextOfKin = nextOfKin;
 
         initComponents();
         initForm();
@@ -81,20 +85,18 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
         btnCancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         mainPane = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         patientContactPane = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
         nokContactPane = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
         personalInfoPane = new javax.swing.JPanel();
         personalInfoComponent1 = new com.kvlahov.client.components.PersonalInfoComponent();
-        jScrollPane6 = new javax.swing.JScrollPane();
         lifestylePane = new javax.swing.JPanel();
         lifeStyleComponent1 = new com.kvlahov.client.components.LifeStyleComponent();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
         complaintsPane = new javax.swing.JPanel();
         complaintsComponent1 = new com.kvlahov.client.components.ComplaintsComponent();
 
+        setPreferredSize(new java.awt.Dimension(866, 500));
         setLayout(new java.awt.BorderLayout());
 
         btnPrevious.setText("Previous");
@@ -135,36 +137,33 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
         mainPane.setLayout(new java.awt.CardLayout());
 
         patientContactPane.setLayout(new javax.swing.BoxLayout(patientContactPane, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPane3.setViewportView(patientContactPane);
+        jScrollPane2.setViewportView(patientContactPane);
 
-        mainPane.add(jScrollPane3, "card7");
+        mainPane.add(jScrollPane2, "card7");
 
         nokContactPane.setLayout(new javax.swing.BoxLayout(nokContactPane, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPane4.setViewportView(nokContactPane);
+        mainPane.add(nokContactPane, "card7");
 
-        mainPane.add(jScrollPane4, "card8");
-
+        personalInfoPane.setMaximumSize(new java.awt.Dimension(2147483647, 400));
+        personalInfoPane.setPreferredSize(new java.awt.Dimension(764, 300));
         personalInfoPane.setLayout(new java.awt.BorderLayout());
         personalInfoPane.add(personalInfoComponent1, java.awt.BorderLayout.CENTER);
 
-        jScrollPane5.setViewportView(personalInfoPane);
+        mainPane.add(personalInfoPane, "card7");
 
-        mainPane.add(jScrollPane5, "card9");
-
+        lifestylePane.setPreferredSize(new java.awt.Dimension(364, 200));
         lifestylePane.setLayout(new java.awt.BorderLayout());
         lifestylePane.add(lifeStyleComponent1, java.awt.BorderLayout.CENTER);
 
-        jScrollPane6.setViewportView(lifestylePane);
-
-        mainPane.add(jScrollPane6, "card10");
+        mainPane.add(lifestylePane, "card8");
 
         complaintsPane.setName("complaintsPane"); // NOI18N
         complaintsPane.setLayout(new java.awt.BorderLayout());
         complaintsPane.add(complaintsComponent1, java.awt.BorderLayout.CENTER);
 
-        jScrollPane2.setViewportView(complaintsPane);
+        jScrollPane3.setViewportView(complaintsPane);
 
-        mainPane.add(jScrollPane2, "card7");
+        mainPane.add(jScrollPane3, "card7");
 
         jScrollPane1.setViewportView(mainPane);
 
@@ -205,9 +204,6 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private com.kvlahov.client.components.LifeStyleComponent lifeStyleComponent1;
     private javax.swing.JPanel lifestylePane;
     private javax.swing.JPanel mainPane;
@@ -226,17 +222,18 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
     private ContactsComponent patientContacts;
     private ContactsComponent nokContacts;
     private CardLayout cardLayout;
+    private List<AddressType> addressTypes;
 
     private void initForm() {
-        contactTypes = Stream.of(ContactType.values())
-                .collect(Collectors.toList());
+        contactTypes = PatientController.getContactTypes();
+        addressTypes = PatientController.getAddressTypes();
         
         cardLayout = (CardLayout) mainPane.getLayout();
         initPatientContactPane();
         initNokContactPane();
-        personalInfoPane.add(new PersonalInfoComponent(), BorderLayout.CENTER);
-        lifestylePane.add(new LifeStyleComponent(), BorderLayout.CENTER);
-        complaintsPane.add(new ComplaintsComponent(), BorderLayout.CENTER);
+//        personalInfoPane.add(new PersonalInfoComponent(), BorderLayout.CENTER);
+//        lifestylePane.add(new LifeStyleComponent(), BorderLayout.CENTER);
+//        complaintsPane.add(new ComplaintsComponent(), BorderLayout.CENTER);
 
         setBtnsForFirstCard();
 
@@ -264,11 +261,11 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
     }
 
     private void initPatientContactPane() {
-        permanentAddress = new AddressComponent(AddressType.PERMANENT);
+        permanentAddress = new AddressComponent(Utilities.getAddressType(AddressTypeEnum.PERMANENT, addressTypes));
         permanentAddress.setBorder(BorderFactory.createTitledBorder("Permanent Address"));
         patientContactPane.add(permanentAddress);
 
-        presentAddress = new AddressComponent(AddressType.PRESENT);
+        presentAddress = new AddressComponent(Utilities.getAddressType(AddressTypeEnum.PRESENT, addressTypes));
         presentAddress.setBorder(BorderFactory.createTitledBorder("Present Address"));
         patientContactPane.add(presentAddress);
 
@@ -313,7 +310,7 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
     }
 
     private void initNokContactPane() {
-        nokPermanentAddress = new AddressComponent(AddressType.PERMANENT);
+        nokPermanentAddress = new AddressComponent(Utilities.getAddressType(AddressTypeEnum.PERMANENT, addressTypes));
         nokPermanentAddress.setBorder(BorderFactory.createTitledBorder("Permanent Address"));
         nokContactPane.add(nokPermanentAddress);
 
@@ -324,6 +321,7 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
 
     private void toggleControlButtons() {
         Component c = getVisibleComponent();
+        int lastComponentIndex = mainPane.getComponentCount() - 1;
         if (c == null) {
             return;
         }
@@ -331,7 +329,7 @@ public class ExtendedInfoComponent extends javax.swing.JPanel {
         if (c == mainPane.getComponent(0)) {
             setBtnsForFirstCard();
         }
-        else if(c.getName().equals("complaintsPane")) {
+        else if(c == mainPane.getComponent(lastComponentIndex)) {
             setBtnsForLastCard();
         }
         else {

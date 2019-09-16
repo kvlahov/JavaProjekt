@@ -15,6 +15,7 @@ import com.kvlahov.model.Service;
 import com.kvlahov.model.ServiceAppointment;
 import com.kvlahov.model.TypeOfService;
 import com.kvlahov.model.User;
+import com.kvlahov.model.enums.AddressType;
 import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.enums.UserRole;
 import com.kvlahov.model.patientInfo.ComplaintsInfo;
@@ -45,13 +46,13 @@ public interface IRepository {
     //Patient info
     void insertComplaint(int pid, ComplaintsInfo complaints);
     void insertLifestyle(int pid, LifestyleInfo lifestyle);
+    void insertPersonalInfo(int pid, PersonalInfo personal);
     int insertNextOfKin(int pid, NextOfKin nok);
     void insertNextOfKinAdd(int nokId, ContactInfo.Address add);
-    void insertNextOfKinContact(int nokId, int contactType, String contact);
+    void insertNextOfKinContact(int nokId, Contact contact);
     
-    void insertPatientAddress(int pid, ContactInfo.Address add, int addType);
-    void insertPatientContact(int pid, int contactType, String contact);
-    void insertPersonalInfo(int pid, PersonalInfo personal);
+    void insertPatientAddress(int pid, ContactInfo.Address add);
+    void insertPatientContact(int pid, Contact contact);
     
     //Patient info get
     ComplaintsInfo getComplaint(int pid);
@@ -63,19 +64,17 @@ public interface IRepository {
     List<ContactInfo.Address> getPatientAddress(int pid);
     List<Contact> getPatientContact(int pid);
     PersonalInfo getPersonalInfo(int pid);
-    int getContactTypeId(ContactType type);
+    List<ContactType> getContactTypes();
+    List<AddressType> getAddressTypes();
     
     //Patient info update
     void updateComplaints(int pid, ComplaintsInfo c);
     void updateLifestyle(int pid, LifestyleInfo lifestyle);
     void updatePersonalInfo(int pid, PersonalInfo personalInfo);
     
-    void updateNextOfKin(int pid, NextOfKin nok);
-    void updateNextOfKinAdd(int nokId, ContactInfo.Address add);
-    void updateNextOfKinContact(int nokId, int contactType, String contact);
-    
-    void updatePatientAddress(int pid, ContactInfo.Address add, int addType);
-    void updatePatientContact(int pid, int contactType, String contact);
+    void updateNextOfKin(int pid, NextOfKin nok);        
+    void updateAddress(ContactInfo.Address add);
+    void updateContact(Contact contact);
     
     //Doctors CRUD
     int insertDoctor(Doctor doctor);

@@ -8,6 +8,7 @@ package com.kvlahov.controller;
 import com.kvlahov.model.Patient;
 import com.kvlahov.dal.repository.*;
 import com.kvlahov.model.enums.AddressType;
+import com.kvlahov.model.enums.ContactType;
 import com.kvlahov.model.patientInfo.*;
 import java.util.List;
 import java.util.Observable;
@@ -24,8 +25,17 @@ public class PatientController {
 
     public static int insertBasicInformation(Patient p) {
         int patientId = repo.insertPatient(p);
-        obs.setPatientChanged();
-        obs.notifyObservers();
+        NextOfKin nextOfKin = p.getNextOfKin();
+        int nokID = repo.insertNextOfKin(patientId, nextOfKin);
+
+        repo.insertNextOfKinContact(nokID, nextOfKin.getContactInformation().getContacts().get(0));
+
+        ComplaintsInfo ci = new ComplaintsInfo();
+        ci.setStatementComplaint(p.getStmtOfComplaint());
+        repo.insertComplaint(patientId, ci);
+
+        Contact contact = p.getContact();
+        repo.insertPatientContact(patientId, contact);
         return patientId;
     }
 
@@ -37,25 +47,26 @@ public class PatientController {
 
     public static void insertExtendedInformation(Patient p, ExtendedPatientInformation extendedInfo) {
         int pid = p.getId();
-        repo.insertComplaint(pid, extendedInfo.getComplaints());
+        repo.updateComplaints(pid, extendedInfo.getComplaints());
         repo.insertLifestyle(pid, extendedInfo.getLifestyle());
         repo.insertPersonalInfo(pid, extendedInfo.getPersonalInfo());
-        int nokId = repo.insertNextOfKin(pid, p.getNextOfKin());
-        repo.insertNextOfKinAdd(nokId, extendedInfo.getNextOfKin().getContactInformation().getPermanentAddress());
-        p.getNextOfKin()
-                .getContactInformation()
+        NextOfKin nok = repo.getNextOfKin(p.getId());
+
+        ContactInfo nokContactInfo = extendedInfo.getNextOfKin().getContactInformation();
+        repo.insertNextOfKinAdd(nok.getId(), nokContactInfo.getPermanentAddress());
+        nokContactInfo
                 .getContacts()
                 .forEach((c) -> {
-                    repo.insertNextOfKinContact(nokId, c.getId(), c.getContact());
+                    repo.insertNextOfKinContact(nok.getId(), c);
                 });
 
-        repo.insertPatientAddress(pid, extendedInfo.getContactInfo().getPresentAddress(), 1);
-        repo.insertPatientAddress(pid, extendedInfo.getContactInfo().getPermanentAddress(), 2);
+        repo.insertPatientAddress(pid, extendedInfo.getContactInfo().getPresentAddress());
+        repo.insertPatientAddress(pid, extendedInfo.getContactInfo().getPermanentAddress());
 
         extendedInfo.getContactInfo()
                 .getContacts()
                 .forEach((c) -> {
-                    repo.insertPatientContact(nokId, c.getId(), c.getContact());
+                    repo.insertPatientContact(nok.getId(), c);
                 });
     }
 
@@ -63,32 +74,51 @@ public class PatientController {
         ExtendedPatientInformation ei = new ExtendedPatientInformation();
 
         NextOfKin nok = repo.getNextOfKin(pid);
-        ContactInfo nokContact = new ContactInfo();
-        nokContact.setContacts(repo.getNextOfKinContact(nok.getId()));
-        nokContact.setPermanentAddress(repo.getNextOfKinAdd(nok.getId()));
-        nok.setContactInformation(nokContact);
+        nok.setContactInformation(getNokContactInfo(nok.getId()));
 
         ContactInfo patientContact = new ContactInfo();
         patientContact.setContacts(repo.getPatientContact(pid));
 
         repo.getPatientAddress(pid).forEach(add -> {
-            if (add == null) {
-                return;
-            }
-            if (add.getType() == AddressType.PERMANENT) {
-                patientContact.setPermanentAddress(add);
-            } else if (add.getType() == AddressType.PRESENT) {
-                patientContact.setPresentAddress(add);
+            switch (add.getType().getType()) {
+                case "Permanent":
+                    patientContact.setPermanentAddress(add);
+                    break;
+                case "Present":
+                    patientContact.setPresentAddress(add);
+                    break;
             }
         });
 
-        ei.setComplaints(repo.getComplaint(pid));
         ei.setContactInfo(patientContact);
-        ei.setLifestyle(repo.getLifestyle(pid));
         ei.setNextOfKin(nok);
+        ei.setComplaints(repo.getComplaint(pid));
+        ei.setLifestyle(repo.getLifestyle(pid));
         ei.setPersonalInfo(repo.getPersonalInfo(pid));
 
         return ei;
+    }
+
+    private static ContactInfo getNokContactInfo(int nokID) {
+        ContactInfo nokContact = new ContactInfo();
+        nokContact.setContacts(repo.getNextOfKinContact(nokID));
+        nokContact.setPermanentAddress(repo.getNextOfKinAdd(nokID));
+        return nokContact;
+    }
+
+    public static Patient getBasicInfo(int pid) {
+        Patient patient = repo.getPatient(pid);
+        NextOfKin nok = repo.getNextOfKin(pid);
+        nok.setContactInformation(getNokContactInfo(nok.getId()));
+        patient.setNextOfKin(nok);
+
+        patient.setContact(repo.getPatientContact(pid).get(0));
+        ComplaintsInfo complaint = repo.getComplaint(pid);
+        if (complaint != null) {
+            patient.setStmtOfComplaint(complaint.getStatementComplaint());
+        }
+
+        return patient;
     }
 
     public static List<Patient> getPatients() {
@@ -110,4 +140,43 @@ public class PatientController {
         }
 
     }
+
+    public static void updateBasicInfo(Patient p) {
+        int pid = p.getId();
+        repo.updatePatient(p, pid);
+        repo.updateContact(p.getContact());
+
+        NextOfKin nok = p.getNextOfKin();
+        repo.updateNextOfKin(pid, nok);
+        repo.updateAddress(nok.getContactInformation().getPermanentAddress());
+
+        Contact contact = nok.getContactInformation().getContacts().get(0);
+        repo.updateContact(contact);
+
+        ComplaintsInfo ci = new ComplaintsInfo();
+        ci.setStatementComplaint(p.getStmtOfComplaint());
+        repo.updateComplaints(pid, ci);
+
+    }
+
+    public static void updateExtendedInfo(int pid, ExtendedPatientInformation ei) {
+        repo.updateComplaints(pid, ei.getComplaints());
+        ContactInfo pContactInfo = ei.getContactInfo();
+
+        repo.updateAddress(pContactInfo.getPresentAddress());
+        repo.updateAddress(pContactInfo.getPermanentAddress());
+
+        pContactInfo.getContacts().forEach(c -> {
+            repo.updateContact(c);
+        });
+    }
+
+    public static List<ContactType> getContactTypes() {
+        return repo.getContactTypes();
+    }
+
+    public static List<AddressType> getAddressTypes() {
+        return repo.getAddressTypes();
+    }
+
 }

@@ -38,8 +38,8 @@ public class ReceiptFrame extends javax.swing.JFrame {
         this.patient = patient;
         this.appointmentDate = appointmentDate;
 
-        initFrame();
         initComponents();
+        initFrame();
         initButtons();
     }
 
@@ -133,15 +133,14 @@ public class ReceiptFrame extends javax.swing.JFrame {
     private void initFrame() {
         setPreferredSize(new Dimension(800, 600));
         setSize(new Dimension(800, 600));
-        setLayout(new BorderLayout());
         rc = new ReceiptComponent(receipt, patient, appointmentDate);
         if (showEditMode) {
             rc.setEditMode(ReceiptController.getAllPaymentMethods());
 
         }
         setLocationRelativeTo(null);
-
-        add(rc, BorderLayout.CENTER);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        getContentPane().add(rc, BorderLayout.CENTER);
     }
 
     private void initButtons() {

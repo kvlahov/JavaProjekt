@@ -8,13 +8,13 @@ package com.kvlahov.client.components;
 import com.kvlahov.controller.PatientController;
 import com.kvlahov.model.Patient;
 import com.kvlahov.model.enums.ContactType;
+import com.kvlahov.model.enums.ContactTypeEnum;
 import com.kvlahov.model.enums.Sex;
 import com.kvlahov.model.patientInfo.*;
 import com.kvlahov.model.patientInfo.NextOfKin;
 import com.kvlahov.utils.Utilities;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
@@ -22,22 +22,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
-import javax.swing.Box;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.InputVerifier;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author lordo
  */
 public class NewPatientDialog extends javax.swing.JDialog {
+
+    private boolean showBasicInfo = true;
+    private boolean showExtendedInfo = true;
 
     public NewPatientDialog(java.awt.Frame parent, boolean modal, Patient p, ExtendedPatientInformation ei) {
         super(parent, modal);
@@ -102,13 +100,13 @@ public class NewPatientDialog extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        extendedInfoPane = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(700, 550));
+        setPreferredSize(new java.awt.Dimension(900, 700));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         newPatientPanel.setBackground(new java.awt.Color(232, 234, 242));
-        newPatientPanel.setPreferredSize(new java.awt.Dimension(405, 228));
         newPatientPanel.setLayout(new java.awt.CardLayout());
 
         tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -121,7 +119,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         basicInfoPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 65, 5, 65));
         basicInfoPane.setName("newPatientPanel"); // NOI18N
-        basicInfoPane.setLayout(new javax.swing.BoxLayout(basicInfoPane, javax.swing.BoxLayout.Y_AXIS));
+        basicInfoPane.setLayout(new java.awt.BorderLayout());
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jScrollPane3.setPreferredSize(new java.awt.Dimension(100, 100));
@@ -261,37 +259,35 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
         jScrollPane3.setViewportView(formElementsContainer);
 
-        basicInfoPane.add(jScrollPane3);
+        basicInfoPane.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 1, 1, 1));
         jPanel3.setMaximumSize(new java.awt.Dimension(400, 250));
         jPanel3.setPreferredSize(new java.awt.Dimension(171, 39));
-        jPanel3.setLayout(new java.awt.GridBagLayout());
 
         btnSave.setText("Save");
-        btnSave.setMaximumSize(new java.awt.Dimension(77, 23));
-        btnSave.setPreferredSize(new java.awt.Dimension(77, 33));
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
             }
         });
-        jPanel3.add(btnSave, new java.awt.GridBagConstraints());
+        jPanel3.add(btnSave);
 
         btnCancel.setText("Cancel");
-        btnCancel.setPreferredSize(new java.awt.Dimension(77, 33));
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
-        jPanel3.add(btnCancel, new java.awt.GridBagConstraints());
+        jPanel3.add(btnCancel);
 
-        basicInfoPane.add(jPanel3);
+        basicInfoPane.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
         jScrollPane1.setViewportView(basicInfoPane);
 
         tabbedPane.addTab("Basic Info", jScrollPane1);
+
+        extendedInfoPane.setLayout(new java.awt.BorderLayout());
+        tabbedPane.addTab("Extended Info", extendedInfoPane);
 
         newPatientPanel.add(tabbedPane, "card2");
 
@@ -305,12 +301,12 @@ public class NewPatientDialog extends javax.swing.JDialog {
         //        JTabbedPane tp = (JTabbedPane) evt.getSource();
         //        int selected = tp.getSelectedIndex();
         //        if (tp.getTitleAt(selected).equalsIgnoreCase("extended info")) {
-            //            addContactForm(nokContact, tfNokContact.getText());
-            //            addContactForm(contactInfoPane, tfContact.getText());
-            //            eiStatement.setText(tfComplaint.getText().trim());
-            //
-            ////            PatientBinder.bindPatientToComponents();
-            //        }
+        //            addContactForm(nokContact, tfNokContact.getText());
+        //            addContactForm(contactInfoPane, tfContact.getText());
+        //            eiStatement.setText(tfComplaint.getText().trim());
+        //
+        ////            PatientBinder.bindPatientToComponents();
+        //        }
     }//GEN-LAST:event_tabbedPaneStateChanged
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -319,28 +315,32 @@ public class NewPatientDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-
-        Patient p = bindBasicInfoToPatient();
-
-        if (p == null) {
+        if (validateBasicInfo() == false) {
             JOptionPane.showMessageDialog(null, "Every field is required", "Warning", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
+        Patient p = bindBasicInfoToPatient();
+
         if (p.hasIdSet()) {
-            PatientController.updatePatient(p);
+            PatientController.updateBasicInfo(p);
             JOptionPane.showMessageDialog(null, "Patient " + p.getId() + " succesfuly updated", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
             int pid = PatientController.insertBasicInformation(p);
-            //            int pid = 1;
+
             p.setId(pid);
             JOptionPane.showMessageDialog(null, "Patient " + pid + " succesfuly saved", "Success", JOptionPane.INFORMATION_MESSAGE);
             tabbedPane.setEnabledAt(0, false);
         }
         patientModel = p;
 
-        tabbedPane.setEnabledAt(1, true);
-        tabbedPane.setSelectedIndex(1);
+        if (showExtendedInfo) {
+            addExtendedInfoComponent(p);
+            tabbedPane.setEnabledAt(1, true);
+            tabbedPane.setSelectedIndex(1);
+        } else {
+            dispose();
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
@@ -381,6 +381,7 @@ public class NewPatientDialog extends javax.swing.JDialog {
     private javax.swing.JPanel basicInfoPane;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
+    private javax.swing.JPanel extendedInfoPane;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.Box.Filler filler20;
@@ -434,17 +435,17 @@ public class NewPatientDialog extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(900, 700));
         setSize(new java.awt.Dimension(900, 700));
 
+        revalidate();
+        repaint();
+
         setLocationRelativeTo(null);
 
 //        getContentPane().setLayout(new java.awt.CardLayout());
     }
 
     private void initContent() {
-        ExtendedInfoComponent eiComponent = new ExtendedInfoComponent();
-        JScrollPane scrollPane = new JScrollPane(eiComponent);
-        tabbedPane.addTab("Extended Information", scrollPane);
 
-//        tabbedPane.setEnabledAt(1, false);
+        tabbedPane.setEnabledAt(1, false);
         sexBtnGroup.add(rbMale);
         sexBtnGroup.add(rbFemale);
 
@@ -480,100 +481,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
         }
     }
 
-    private void addContactForm(Container parent) {
-        JPanel contactFormPane = new JPanel();
-        contactFormPane.setName("contactForm");
-
-        contactFormPane.setMaximumSize(new java.awt.Dimension(900, 50));
-        contactFormPane.setPreferredSize(new java.awt.Dimension(443, 50));
-        contactFormPane.setLayout(new javax.swing.BoxLayout(contactFormPane, javax.swing.BoxLayout.LINE_AXIS));
-
-        JComboBox comboBox = new JComboBox();
-        comboBox.setPreferredSize(new java.awt.Dimension(75, 20));
-        comboBox.setModel(new DefaultComboBoxModel(ContactType.values()));
-
-        JTextField tf = new JTextField();
-        tf.setInputVerifier(new IsNumberVerifier());
-        tf.setToolTipText("Must be number");
-
-        contactFormPane.add(comboBox);
-        contactFormPane.add(Box.createHorizontalStrut(10));
-        contactFormPane.add(tf);
-
-        parent.add(contactFormPane);
-
-        //Set names
-        String tfName = "";
-        String cbName = "";
-        String grandparentName = comboBox.getParent().getParent().getName();
-
-        String selectedItem = comboBox.getSelectedItem().toString();
-        comboBox.setName(grandparentName + cbName + selectedItem);
-
-        tf.setName(grandparentName + tfName + selectedItem);
-
-        comboBox.addItemListener(e -> {
-            JComboBox cb = (JComboBox) e.getSource();
-            String selectedItem1 = cb.getSelectedItem().toString();
-            cb.setName(grandparentName + cbName + selectedItem1);
-
-            Component sibling = Stream.of(cb.getParent().getComponents())
-                    .filter(c -> c instanceof JTextField)
-                    .findFirst()
-                    .get();
-            sibling.setName(grandparentName + tfName + selectedItem1);
-        });
-
-    }
-
-    private void addContactForm(Container parent, String initialText) {
-        JPanel contactFormPane = new JPanel();
-        contactFormPane.setName("contactForm");
-
-        contactFormPane.setMaximumSize(new java.awt.Dimension(900, 50));
-        contactFormPane.setPreferredSize(new java.awt.Dimension(443, 50));
-        contactFormPane.setLayout(new javax.swing.BoxLayout(contactFormPane, javax.swing.BoxLayout.LINE_AXIS));
-
-        JComboBox comboBox = new JComboBox();
-        comboBox.setPreferredSize(new java.awt.Dimension(75, 20));
-        comboBox.setModel(new DefaultComboBoxModel(ContactType.values()));
-        comboBox.setSelectedItem(ContactType.MOBILE);
-
-        JTextField tf = new JTextField(initialText);
-        tf.setInputVerifier(new IsNumberVerifier());
-        tf.setToolTipText("Must be number");
-        tf.setEnabled(false);
-
-        contactFormPane.add(comboBox);
-        contactFormPane.add(Box.createHorizontalStrut(10));
-        contactFormPane.add(tf);
-
-        parent.add(contactFormPane);
-
-        //Set names
-        String tfName = "";
-        String cbName = "";
-        String grandparentName = comboBox.getParent().getParent().getName();
-
-        String selectedItem = comboBox.getSelectedItem().toString();
-        comboBox.setName(grandparentName + cbName + selectedItem);
-
-        tf.setName(grandparentName + tfName + selectedItem);
-
-        comboBox.addItemListener(e -> {
-            JComboBox cb = (JComboBox) e.getSource();
-            String selectedItem1 = cb.getSelectedItem().toString();
-            cb.setName(grandparentName + cbName + selectedItem1);
-
-            Component sibling = Stream.of(cb.getParent().getComponents())
-                    .filter(c -> c instanceof JTextField)
-                    .findFirst()
-                    .get();
-            sibling.setName(grandparentName + tfName + selectedItem1);
-        });
-
-    }
-
     private Patient bindBasicInfoToPatient() {
         Patient p = new Patient(null, null, Sex.MALE, LocalDate.MIN);
         p.setName(tfFirstName.getText().trim());
@@ -588,22 +495,20 @@ public class NewPatientDialog extends javax.swing.JDialog {
                 tfNokSurname.getText().trim(),
                 tfNokRelationship.getText().trim());
 
+        List<ContactType> contactTypes = PatientController.getContactTypes();
+
         ContactInfo contact = new ContactInfo();
         List<Contact> contacts = new ArrayList<>();
-        contacts.add(new Contact(ContactType.MOBILE, tfNokContact.getText().trim()));
+        contacts.add(new Contact(Utilities.getContactType(ContactTypeEnum.MOBILE, contactTypes), tfNokContact.getText().trim()));
         contact.setContacts(contacts);
         nok.setContactInformation(contact);
         nok.setRelationshipToPatient(tfNokRelationship.getText().trim());
 
-//        p.setNextOfKin(nok);
-        p.setContact(new Contact(ContactType.MOBILE, tfContact.getText().trim()));
-//        p.setStmtOfComplaint(tfComplaint.getText().trim());
-        if (validateBasicInfo(p)) {
-            return p;
-        } else {
-            return null;
-        }
+        p.setNextOfKin(nok);
+        p.setContact(new Contact(Utilities.getContactType(ContactTypeEnum.MOBILE, contactTypes), tfContact.getText().trim()));
+        p.setStmtOfComplaint(tfComplaint.getText().trim());
 
+        return p;
     }
 
     private void bindPatientToBIForm() {
@@ -619,11 +524,11 @@ public class NewPatientDialog extends javax.swing.JDialog {
         } else {
             rbFemale.setSelected(true);
         }
-        tfComplaint.setText(extendedInfoModel.getComplaints().getStatementComplaint());
-        String contact = extendedInfoModel.getContactInfo().getContacts().get(0).getContact();
+        tfComplaint.setText(patientModel.getStmtOfComplaint());
+        String contact = patientModel.getContact().getContact();
 
         tfContact.setText(contact);
-        NextOfKin nok = extendedInfoModel.getNextOfKin();
+        NextOfKin nok = patientModel.getNextOfKin();
         tfNokContact.setText(nok
                 .getContactInformation()
                 .getContacts()
@@ -636,33 +541,50 @@ public class NewPatientDialog extends javax.swing.JDialog {
 
     }
 
-    private boolean validateBasicInfo(Patient p) {
-        if("".equals(p.getName())) {
+    private boolean validateBasicInfo() {
+        if ("".equals(tfFirstName.getText().trim())) {
             return false;
         }
-        if(p.getSurname().equals("")) {
+        if (tfLastName.getText().trim().equals("")) {
             return false;
         }
-        if(p.getDateOfBirth() == null) {
+        if (tfDateOfBirth.getText().trim().equals("")) {
             return false;
         }
-        if(p.getStmtOfComplaint().equals("")) {
+        if (tfComplaint.getText().trim().equals("")) {
             return false;
         }
-        if(p.getContact().equals("")) {
+        if (tfContact.getText().trim().equals("")) {
             return false;
         }
-        if(p.getNextOfKin().getName().equals(""))  {
+        if (tfNokName.getText().trim().equals("")) {
             return false;
         }
-        if(p.getNextOfKin().getSurname().equals("")) {
+        if (tfNokSurname.getText().trim().equals("")) {
             return false;
         }
-        if(p.getNextOfKin().getContactInformation().getContacts().get(0).getContact().equals("")) {
+        if (tfNokContact.getText().trim().equals("")) {
             return false;
         }
-        
+        if (tfNokRelationship.getText().trim().equals("")) {
+            return false;
+        }
+
         return true;
+    }
+
+    private void addExtendedInfoComponent(Patient p) {
+        ExtendedInfoComponent eiComponent = new ExtendedInfoComponent(p.getNextOfKin());
+        eiComponent.setBtnCancelActionListener((e) -> {
+            windowClosingHandler();
+        });
+        eiComponent.setBtnSaveActionListener((e) -> {
+            SwingUtilities.invokeLater(() -> {
+                PatientController.insertExtendedInformation(p, eiComponent.getExtendedInfo());
+            });
+
+        });
+        extendedInfoPane.add(eiComponent, BorderLayout.CENTER);
     }
 
     static class IsNumberVerifier extends InputVerifier {

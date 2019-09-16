@@ -15,6 +15,7 @@ import com.kvlahov.client.components.ReceiptComponent;
 import com.kvlahov.client.components.TableComponent;
 import com.kvlahov.client.events.TableEvent;
 import com.kvlahov.client.events.TableEventListener;
+import com.kvlahov.client.global.Constants;
 import com.kvlahov.client.tableModels.AppointmentTableModel;
 import com.kvlahov.client.tableModels.PatientTableModel;
 import com.kvlahov.client.tableModels.ReceiptTableModel;
@@ -126,7 +127,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         lblRelationship = new javax.swing.JLabel();
         jPanel23 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
+        btnEditBasicInfo = new javax.swing.JButton();
         jPanel22 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
@@ -139,6 +140,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         jPanel25 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         btnGenerate = new javax.swing.JButton();
+        receiptsPane = new javax.swing.JPanel();
         reportsPane = new javax.swing.JPanel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -261,7 +263,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         jPanel10.add(patientBasicInfo);
 
-        nokBasicInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), null));
+        nokBasicInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Next Of Kin"));
         nokBasicInfo.setMaximumSize(new java.awt.Dimension(300, 100));
         nokBasicInfo.setPreferredSize(new java.awt.Dimension(180, 100));
         nokBasicInfo.setLayout(new java.awt.GridLayout(0, 1));
@@ -324,13 +326,13 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         jPanel23.setMaximumSize(new java.awt.Dimension(32767, 100));
 
-        jButton4.setText("Edit Basic Information");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnEditBasicInfo.setText("Edit Basic Information");
+        btnEditBasicInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnEditBasicInfoActionPerformed(evt);
             }
         });
-        jPanel23.add(jButton4);
+        jPanel23.add(btnEditBasicInfo);
 
         jPanel10.add(jPanel23);
 
@@ -384,6 +386,9 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         jPanel25.add(btnGenerate);
 
         finances.add(jPanel25, java.awt.BorderLayout.NORTH);
+
+        receiptsPane.setLayout(new java.awt.BorderLayout());
+        finances.add(receiptsPane, java.awt.BorderLayout.CENTER);
 
         jTabbedPane1.addTab("Finances", finances);
 
@@ -456,9 +461,10 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         mainCardLayout.show(getContentPane(), "patientList");
     }//GEN-LAST:event_miShowPatientsActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnEditBasicInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditBasicInfoActionPerformed
+        NewPatientDialog dialog = new NewPatientDialog(this, true ,currentPatient, null);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnEditBasicInfoActionPerformed
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
         JFrame receiptForAppointment = new JFrame();
@@ -523,6 +529,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel basicInfoPanel;
+    private javax.swing.JButton btnEditBasicInfo;
     private javax.swing.JButton btnGenerate;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
@@ -537,7 +544,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.JPanel finances;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -592,6 +598,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.JPanel patientListPane;
     private javax.swing.JPanel patientViewPane;
     private javax.swing.JPanel personalInfo;
+    private javax.swing.JPanel receiptsPane;
     private javax.swing.JPanel reportsPane;
     private javax.swing.JPanel setAppointmentPane;
     // End of variables declaration//GEN-END:variables
@@ -661,14 +668,16 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         });
         patientListPane.add(plc, BorderLayout.CENTER);
     }
+    
     private TableComponent<Receipt> receiptsTable;
     private void initReceiptTable(List<Receipt> receipts) {
+        receiptsPane.removeAll();
         receiptsTable = new TableComponent<>(new ReceiptTableModel(receipts));
         receiptsTable.getTableModel().setFilterPredicate((r) -> r.getReceiptNumber().toLowerCase().equals(receiptsTable.getSearchExpression().toLowerCase()));
         receiptsTable.setTableListener(e -> {
             showReceiptWIndow(ReceiptController.getReceipt(e.getModel().getId()), e.getModel().getDate(), false);
         });
-        finances.add(receiptsTable, BorderLayout.CENTER);
+        receiptsPane.add(receiptsTable, BorderLayout.CENTER);
         
     }
     
@@ -682,18 +691,20 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
                 System.out.println("Window closed");
             }
         });
-        receiptFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//        receiptFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         receiptFrame.setVisible(true);
     }
     
     private void setCurrentPatient(Patient model) {
-        this.currentPatient = model;
+        this.currentPatient = PatientController.getBasicInfo(model.getId());
         updateComponents();
     }
     
     private void updateComponents() {
+        updateBasicInfo(currentPatient);
         setAppointmentPane.removeAll();
         addAppointmentCalendarComponent();
+        
         initReceiptTable(ReceiptController.getReceiptsforPatient(currentPatient.getId()));
         
     }
@@ -767,6 +778,19 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         }
         
         frame.setVisible(true);
+    }
+
+    private void updateBasicInfo(Patient currentPatient) {
+        lblFirstName.setText(currentPatient.getName());
+        lblLastName.setText(currentPatient.getSurname());
+        lblComplaint.setText(currentPatient.getStmtOfComplaint());
+        lblContact.setText(currentPatient.getContact().getContact());
+        lblDateOfBirth.setText(currentPatient.getDateOfBirth().format(Constants.DATE_FORMAT));
+        lblNokContact.setText(currentPatient.getNextOfKin().getContactForBasicInformation().getContact());
+        lblNokFirstName.setText(currentPatient.getNextOfKin().getName());
+        lblNokLastName.setText(currentPatient.getNextOfKin().getSurname());
+        lblRelationship.setText(currentPatient.getNextOfKin().getRelationshipToPatient());
+        lblSex.setText(currentPatient.getSex().toString());
     }
     
 }

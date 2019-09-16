@@ -22,21 +22,9 @@ import java.util.stream.Collectors;
 public class ContactInfo {
     private Address presentAddress;
     private Address permanentAddress;
+    private List<Address> addresses;
     private String email;
     private List<Contact> contacts;
-
-    private HashMap<ContactType, Set<String>> initPhoneNumbers() {
-        HashMap<ContactType, Set<String>> initContacts = new HashMap<>();
-        
-        initContacts.put(ContactType.WORK, new LinkedHashSet<>());
-        initContacts.put(ContactType.HOME, new LinkedHashSet<>());
-        initContacts.put(ContactType.MOBILE, new LinkedHashSet<>());
-        initContacts.put(ContactType.PAGER, new LinkedHashSet<>());
-        initContacts.put(ContactType.FAX, new LinkedHashSet<>());
-        initContacts.put(ContactType.EMAIL, new LinkedHashSet<>());
-        
-        return initContacts;
-    }
 
     public Address getPresentAddress() {
         return presentAddress;
@@ -70,18 +58,31 @@ public class ContactInfo {
         this.contacts = contacts;
     }
 
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     public static class Address {
+        private int id;
         private String street;
         private String area;
         private String city;
         private String state;
         private String zipCode;
         private AddressType type;  
-        
 
-        public Address() {
+        public int getId() {
+            return id;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+        
         public String getStreet() {
             return street;
         }

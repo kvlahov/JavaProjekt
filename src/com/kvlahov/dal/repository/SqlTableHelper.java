@@ -128,22 +128,37 @@ public class SqlTableHelper {
 
     static Contact getContact(final ResultSet resultSet) throws SQLException {
         Contact contact = new Contact();
-        contact.setType(ContactType.valueOf(resultSet.getString("Type").toUpperCase()));
+        contact.setId(resultSet.getInt("IDContact"));
         contact.setContact(resultSet.getString("ContactNumber"));
-        contact.setId(resultSet.getInt("ContactTypeID"));
+        
+        ContactType contactType = new ContactType();
+        contactType.setId(resultSet.getInt("ContactTypeID"));
+        contactType.setType(resultSet.getString("Type"));
+        
+        contact.setType(contactType);
+        
+        
         return contact;
     }
 
     static ContactInfo.Address getAddres(final ResultSet resultSet) throws SQLException {
         ContactInfo.Address addr = new ContactInfo.Address();
 
+        addr.setId(resultSet.getInt("IDOmAddress"));
         addr.setArea(resultSet.getString("Area"));
         addr.setCity(resultSet.getString("City"));
         addr.setState(resultSet.getString("State"));
         addr.setStreet(resultSet.getString("Street"));
         addr.setZipCode(resultSet.getString("ZipCode"));
-        addr.setType(AddressType.valueOf(resultSet.getString("Type").toUpperCase()));
+        
+        AddressType addressType = new AddressType();
+        addressType.setId(resultSet.getInt("AddressTypeID"));
+        addressType.setType(resultSet.getString("Type"));
+        addr.setType(addressType);
         
         return addr;
+        
+        // 
+
     }
 }

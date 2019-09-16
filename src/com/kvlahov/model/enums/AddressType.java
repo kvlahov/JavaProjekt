@@ -9,20 +9,24 @@ package com.kvlahov.model.enums;
  *
  * @author lordo
  */
-public enum AddressType {
-    PERMANENT("Permanent"), 
-    PRESENT("Present");
-    
-    private final String type;
-    
-    AddressType(String type) {
-        this.type = type;
+public class AddressType {
+    private int id;
+    private String type;
+
+    public int getId() {
+        return id;
     }
 
-    @Override
-    public String toString() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getType() {
         return type;
     }
-    
+
+    public void setType(String type) {
+        this.type = type;
+    }    
     
 }

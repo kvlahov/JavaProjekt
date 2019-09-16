@@ -51,9 +51,10 @@ public class ContactsComponent extends javax.swing.JPanel {
         btnRemove = new javax.swing.JButton();
         contactListPane = new javax.swing.JPanel();
 
+        setPreferredSize(new java.awt.Dimension(137, 400));
         setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setLayout(new java.awt.FlowLayout(0));
+        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -73,6 +74,7 @@ public class ContactsComponent extends javax.swing.JPanel {
 
         add(jPanel2, java.awt.BorderLayout.PAGE_START);
 
+        contactListPane.setPreferredSize(new java.awt.Dimension(0, 150));
         contactListPane.setLayout(new javax.swing.BoxLayout(contactListPane, javax.swing.BoxLayout.Y_AXIS));
         add(contactListPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -84,11 +86,17 @@ public class ContactsComponent extends javax.swing.JPanel {
     private void addBlankContactComponent() {
         // TODO add your handling code here:
         contactListPane.add(new SingleContactComponent(contactTypes));
+        toggleBtnRemove();
     }
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         int lastComponentIndex = contactListPane.getComponentCount() - 1;
         contactListPane.remove(lastComponentIndex);
+        
+        toggleBtnRemove();
+        
+        contactListPane.revalidate();
+        contactListPane.repaint();
     }//GEN-LAST:event_btnRemoveActionPerformed
 
 
@@ -115,5 +123,14 @@ public class ContactsComponent extends javax.swing.JPanel {
                 .map(c -> c.getContact())
                 .collect(Collectors.toList());
                 
+    }
+
+    private void toggleBtnRemove() {
+        int componentCount = contactListPane.getComponentCount();
+        if( componentCount <= 1) {
+            btnRemove.setEnabled(false);
+        } else {
+            btnRemove.setEnabled(true);
+        }
     }
 }

@@ -42,7 +42,6 @@ public class ComplaintsComponent extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jScrollPane13 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
@@ -339,9 +338,7 @@ public class ComplaintsComponent extends javax.swing.JPanel {
         gridBagConstraints.weighty = 0.4;
         jPanel1.add(jScrollPane12, gridBagConstraints);
 
-        jScrollPane13.setViewportView(jPanel1);
-
-        add(jScrollPane13, java.awt.BorderLayout.CENTER);
+        add(jPanel1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -364,7 +361,6 @@ public class ComplaintsComponent extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
