@@ -43,4 +43,8 @@ public class DoctorController {
     public static List<Doctor> getGeneralPhysicians() {
         return repo.getGeneralPhysicians();
     }
+    
+    public static void assignPatientToDoctor(int pid, int doctorId) {
+        repo.assignDoctorForPatient(pid, doctorId);
+    }
 }

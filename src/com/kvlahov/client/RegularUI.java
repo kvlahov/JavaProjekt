@@ -31,6 +31,7 @@ import com.kvlahov.model.Patient;
 import com.kvlahov.model.Receipt;
 import com.kvlahov.model.enums.ReportType;
 import com.kvlahov.utils.Utilities;
+import com.sun.javafx.geom.transform.BaseTransform;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -38,12 +39,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
@@ -54,12 +58,12 @@ import javax.swing.SwingUtilities;
  * @author lordo
  */
 public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
-    
+
     private List<Patient> patients;
     private List<Doctor> doctors;
     private Patient currentPatient;
     private List<Appointment> scheduledAppointments;
-    
+
     public RegularUI() {
         initComponents();
         initContent();
@@ -126,15 +130,14 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         jLabel20 = new javax.swing.JLabel();
         filler14 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         lblRelationship = new javax.swing.JLabel();
+        patientBasicInfo1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        lblDoctor = new javax.swing.JLabel();
+        cbAssign = new javax.swing.JCheckBox();
+        ddlDoctors = new javax.swing.JComboBox();
+        btnAssignDoctor = new javax.swing.JButton();
         jPanel23 = new javax.swing.JPanel();
         btnEditBasicInfo = new javax.swing.JButton();
-        jPanel22 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel22 = new javax.swing.JLabel();
-        lblEIAdded = new javax.swing.JLabel();
-        jPanel21 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         setAppointmentPane = new javax.swing.JPanel();
         finances = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
@@ -324,9 +327,40 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         jPanel10.add(nokBasicInfo);
 
+        patientBasicInfo1.setMaximumSize(new java.awt.Dimension(250, 100));
+        patientBasicInfo1.setPreferredSize(new java.awt.Dimension(250, 100));
+        patientBasicInfo1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jLabel2.setText("Doctor");
+        patientBasicInfo1.add(jLabel2);
+
+        lblDoctor.setText("N/A");
+        patientBasicInfo1.add(lblDoctor);
+
+        cbAssign.setText("Assign Doctor");
+        cbAssign.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAssignActionPerformed(evt);
+            }
+        });
+        patientBasicInfo1.add(cbAssign);
+
+        ddlDoctors.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        patientBasicInfo1.add(ddlDoctors);
+
+        btnAssignDoctor.setText("Assign Doctor");
+        btnAssignDoctor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAssignDoctorActionPerformed(evt);
+            }
+        });
+        patientBasicInfo1.add(btnAssignDoctor);
+
+        jPanel10.add(patientBasicInfo1);
+
         jPanel23.setMaximumSize(new java.awt.Dimension(32767, 100));
 
-        btnEditBasicInfo.setText("Edit Basic Information");
+        btnEditBasicInfo.setText("Edit");
         btnEditBasicInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditBasicInfoActionPerformed(evt);
@@ -337,29 +371,6 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         jPanel10.add(jPanel23);
 
         basicInfoPanel.add(jPanel10);
-
-        jPanel22.setLayout(new javax.swing.BoxLayout(jPanel22, javax.swing.BoxLayout.Y_AXIS));
-
-        jPanel6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel6.setMaximumSize(new java.awt.Dimension(32767, 100));
-
-        jLabel22.setText("Extended information added:");
-        jPanel6.add(jLabel22);
-
-        lblEIAdded.setText("jLabel23");
-        jPanel6.add(lblEIAdded);
-
-        jPanel22.add(jPanel6);
-
-        jButton1.setText("Add");
-        jPanel21.add(jButton1);
-
-        jButton2.setText("Edit Extended Information");
-        jPanel21.add(jButton2);
-
-        jPanel22.add(jPanel21);
-
-        basicInfoPanel.add(jPanel22);
 
         jPanel5.add(basicInfoPanel);
 
@@ -454,40 +465,82 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private void miNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miNewActionPerformed
         // TODO add your handling code here:      
         NewPatientDialog dialog = new NewPatientDialog(this, true, null, null);
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                SwingUtilities.invokeLater(() -> {
+                    initPatientTable(PatientController.getPatients());
+                    patientListPane.revalidate();
+                    patientListPane.repaint();
+                });
+            }
+        });
         dialog.setVisible(true);
     }//GEN-LAST:event_miNewActionPerformed
 
     private void miShowPatientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miShowPatientsActionPerformed
-        mainCardLayout.show(getContentPane(), "patientList");
+        SwingUtilities.invokeLater(() -> {
+            initPatientTable(PatientController.getPatients());
+            mainCardLayout.show(getContentPane(), "patientList");
+        });
     }//GEN-LAST:event_miShowPatientsActionPerformed
 
     private void btnEditBasicInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditBasicInfoActionPerformed
-        NewPatientDialog dialog = new NewPatientDialog(this, true ,currentPatient, null);
+        NewPatientDialog dialog = new NewPatientDialog(this, true, currentPatient, null);
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                SwingUtilities.invokeLater(() -> {
+                    updateBasicInfo(PatientController.getBasicInfo(currentPatient.getId()));
+                });
+            }
+        });
         dialog.setVisible(true);
     }//GEN-LAST:event_btnEditBasicInfoActionPerformed
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-        JFrame receiptForAppointment = new JFrame();
-        receiptForAppointment.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        receiptForAppointment.setPreferredSize(new Dimension(500, 600));
-        receiptForAppointment.setSize(new Dimension(800, 800));
-        receiptForAppointment.setLayout(new BorderLayout());
-        receiptForAppointment.add(newAppointmentListComponent(currentPatient, (e) -> {
-            Receipt r = ReceiptController.generateReceipt(e.getModel());
-            showReceiptWIndow(r, e.getModel().getDate(), true);
-        }));
-        
-        receiptForAppointment.setLocationRelativeTo(null);
-        receiptForAppointment.setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            JFrame receiptForAppointment = new JFrame();
+            receiptForAppointment.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            receiptForAppointment.setPreferredSize(new Dimension(500, 600));
+            receiptForAppointment.setSize(new Dimension(800, 800));
+            receiptForAppointment.setLayout(new BorderLayout());
+            receiptForAppointment.add(newAppointmentListComponent(currentPatient, (e) -> {
+                SwingUtilities.invokeLater(() -> {
+                    Receipt r = ReceiptController.generateReceipt(e.getModel());
+                    showReceiptWIndow(r, e.getModel().getDate(), true);
+                });
+            }));
+
+            receiptForAppointment.setLocationRelativeTo(null);
+            receiptForAppointment.setVisible(true);
+        });
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void miReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miReportsActionPerformed
-        
+
     }//GEN-LAST:event_miReportsActionPerformed
 
     private void miGenReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGenReportsActionPerformed
         mainCardLayout.show(getContentPane(), "reports");
     }//GEN-LAST:event_miGenReportsActionPerformed
+
+    private void btnAssignDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignDoctorActionPerformed
+        if (!cbAssign.isSelected()) {
+            return;
+        }
+        Doctor selectedDoctor = (Doctor) ddlDoctors.getSelectedItem();
+        DoctorController.assignPatientToDoctor(currentPatient.getId(), selectedDoctor.getId());
+        SwingUtilities.invokeLater(() -> {
+            updateBasicInfo(currentPatient);
+            addAppointmentCalendarComponent();
+        });
+    }//GEN-LAST:event_btnAssignDoctorActionPerformed
+
+    private void cbAssignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAssignActionPerformed
+        ddlDoctors.setEnabled(cbAssign.isSelected());
+        btnAssignDoctor.setEnabled(cbAssign.isSelected());
+    }//GEN-LAST:event_cbAssignActionPerformed
 
     /**
      * @param args the command line arguments
@@ -519,7 +572,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
         /* Create and display the form */
         Utilities.setDefaultsForJFrame();
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RegularUI().setVisible(true);
@@ -529,8 +582,11 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel basicInfoPanel;
+    private javax.swing.JButton btnAssignDoctor;
     private javax.swing.JButton btnEditBasicInfo;
     private javax.swing.JButton btnGenerate;
+    private javax.swing.JCheckBox cbAssign;
+    private javax.swing.JComboBox ddlDoctors;
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler10;
     private javax.swing.Box.Filler filler11;
@@ -542,16 +598,14 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.Box.Filler filler8;
     private javax.swing.Box.Filler filler9;
     private javax.swing.JPanel finances;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -569,19 +623,16 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblComplaint;
     private javax.swing.JLabel lblContact;
     private javax.swing.JLabel lblDateOfBirth;
-    private javax.swing.JLabel lblEIAdded;
+    private javax.swing.JLabel lblDoctor;
     private javax.swing.JLabel lblFirstName;
     private javax.swing.JLabel lblLastName;
     private javax.swing.JLabel lblNokContact;
@@ -595,6 +646,7 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     private javax.swing.JMenuItem miShowPatients;
     private javax.swing.JPanel nokBasicInfo;
     private javax.swing.JPanel patientBasicInfo;
+    private javax.swing.JPanel patientBasicInfo1;
     private javax.swing.JPanel patientListPane;
     private javax.swing.JPanel patientViewPane;
     private javax.swing.JPanel personalInfo;
@@ -604,164 +656,191 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
     // End of variables declaration//GEN-END:variables
     private CardLayout mainCardLayout;
     private Patient selectedPatientModel;
-    
+
     private void initContent() {
         mainCardLayout = (CardLayout) getContentPane().getLayout();
         JMenu menuLogOut = new JMenu("Log Out");
         jMenuBar.add(Box.createHorizontalGlue());
         jMenuBar.add(menuLogOut);
-        
+
         menuLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuLogOutMouseClicked(evt);
             }
-            
+
         });
-        
+
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
+
         PatientController.addObserver(this);
     }
-    
+
     private void menuLogOutMouseClicked(MouseEvent evt) {
         this.dispose();
         LoginScreen.start();
     }
-    
+
     @Override
     public void update(Observable o, Object arg) {
-        
+
     }
-    
+
     private TableComponent<Appointment> newAppointmentListComponent(Patient currentPatient, TableEventListener<Appointment> tableListener) {
-        List<Appointment> appointments = AppointmentsController.getAppointmentsForPatient(currentPatient.getId());
-        
+        List<Appointment> appointments = AppointmentsController.getAppointmentsForPatient(currentPatient.getId())
+                .stream()
+                .filter(a -> a.getStartTime().isBefore(LocalDateTime.now()))
+                .collect(Collectors.toList());
+
         TableComponent<Appointment> plc = new TableComponent<>(new AppointmentTableModel(appointments));
-        plc.getTableModel().setFilterPredicate((p) -> p.getFormattedDate().equals(plc.getSearchExpression()));
+        plc.getTableModel().setFilterPredicate((p) -> p.getFormattedDate().contains(plc.getSearchExpression()));
         plc.setTableListener((TableEvent<Appointment> e) -> {
             tableListener.tableEventOccured(e);
         });
         return plc;
     }
-    
+
     private void showViewPatient(Patient p) {
         JOptionPane.showMessageDialog(null, "Patient: " + p.getId() + " " + p.getName());
         selectedPatientModel = p;
         mainCardLayout.show(getContentPane(), "viewPatient");
     }
-    
+
     private void initData() {
         patients = PatientController.getPatients();
         doctors = DoctorController.getAllDoctors();
-        
-        initPatientTable(patients);
+
+        ddlDoctors.setModel(new DefaultComboBoxModel(DoctorController.getGeneralPhysicians().toArray()));
+        ddlDoctors.setEnabled(false);
+        btnAssignDoctor.setEnabled(false);
+
+//        initPatientTable(patients);
         initGenerateReportsComponent();
     }
-    
+
     private void initPatientTable(List<Patient> patients) {
+        patientListPane.removeAll();
         TableComponent<Patient> plc = new TableComponent<>(new PatientTableModel(patients));
         plc.getTableModel().setFilterPredicate((p) -> p.getName().toLowerCase().equals(plc.getSearchExpression().toLowerCase()));
         plc.setTableListener((TableEvent<Patient> e) -> {
-            setCurrentPatient(e.getModel());
-            mainCardLayout.next(getContentPane());
+            SwingUtilities.invokeLater(() -> {
+                setCurrentPatient(e.getModel());
+                mainCardLayout.next(getContentPane());
+            });
         });
         patientListPane.add(plc, BorderLayout.CENTER);
     }
-    
+
     private TableComponent<Receipt> receiptsTable;
+
     private void initReceiptTable(List<Receipt> receipts) {
         receiptsPane.removeAll();
         receiptsTable = new TableComponent<>(new ReceiptTableModel(receipts));
-        receiptsTable.getTableModel().setFilterPredicate((r) -> r.getReceiptNumber().toLowerCase().equals(receiptsTable.getSearchExpression().toLowerCase()));
+        receiptsTable.getTableModel().setFilterPredicate((r) -> r.getReceiptNumber().toLowerCase().contains(receiptsTable.getSearchExpression().toLowerCase()));
         receiptsTable.setTableListener(e -> {
-            showReceiptWIndow(ReceiptController.getReceipt(e.getModel().getId()), e.getModel().getDate(), false);
+            SwingUtilities.invokeLater(() -> {
+                showReceiptWIndow(ReceiptController.getReceipt(e.getModel().getId()), e.getModel().getDate(), false);
+            });
         });
         receiptsPane.add(receiptsTable, BorderLayout.CENTER);
-        
+
     }
-    
+
     private void showReceiptWIndow(Receipt receipt, LocalDate appointmentDate, Boolean setEditMode) {
-        
+
         ReceiptFrame receiptFrame = new ReceiptFrame(receipt, setEditMode, currentPatient, appointmentDate);
         receiptFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 receiptsTable.getTableModel().updateModel(ReceiptController.getReceiptsforPatient(currentPatient.getId()));
-                System.out.println("Window closed");
             }
         });
-//        receiptFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        receiptFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         receiptFrame.setVisible(true);
     }
-    
+
     private void setCurrentPatient(Patient model) {
         this.currentPatient = PatientController.getBasicInfo(model.getId());
         updateComponents();
     }
-    
+
     private void updateComponents() {
         updateBasicInfo(currentPatient);
-        setAppointmentPane.removeAll();
-        addAppointmentCalendarComponent();
-        
-        initReceiptTable(ReceiptController.getReceiptsforPatient(currentPatient.getId()));
-        
+        SwingUtilities.invokeLater(() -> {
+            setAppointmentPane.removeAll();
+            addAppointmentCalendarComponent();
+        });
+
+        SwingUtilities.invokeLater(() -> {
+            initReceiptTable(ReceiptController.getReceiptsforPatient(currentPatient.getId()));
+        });
+
     }
-    
+
     private void addAppointmentCalendarComponent() {
+        setAppointmentPane.removeAll();
         Doctor d = DoctorController.getDoctorForPatient(currentPatient.getId());
         List<Doctor> generalPhysicians = DoctorController.getGeneralPhysicians();
-        
+
+        if (d == null) {
+            return;
+        }
+
         AppointmentsPane appointmentsPane = new AppointmentsPane(currentPatient, d, null, generalPhysicians);
-        appointmentsPane.setBtnAddAppointmentActionListener((e) -> {
-            Appointment a = appointmentsPane.getAppointment();
-            System.out.println(a);
-            try {
-                AppointmentsController.setAppointment(a);
-                mainCardLayout.show(getContentPane(), "Home");
-            } catch (InvalidModelException ex) {
-                Logger.getLogger(Tets.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        
+
         CalendarComponent calendar = new CalendarComponent();
         calendar.setScheduledAppointments(AppointmentsController.getScheduledAppointments(d.getId()));
         calendar.setMinimumDate(LocalDate.now());
-        
+
+        appointmentsPane.setBtnAddAppointmentActionListener((e) -> {
+            SwingUtilities.invokeLater(() -> {
+                Appointment a = appointmentsPane.getAppointment();
+                try {
+                    AppointmentsController.setAppointment(a);
+                    calendar.setScheduledAppointments(AppointmentsController.getScheduledAppointments(d.getId()));
+                    setAppointmentPane.revalidate();
+                    setAppointmentPane.repaint();
+                } catch (InvalidModelException ex) {
+                    Logger.getLogger(Tets.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        });
+
         appointmentsPane.setCurrentDoctorChangedListener((e) -> {
             Doctor targetDoctor = appointmentsPane.getCurrentDoctor();
             SwingUtilities.invokeLater(() -> {
                 calendar.setScheduledAppointments(AppointmentsController.getScheduledAppointments(targetDoctor.getId()));
             });
-            
+
         });
-        
+
         calendar.setFreeAppointmentsActionListener((calendarEvent) -> {
             appointmentsPane.setAppointment(calendarEvent.getAppointment());
         });
-        
+
         setAppointmentPane.add(appointmentsPane, BorderLayout.NORTH);
         setAppointmentPane.add(calendar, BorderLayout.CENTER);
     }
-    
+
     private void initGenerateReportsComponent() {
         GenerateReportComponent generateReportComponent = new GenerateReportComponent();
         generateReportComponent.setBtnGenerateListener(e -> {
-            showReportFrame(generateReportComponent.getSelectedDate(), generateReportComponent.getReportType());
+            SwingUtilities.invokeLater(() -> {
+                showReportFrame(generateReportComponent.getSelectedDate(), generateReportComponent.getReportType());
+            });
         });
         reportsPane.add(generateReportComponent, BorderLayout.CENTER);
     }
-    
+
     private void showReportFrame(LocalDate selectedDate, ReportType reportType) {
         JFrame frame = new JFrame();
-        
+
         frame.setPreferredSize(new Dimension(800, 800));
         frame.setSize(new Dimension(800, 800));
         frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
-        
+
         switch (reportType) {
             case WEEKLY:
                 GeneralReportComponent weeklyReport = new GeneralReportComponent(ReportsController.generateWeeklyReport(selectedDate));
@@ -770,13 +849,13 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
             case MONTHLY:
                 GeneralReportComponent monthlyReport = new GeneralReportComponent(ReportsController.generateMonthlyReport(selectedDate));
                 frame.add(monthlyReport, BorderLayout.CENTER);
-                
+
                 break;
             default:
                 DailyReportComponent dailyReport = new DailyReportComponent(ReportsController.generateDailyReport(selectedDate));
                 frame.add(dailyReport, BorderLayout.CENTER);
         }
-        
+
         frame.setVisible(true);
     }
 
@@ -791,6 +870,13 @@ public class RegularUI extends javax.swing.JFrame implements Gui, Observer {
         lblNokLastName.setText(currentPatient.getNextOfKin().getSurname());
         lblRelationship.setText(currentPatient.getNextOfKin().getRelationshipToPatient());
         lblSex.setText(currentPatient.getSex().toString());
+
+        SwingUtilities.invokeLater(() -> {
+            Doctor doctorForPatient = DoctorController.getDoctorForPatient(currentPatient.getId());
+            if (doctorForPatient != null) {
+                lblDoctor.setText(doctorForPatient.toString());
+            }
+        });
     }
-    
+
 }

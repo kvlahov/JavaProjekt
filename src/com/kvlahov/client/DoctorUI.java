@@ -34,8 +34,10 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
     private Doctor d;
     private List<Appointment> appointments;
 
-    public DoctorUI() {
+    public DoctorUI(Doctor doctor) {
+        this.d = doctor;
         initComponents();
+        initFrame();
         initData();
 
     }
@@ -52,6 +54,8 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(800, 600));
@@ -64,11 +68,29 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu1.setText("Switch Doctor");
+
+        jMenuItem2.setText("Choose Doctor");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Gui frame = new ChooseDoctorUI();
+        frame.start();
+        dispose();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -97,27 +119,18 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
 //            java.util.logging.Logger.getLogger(DoctorUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
-//        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DoctorUI doctorUI = new DoctorUI();
-                doctorUI.setPreferredSize(new Dimension(1000, 600));
-                doctorUI.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                doctorUI.setVisible(true);
-            }
-        });
+//        //</editor-fold>      
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 
     private void initData() {
-        d = DoctorController.getGeneralPhysicians().get(0);
         appointments = AppointmentsController.getScheduledAppointments(d.getId());
 
         initAppointmentsTable();
@@ -125,7 +138,7 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
 
     private void initAppointmentsTable() {
         TableComponent<Appointment> plc = new TableComponent<>(new AppointmentTableModel(appointments));
-        plc.getTableModel().setFilterPredicate((p) -> p.getFormattedDate().equals(plc.getSearchExpression()));
+        plc.getTableModel().setFilterPredicate((p) -> p.getFormattedDate().contains(plc.getSearchExpression()));
         plc.setTableListener((TableEvent<Appointment> e) -> {
             SwingUtilities.invokeLater(() -> {
                 AppointmentFrame frame = new AppointmentFrame(e.getModel());
@@ -134,5 +147,11 @@ public class DoctorUI extends javax.swing.JFrame implements Gui {
             });
         });
         add(plc, BorderLayout.CENTER);
+    }
+
+    private void initFrame() {
+        getContentPane().setPreferredSize(new Dimension(1000, 600));
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
 }

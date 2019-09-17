@@ -5,7 +5,7 @@
             <url>src/com/kvlahov/client/RegularUI.java</url>
             <bookmark id="1">
                 <name/>
-                <line>446</line>
+                <line>462</line>
                 <key/>
             </bookmark>
         </file>
@@ -13,17 +13,31 @@
             <url>src/com/kvlahov/client/components/NewPatientDialog.java</url>
             <bookmark id="2">
                 <name/>
-                <line>344</line>
+                <line>343</line>
                 <key/>
             </bookmark>
             <bookmark id="3">
                 <name/>
-                <line>636</line>
+                <line>509</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/controller/DoctorController.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/client/components/ExtendedInfoComponent.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/utils/Utilities.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/controller/ReceiptController.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/client/RegularUI.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/dal/repository/IRepository.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/client/DoctorUI.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/Main.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/client/components/AppointmentsPane.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/client/tableModels/ReceiptTableModel.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/model/enums/ContactType.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/client/components/NewPatientDialog.java</file>
+            <file>file:/C:/Users/lordo/Documents/NetBeansProjects/OMStudio/src/com/kvlahov/client/components/TableComponent.java</file>
+        </group>
     </open-files>
 </project-private>

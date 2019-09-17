@@ -320,22 +320,21 @@ public class NewPatientDialog extends javax.swing.JDialog {
             return;
         }
 
-        Patient p = bindBasicInfoToPatient();
+        bindBasicInfoToPatient();
 
-        if (p.hasIdSet()) {
-            PatientController.updateBasicInfo(p);
-            JOptionPane.showMessageDialog(null, "Patient " + p.getId() + " succesfuly updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+        if (patientModel.getId() > 0) {
+            PatientController.updateBasicInfo(patientModel);
+            JOptionPane.showMessageDialog(null, "Patient " + patientModel.getId() + " succesfuly updated", "Success", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            int pid = PatientController.insertBasicInformation(p);
+            int pid = PatientController.insertBasicInformation(patientModel);
 
-            p.setId(pid);
+            patientModel.setId(pid);
             JOptionPane.showMessageDialog(null, "Patient " + pid + " succesfuly saved", "Success", JOptionPane.INFORMATION_MESSAGE);
             tabbedPane.setEnabledAt(0, false);
         }
-        patientModel = p;
 
         if (showExtendedInfo) {
-            addExtendedInfoComponent(p);
+            addExtendedInfoComponent(patientModel);
             tabbedPane.setEnabledAt(1, true);
             tabbedPane.setSelectedIndex(1);
         } else {
@@ -343,39 +342,6 @@ public class NewPatientDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewPatientDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewPatientDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewPatientDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewPatientDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(() -> {
-            NewPatientDialog dialog = new NewPatientDialog(new javax.swing.JFrame(), true, null, null);
-            dialog.setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel basicInfoPane;
@@ -482,13 +448,15 @@ public class NewPatientDialog extends javax.swing.JDialog {
     }
 
     private Patient bindBasicInfoToPatient() {
-        Patient p = new Patient(null, null, Sex.MALE, LocalDate.MIN);
-        p.setName(tfFirstName.getText().trim());
-        p.setSurname(tfLastName.getText().trim());
-        p.setDateOfBirth(Utilities.toLocalDate((Date) tfDateOfBirth.getValue()));
+        if(patientModel == null) {
+            patientModel = new Patient(null, null, Sex.MALE, LocalDate.MIN);
+        }
+        patientModel.setName(tfFirstName.getText().trim());
+        patientModel.setSurname(tfLastName.getText().trim());
+        patientModel.setDateOfBirth(Utilities.toLocalDate((Date) tfDateOfBirth.getValue()));
 
         String actionCmnd = rbMale.isSelected() ? "Male" : "Female";
-        p.setSex(Sex.valueOf(actionCmnd.toUpperCase()));
+        patientModel.setSex(Sex.valueOf(actionCmnd.toUpperCase()));
 
         NextOfKin nok = new NextOfKin(
                 tfNokName.getText().trim(),
@@ -504,11 +472,11 @@ public class NewPatientDialog extends javax.swing.JDialog {
         nok.setContactInformation(contact);
         nok.setRelationshipToPatient(tfNokRelationship.getText().trim());
 
-        p.setNextOfKin(nok);
-        p.setContact(new Contact(Utilities.getContactType(ContactTypeEnum.MOBILE, contactTypes), tfContact.getText().trim()));
-        p.setStmtOfComplaint(tfComplaint.getText().trim());
+        patientModel.setNextOfKin(nok);
+        patientModel.setContact(new Contact(Utilities.getContactType(ContactTypeEnum.MOBILE, contactTypes), tfContact.getText().trim()));
+        patientModel.setStmtOfComplaint(tfComplaint.getText().trim());
 
-        return p;
+        return patientModel;
     }
 
     private void bindPatientToBIForm() {

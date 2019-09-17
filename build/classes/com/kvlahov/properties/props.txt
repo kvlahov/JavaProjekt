@@ -1,5 +1,5 @@
 #comments
 #Mon Jun 24 11:05:59 CEST 2019
 REGULAR=com.kvlahov.client.RegularUI
-DOCTOR=com.kvlahov.client.DoctorUI
+DOCTOR=com.kvlahov.client.ChooseDoctorUI
 ADMIN=com.kvlahov.client.SomethingWrongUI

@@ -17,6 +17,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 
@@ -275,6 +276,11 @@ public class AppointmentsPane extends javax.swing.JPanel {
 
     private void btnAddAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAppointmentActionPerformed
         if (btnAddAppointmentActionListener == null) {
+            return;
+        }
+        
+        if(appointment == null) {
+            JOptionPane.showMessageDialog(null, "Select an appointment", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

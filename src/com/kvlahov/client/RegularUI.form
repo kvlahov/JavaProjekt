@@ -561,6 +561,60 @@
                                 </Container>
                               </SubComponents>
                             </Container>
+                            <Container class="javax.swing.JPanel" name="patientBasicInfo1">
+                              <Properties>
+                                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[250, 100]"/>
+                                </Property>
+                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[250, 100]"/>
+                                </Property>
+                              </Properties>
+
+                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                                <Property name="alignment" type="int" value="0"/>
+                              </Layout>
+                              <SubComponents>
+                                <Component class="javax.swing.JLabel" name="jLabel2">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="Doctor"/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="lblDoctor">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="N/A"/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JCheckBox" name="cbAssign">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="Assign Doctor"/>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbAssignActionPerformed"/>
+                                  </Events>
+                                </Component>
+                                <Component class="javax.swing.JComboBox" name="ddlDoctors">
+                                  <Properties>
+                                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                                      <StringArray count="4">
+                                        <StringItem index="0" value="Item 1"/>
+                                        <StringItem index="1" value="Item 2"/>
+                                        <StringItem index="2" value="Item 3"/>
+                                        <StringItem index="3" value="Item 4"/>
+                                      </StringArray>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JButton" name="btnAssignDoctor">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="Assign Doctor"/>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAssignDoctorActionPerformed"/>
+                                  </Events>
+                                </Component>
+                              </SubComponents>
+                            </Container>
                             <Container class="javax.swing.JPanel" name="jPanel23">
                               <Properties>
                                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -572,59 +626,11 @@
                               <SubComponents>
                                 <Component class="javax.swing.JButton" name="btnEditBasicInfo">
                                   <Properties>
-                                    <Property name="text" type="java.lang.String" value="Edit Basic Information"/>
+                                    <Property name="text" type="java.lang.String" value="Edit"/>
                                   </Properties>
                                   <Events>
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditBasicInfoActionPerformed"/>
                                   </Events>
-                                </Component>
-                              </SubComponents>
-                            </Container>
-                          </SubComponents>
-                        </Container>
-                        <Container class="javax.swing.JPanel" name="jPanel22">
-
-                          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
-                            <Property name="axis" type="int" value="1"/>
-                          </Layout>
-                          <SubComponents>
-                            <Container class="javax.swing.JPanel" name="jPanel6">
-                              <Properties>
-                                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                                  <Color id="Default Cursor"/>
-                                </Property>
-                                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[32767, 100]"/>
-                                </Property>
-                              </Properties>
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-                              <SubComponents>
-                                <Component class="javax.swing.JLabel" name="jLabel22">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="Extended information added:"/>
-                                  </Properties>
-                                </Component>
-                                <Component class="javax.swing.JLabel" name="lblEIAdded">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="jLabel23"/>
-                                  </Properties>
-                                </Component>
-                              </SubComponents>
-                            </Container>
-                            <Container class="javax.swing.JPanel" name="jPanel21">
-
-                              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-                              <SubComponents>
-                                <Component class="javax.swing.JButton" name="jButton1">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="Add"/>
-                                  </Properties>
-                                </Component>
-                                <Component class="javax.swing.JButton" name="jButton2">
-                                  <Properties>
-                                    <Property name="text" type="java.lang.String" value="Edit Extended Information"/>
-                                  </Properties>
                                 </Component>
                               </SubComponents>
                             </Container>

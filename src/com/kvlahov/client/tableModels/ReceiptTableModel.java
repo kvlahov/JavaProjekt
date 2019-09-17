@@ -18,8 +18,7 @@ public class ReceiptTableModel extends GenericTableModel<Receipt> {
     private String[] columnNames = {
         "Id",
         "Receipt Number",
-        "Date",
-        "Total"
+        "Date"
     };
 
     public ReceiptTableModel(List<Receipt> receipts) {
@@ -36,8 +35,6 @@ public class ReceiptTableModel extends GenericTableModel<Receipt> {
                 return receipt.getReceiptNumber();
             case 2:
                 return receipt.getDate().format(Constants.DATE_FORMAT);
-            case 3:
-                return receipt.getTotal();
             default:
                 return null;
         }
